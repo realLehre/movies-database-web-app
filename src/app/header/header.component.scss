@@ -1,0 +1,79 @@
+@import "config";
+
+.container {
+  background: black;
+  border-bottom: 1px solid white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.main-container {
+  width: 70%;
+  max-width: 1400px;
+  margin-inline: auto;
+  @include flex;
+  padding: 20px 0;
+
+  & .logo {
+    flex: 1;
+    font-size: 30px;
+    font-weight: 800;
+    color: $main-color;
+    cursor: pointer;
+    @include transition;
+
+    &:hover {
+      color: $main-color-hover;
+    }
+  }
+
+  & .search {
+    flex: 1;
+    & form {
+      @include flex;
+      position: relative;
+
+      & input {
+        padding: 10px 12px;
+        width: 100%;
+        font-size: 15px;
+        border-radius: 2px;
+        border: none;
+
+        &::placeholder {
+          font-size: 15px;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      & button {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        cursor: pointer;
+        background: $main-color;
+        border: none;
+        height: 100%;
+        width: 50px;
+        border-radius: 2px;
+        @include transition;
+
+        &:hover {
+          background: $main-color-hover;
+        }
+
+        & mat-icon {
+          color: white;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

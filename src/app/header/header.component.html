@@ -1,0 +1,21 @@
+<section class="container">
+  <div class="main-container">
+    <div
+      class="logo"
+      [routerLink]="['/']"
+      routerLinkActive="router-link-active"
+    >
+      MVDB
+    </div>
+    <div class="search">
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <input
+          type="text"
+          placeholder="Search movies"
+          [formControlName]="'searchResult'"
+        />
+        <button type="submit"><mat-icon>search</mat-icon></button>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,12 @@
+$main-color: red;
+$main-color-hover: rgb(145, 0, 0);
+
+@mixin flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin transition {
+  transition: all 500ms ease-in-out;
+}

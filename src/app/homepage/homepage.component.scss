@@ -1,0 +1,58 @@
+@import "config";
+
+.sort {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+mat-form-field {
+  width: 50%;
+}
+
+mat-label {
+  font-size: 18px;
+}
+
+.mat-option.mat-focus-indicator {
+  &:hover {
+    background: red;
+  }
+}
+
+.mat-option-text {
+  font-size: 17px;
+}
+
+.mat-form-field-infix.ng-tns-c70-0 {
+  padding: 10px 0;
+  padding-right: 15px;
+}
+
+.mat-form-field-infix {
+  background-color: white;
+  border-color: red !important;
+  border-top: none;
+  border-bottom: 3px solid $main-color;
+  padding-left: 5px !important;
+}
+
+.mat-select-value,
+.mat-select-arrow,
+.mat-form-field-hide-placeholder .mat-select-placeholder,
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  color: black !important;
+  opacity: 1;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  padding-left: 10px;
+}
+
+.mat-form-field-appearance-legacy .mat-select-value {
+  font-size: 18px;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color: red !important;
+  display: none;
+}
