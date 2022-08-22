@@ -12,7 +12,7 @@
   }
 
   & .mat-tab-list {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
 
   & .mat-tab-label {
@@ -188,4 +188,13 @@
       }
     }
   }
+}
+
+.trailer-video {
+  //   width: 100vw;
+  margin-inline: auto;
+
+  //   & youtube-player {
+  //     width: 100%;
+  //   }
 }

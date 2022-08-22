@@ -88,14 +88,15 @@
         </div>
       </mat-tab>
       <mat-tab label="Trailer">
-        <div class="trailer-video">
+        <div class="trailer-video" #videoContainer>
           <youtube-player
+            [ngStyle]="{ width: '100%' }"
             videoId="EYjQBFCbRbE"
             suggestedQuality="highres"
-            [height]="250"
-            [width]="500"
-            [startSeconds]="4"
-            [endSeconds]="8"
+            [height]="700"
+            [width]="movieWidth"
+            [startSeconds]="0"
+            [endSeconds]="600"
           >
           </youtube-player>
         </div>

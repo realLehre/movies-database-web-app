@@ -12,14 +12,14 @@ export class AppComponent implements OnInit {
   constructor(private httpService: HttpService) {}
 
   ngOnInit() {
-    this.httpService.getMovies().subscribe((data) => {
-      console.log(data);
-    });
-    this.httpService.getMovieVideo().subscribe((data) => {
-      console.log(data);
-    });
-    this.httpService.getMovieDetails().subscribe((data) => {
-      console.log(data);
-    });
+    // this.httpService.getMovies().subscribe((data) => {
+    //   console.log(data);
+    // });
+    // this.httpService.getMovieVideo().subscribe((data) => {
+    //   console.log(data);
+    // });
+    // this.httpService.getMovieDetails().subscribe((data) => {
+    //   console.log(data);
+    // });
   }
 }
