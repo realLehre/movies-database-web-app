@@ -1,0 +1,41 @@
+@import "config";
+
+.movies-container {
+  width: 90%;
+  margin-inline: auto;
+}
+.movies {
+  //   @include flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 10px;
+}
+
+.movie {
+  cursor: pointer;
+  &-img {
+    & img {
+      width: 200px;
+      height: 275px;
+    }
+  }
+
+  &-info {
+    background: white;
+    color: black;
+    @include flex;
+    flex-direction: row-reverse;
+    padding: 0px 10px;
+
+    & .movie-title-date {
+      & .movie-name {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      & .movie-date {
+        font-size: 13px;
+      }
+    }
+  }
+}

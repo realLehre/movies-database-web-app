@@ -1,8 +1,10 @@
 @import "config";
 
 .sort {
-  max-width: 1200px;
-  margin: 20px auto;
+  width: 90%;
+  max-width: 1400px;
+  margin: 20px 0;
+  margin-inline: auto;
 }
 
 mat-form-field {

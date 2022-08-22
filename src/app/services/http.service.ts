@@ -11,10 +11,22 @@ export class HttpService {
 
   getMovies() {
     return this.http.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${this.api_key}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=2&with_watch_monetization_types=flatrate`,
+      `https://api.themoviedb.org/3/discover/movie?api_key=${this.api_key}&language=en-US&sort_by=popularity.desc&include_adult=false&page=2`,
       {
         headers: new HttpHeaders({ Accept: 'application/json' }),
       }
+    );
+  }
+
+  getMovieVideo() {
+    return this.http.get(
+      `https://api.themoviedb.org/3/movie/297762/videos?api_key=${this.api_key}&append_to_response=videos`
+    );
+  }
+
+  getMovieDetails() {
+    return this.http.get(
+      `https://api.themoviedb.org/3/movie/297762?api_key=${this.api_key}&append_to_response=credits`
     );
   }
 }

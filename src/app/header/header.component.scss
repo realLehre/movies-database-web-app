@@ -7,11 +7,12 @@
   top: 0;
   left: 0;
   margin-bottom: 40px;
-  width: 100%;
+  width: 100vw;
+  z-index: 100;
 }
 
 .main-container {
-  width: 70%;
+  width: 90%;
   max-width: 1400px;
   margin-inline: auto;
   @include flex;

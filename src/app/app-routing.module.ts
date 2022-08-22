@@ -6,7 +6,7 @@ import { MovieDetailsComponent } from './movies/movie-details/movie-details.comp
 const appRoute: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'search/:movies-search', component: HomepageComponent },
-  { path: 'details/:id', component: MovieDetailsComponent },
+  { path: 'movies/:id', component: MovieDetailsComponent },
 ];
 
 @NgModule({

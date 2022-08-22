@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
@@ -27,6 +29,22 @@ import { MaterialModule } from './material.module';
     MaterialModule,
     HttpClientModule,
     ReactiveFormsModule,
+    YouTubePlayerModule,
+    NgCircleProgressModule.forRoot({
+      backgroundColor: 'white',
+      radius: 20,
+      maxPercent: 100,
+      units: ' %',
+      unitsColor: '#FFFFFF',
+      outerStrokeWidth: 5,
+      outerStrokeColor: '#FFFFFF',
+      innerStrokeColor: '#FFFFFF',
+      titleColor: '#FFFFFF',
+      subtitleColor: '#FFFFFF',
+      showSubtitle: false,
+      showInnerStroke: false,
+      startFromZero: false,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

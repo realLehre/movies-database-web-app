@@ -1,1 +1,103 @@
-<p>movie-details works!</p>
+<div class="details-tab-container">
+  <div class="details-tab">
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab label="Overview">
+        <div
+          class="overview-container"
+          [ngStyle]="{
+            backgroundImage: 'url(../../../../../assets/images/backdrop.jpg)'
+          }"
+        >
+          <div class="overview">
+            <div class="overview-poster">
+              <div class="poster">
+                <img src="../../../assets/images/captain-marvel.jpg" alt="" />
+              </div>
+            </div>
+
+            <div class="overview-content-container">
+              <div class="overview-content">
+                <div class="movie-name">Captain marvel</div>
+                <div class="movie-date">08/05/2020</div>
+                <div class="movie-genre">
+                  <ul>
+                    <li>Action</li>
+                    <li>Adventure</li>
+                    <li>Fantasy</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="movie-rating">
+                <circle-progress
+                  backgroundColor="black"
+                  [percent]="rating"
+                  [radius]="18"
+                  [outerStrokeWidth]="3"
+                  [innerStrokeWidth]="2"
+                  [outerStrokeColor]="ratingColor(rating)"
+                  [innerStrokeColor]="'#C7E596'"
+                  [animation]="true"
+                  [animationDuration]="300"
+                  titleFontSize="13"
+                  titleFontWeight="900"
+                  unitsFontWeight="500"
+                  [backgroundPadding]="2"
+                ></circle-progress>
+
+                <div class="votes-popularity">
+                  <div class="count">1445</div>
+                  <div class="popularity">1405.346</div>
+                </div>
+              </div>
+
+              <div class="movie-overview-content">
+                <div class="heading">Overview</div>
+                <div class="content">
+                  When a mysterious stranger arrives from the future with a dire
+                  warning, Leo is forced to rise and lead his brothers, Raph,
+                  Donnie, and Mikey in a fight to save the world from a
+                  terrifying alien species.
+                </div>
+              </div>
+
+              <div class="movie-cast">
+                <div class="heading">Popular Casts</div>
+                <div class="cast">
+                  <ul>
+                    <li>
+                      <div class="name">Gal Gadot</div>
+                      <span class="character">Diana Prince / Wonder Woman</span>
+                    </li>
+                    <li>
+                      <div class="name">Chris Pine</div>
+                      <span class="character">Steve Trevor</span>
+                    </li>
+                    <li>
+                      <div class="name">Connie Nielsen</div>
+                      <span class="character">Hippolyta</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Trailer">
+        <div class="trailer-video">
+          <youtube-player
+            videoId="EYjQBFCbRbE"
+            suggestedQuality="highres"
+            [height]="250"
+            [width]="500"
+            [startSeconds]="4"
+            [endSeconds]="8"
+          >
+          </youtube-player>
+        </div>
+      </mat-tab>
+      <!-- <mat-tab label="Third">Content 3</mat-tab> -->
+    </mat-tab-group>
+  </div>
+</div>
