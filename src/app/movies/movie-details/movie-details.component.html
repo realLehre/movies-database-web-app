@@ -32,22 +32,25 @@
                 <circle-progress
                   backgroundColor="black"
                   [percent]="rating"
-                  [radius]="18"
-                  [outerStrokeWidth]="3"
+                  [radius]="40"
+                  [outerStrokeWidth]="10"
                   [innerStrokeWidth]="2"
                   [outerStrokeColor]="ratingColor(rating)"
                   [innerStrokeColor]="'#C7E596'"
                   [animation]="true"
                   [animationDuration]="300"
-                  titleFontSize="13"
+                  titleFontSize="30"
                   titleFontWeight="900"
                   unitsFontWeight="500"
-                  [backgroundPadding]="2"
+                  unitsFontSize="15"
+                  [backgroundPadding]="10"
                 ></circle-progress>
 
                 <div class="votes-popularity">
-                  <div class="count">1445</div>
-                  <div class="popularity">1405.346</div>
+                  <div class="count">Vote Count: <span>4462</span></div>
+                  <div class="popularity">
+                    Popularity: <span>1405.346</span>
+                  </div>
                 </div>
               </div>
 

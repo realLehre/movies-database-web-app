@@ -70,6 +70,87 @@
 
     & .overview-content-container {
       flex: 1;
+
+      & .overview-content {
+        &:not(:last-child) {
+          margin-bottom: 20px;
+        }
+        & .movie-name {
+          font-size: 40px;
+          font-weight: 600;
+          text-transform: capitalize;
+          letter-spacing: 1px;
+          margin-bottom: 20px;
+        }
+
+        & .movie-date {
+          font-size: 20px;
+          color: $dark-white;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
+        & .movie-genre {
+          & ul {
+            display: flex;
+            & li {
+              font-size: 16px;
+              background: $main-color-hover;
+              padding: 3px 8px;
+              border-radius: 5px;
+
+              &:nth-child(even) {
+                background: white;
+                color: black;
+              }
+
+              &:not(:last-child) {
+                margin-right: 10px;
+              }
+            }
+          }
+        }
+      }
+
+      & .movie-rating {
+        display: flex;
+        align-items: center;
+
+        & .votes-popularity {
+          margin-left: 10px;
+
+          & div:not(:last-child) {
+            margin-bottom: 10px;
+          }
+          & .count,
+          & .popularity {
+            color: $dark-white;
+            font-size: 20px;
+
+            & span {
+              color: white;
+              font-size: 18px;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      & .movie-overview-content {
+        margin-bottom: 20px;
+        & .heading {
+          font-size: 25px;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
+        & .content {
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 1.2;
+        }
+      }
     }
   }
 }
