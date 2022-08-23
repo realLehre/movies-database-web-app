@@ -1,156 +1,122 @@
 <div class="movies-container">
   <div class="movies">
-    <div class="movie" [routerLink]="['/movies', '2']">
-      <div class="movie-img">
-        <img src="../../assets/images/black-panther.jpg" alt="" />
-      </div>
-      <div class="movie-info">
-        <div class="movie-rating">
-          <circle-progress
-            backgroundColor="black"
-            [percent]="rating"
-            [radius]="18"
-            [outerStrokeWidth]="3"
-            [innerStrokeWidth]="4"
-            [outerStrokeColor]="ratingColor(rating)"
-            [innerStrokeColor]="'#C7E596'"
-            [animation]="true"
-            [animationDuration]="300"
-            titleFontSize="13"
-            titleFontWeight="900"
-            unitsFontWeight="500"
-            [backgroundPadding]="2"
-          ></circle-progress>
+    <div class="movies-type">Trending</div>
+
+    <div class="movies-class trending">
+      <div
+        class="movie"
+        [routerLink]="['/movies', '2']"
+        *ngFor="let movie of trendingMovies; let i = index"
+      >
+        <div class="movie-img">
+          <img [src]="trendingMoviesPoster[i]" alt="" />
         </div>
+        <div class="movie-info">
+          <div class="movie-rating">
+            <circle-progress
+              backgroundColor="black"
+              [percent]="trendingMoviesRating[i]"
+              [radius]="18"
+              [outerStrokeWidth]="3"
+              [innerStrokeWidth]="4"
+              [outerStrokeColor]="ratingColor(trendingMoviesRating[i])"
+              [innerStrokeColor]="'#C7E596'"
+              [animation]="true"
+              [animationDuration]="300"
+              titleFontSize="13"
+              titleFontWeight="900"
+              unitsFontWeight="500"
+              [backgroundPadding]="2"
+            ></circle-progress>
+          </div>
 
-        <div class="movie-title-date">
-          <div class="movie-name">Black Panther</div>
+          <div class="movie-title-date">
+            <div class="movie-name">{{ movie.title }}</div>
 
-          <div class="movie-date">Feb 14, 2020</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="movie">
-      <div class="movie-img">
-        <img src="../../assets/images/captain-marvel.jpg" alt="" />
-      </div>
-      <div class="movie-info">
-        <div class="movie-rating">
-          <circle-progress
-            backgroundColor="black"
-            [percent]="rating"
-            [radius]="18"
-            [outerStrokeWidth]="3"
-            [innerStrokeWidth]="2"
-            [outerStrokeColor]="ratingColor(rating)"
-            [innerStrokeColor]="'#C7E596'"
-            [animation]="true"
-            [animationDuration]="300"
-            titleFontSize="13"
-            titleFontWeight="900"
-            unitsFontWeight="500"
-            [backgroundPadding]="2"
-          ></circle-progress>
-        </div>
-
-        <div class="movie-title-date">
-          <div class="movie-name">Captain Marvel</div>
-
-          <div class="movie-date">Feb 14, 2020</div>
+            <div class="movie-date">{{ movie.release_date | date }}</div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="movie">
-      <div class="movie-img">
-        <img src="../../assets/images/spiderman.webp" alt="" />
-      </div>
-      <div class="movie-info">
-        <div class="movie-rating">
-          <circle-progress
-            backgroundColor="black"
-            [percent]="rating"
-            [radius]="18"
-            [outerStrokeWidth]="3"
-            [innerStrokeWidth]="2"
-            [outerStrokeColor]="ratingColor(rating)"
-            [innerStrokeColor]="'#C7E596'"
-            [animation]="true"
-            [animationDuration]="300"
-            titleFontSize="13"
-            titleFontWeight="900"
-            unitsFontWeight="500"
-            [backgroundPadding]="2"
-          ></circle-progress>
+  <div class="movies">
+    <div class="movies-type popular">Currently Popular</div>
+
+    <div class="movies-class popular">
+      <div
+        class="movie"
+        [routerLink]="['/movies', '2']"
+        *ngFor="let movie of popularMovies; let i = index"
+      >
+        <div class="movie-img">
+          <img [src]="popularMoviesPoster[i]" alt="" />
         </div>
+        <div class="movie-info">
+          <div class="movie-rating">
+            <circle-progress
+              backgroundColor="black"
+              [percent]="popularMoviesRating[i]"
+              [radius]="18"
+              [outerStrokeWidth]="3"
+              [innerStrokeWidth]="4"
+              [outerStrokeColor]="ratingColor(popularMoviesRating[i])"
+              [innerStrokeColor]="'#C7E596'"
+              [animation]="true"
+              [animationDuration]="300"
+              titleFontSize="13"
+              titleFontWeight="900"
+              unitsFontWeight="500"
+              [backgroundPadding]="2"
+            ></circle-progress>
+          </div>
 
-        <div class="movie-title-date">
-          <div class="movie-name">Spideman</div>
+          <div class="movie-title-date">
+            <div class="movie-name">{{ movie.title }}</div>
 
-          <div class="movie-date">Feb 14, 2020</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="movie">
-      <div class="movie-img">
-        <img src="../../assets/images/captain-marvel.jpg" alt="" />
-      </div>
-      <div class="movie-info">
-        <div class="movie-rating">
-          <circle-progress
-            backgroundColor="black"
-            [percent]="70"
-            [radius]="18"
-            [outerStrokeWidth]="3"
-            [innerStrokeWidth]="2"
-            [outerStrokeColor]="ratingColor(70)"
-            [innerStrokeColor]="'#C7E596'"
-            [animation]="true"
-            [animationDuration]="300"
-            titleFontSize="13"
-            titleFontWeight="900"
-            unitsFontWeight="500"
-            [backgroundPadding]="2"
-          ></circle-progress>
-        </div>
-
-        <div class="movie-title-date">
-          <div class="movie-name">Captain Marvel</div>
-
-          <div class="movie-date">Feb 14, 2020</div>
+            <div class="movie-date">{{ movie.release_date | date }}</div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="movie">
-      <div class="movie-img">
-        <img src="../../assets/images/black-panther.jpg" alt="" />
-      </div>
-      <div class="movie-info">
-        <div class="movie-rating">
-          <circle-progress
-            backgroundColor="black"
-            [percent]="rating"
-            [radius]="18"
-            [outerStrokeWidth]="3"
-            [innerStrokeWidth]="2"
-            [outerStrokeColor]="ratingColor(rating)"
-            [innerStrokeColor]="'#C7E596'"
-            [animation]="true"
-            [animationDuration]="300"
-            titleFontSize="13"
-            titleFontWeight="900"
-            unitsFontWeight="500"
-            [backgroundPadding]="2"
-          ></circle-progress>
+  <div class="movies">
+    <div class="movies-type">Top Rated</div>
+
+    <div class="movies-class top-rated">
+      <div
+        class="movie"
+        [routerLink]="['/movies', '2']"
+        *ngFor="let movie of topRatedMovies; let i = index"
+      >
+        <div class="movie-img">
+          <img [src]="topRatedMoviesPoster[i]" alt="" />
         </div>
+        <div class="movie-info">
+          <div class="movie-rating">
+            <circle-progress
+              backgroundColor="black"
+              [percent]="topRatedMoviesRating[i]"
+              [radius]="18"
+              [outerStrokeWidth]="3"
+              [innerStrokeWidth]="4"
+              [outerStrokeColor]="ratingColor(topRatedMoviesRating[i])"
+              [innerStrokeColor]="'#C7E596'"
+              [animation]="true"
+              [animationDuration]="300"
+              titleFontSize="13"
+              titleFontWeight="900"
+              unitsFontWeight="500"
+              [backgroundPadding]="2"
+            ></circle-progress>
+          </div>
 
-        <div class="movie-title-date">
-          <div class="movie-name">Black Panther</div>
+          <div class="movie-title-date">
+            <div class="movie-name">{{ movie.title }}</div>
 
-          <div class="movie-date">Feb 14, 2020</div>
+            <div class="movie-date">{{ movie.release_date | date }}</div>
+          </div>
         </div>
       </div>
     </div>

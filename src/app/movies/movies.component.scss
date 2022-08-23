@@ -1,19 +1,90 @@
 @import "config";
+@import "~swiper/scss";
+@import "~swiper/scss/free-mode";
+@import "~swiper/scss/pagination";
 
 .movies-container {
-  width: 90%;
-  margin-inline: auto;
+  // display: flex;
+  padding: 0 20px;
+  overflow: auto;
+  padding-bottom: 30px;
 }
+
 .movies {
-  //   @include flex;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 10px;
+  overflow: auto;
+
+  &:not(:last-child) {
+    margin-bottom: 100px;
+  }
+}
+
+.movies-type {
+  display: inline-block;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    content: "";
+    width: 50%;
+    height: 3px;
+    background: $main-color;
+    bottom: -5px;
+    left: 0;
+    border-radius: 20px;
+  }
+
+  &.popular {
+    &::after {
+      bottom: -8px;
+    }
+  }
+}
+
+.movies-class {
+  display: flex;
+  padding-bottom: 5px;
+  overflow: auto;
+
+  &.popular,
+  &.top-rated {
+    padding-bottom: 25px;
+  }
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(85, 85, 85);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
 }
 
 .movie {
+  position: relative;
   cursor: pointer;
   width: 200px;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
 
   &-img {
     background-size: cover;
@@ -23,7 +94,7 @@
     & img {
       width: 200px;
       height: 275px;
-      border-radius: 10px 10px 0 0;
+      border-radius: 8px 8px 0 0;
     }
   }
 
@@ -31,10 +102,17 @@
     background: white;
     color: black;
     @include flex;
-    flex-direction: row-reverse;
-    padding: 0px 10px;
+
+    padding: 10px 10px;
+    padding-bottom: 2px;
     width: 100%;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 8px 8px;
+
+    & .movie-rating {
+      position: absolute;
+      bottom: 58px;
+      left: 5px;
+    }
 
     & .movie-title-date {
       & .movie-name {

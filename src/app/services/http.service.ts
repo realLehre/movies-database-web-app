@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment as env } from 'src/environments/environment.prod';
+import { Movie, MovieObject, Response } from '../shared/movie.model';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
@@ -9,24 +10,42 @@ export class HttpService {
 
   constructor(private http: HttpClient) {}
 
-  getMovies() {
-    return this.http.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${this.api_key}&language=en-US&sort_by=popularity.desc&include_adult=false&page=2`,
-      {
-        headers: new HttpHeaders({ Accept: 'application/json' }),
-      }
+  // getMovies() {
+  //   return this.http.get(
+  //     `https://api.themoviedb.org/3/discover/movie?api_key=${this.api_key}&language=en-US&sort_by=popularity.desc&include_adult=false&page=2`,
+  //     {
+  //       headers: new HttpHeaders({ Accept: 'application/json' }),
+  //     }
+  //   );
+  // }
+
+  // getMovieVideo() {
+  //   return this.http.get(
+  //     `https://api.themoviedb.org/3/movie/297762/videos?api_key=${this.api_key}&append_to_response=videos`
+  //   );
+  // }
+
+  // getMovieDetails() {
+  //   return this.http.get(
+  //     `https://api.themoviedb.org/3/movie/297762?api_key=${this.api_key}&append_to_response=credits`
+  //   );
+  // }
+
+  getTrending() {
+    return this.http.get<Response>(
+      `https://api.themoviedb.org/3/trending/movie/week?api_key=${env.API_Key}`
     );
   }
 
-  getMovieVideo() {
-    return this.http.get(
-      `https://api.themoviedb.org/3/movie/297762/videos?api_key=${this.api_key}&append_to_response=videos`
+  getPopular() {
+    return this.http.get<Response>(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${env.API_Key}&language=en-US&page=1`
     );
   }
 
-  getMovieDetails() {
-    return this.http.get(
-      `https://api.themoviedb.org/3/movie/297762?api_key=${this.api_key}&append_to_response=credits`
+  getTopRated() {
+    return this.http.get<Response>(
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${env.API_Key}&language=en-US&page=1`
     );
   }
 }
