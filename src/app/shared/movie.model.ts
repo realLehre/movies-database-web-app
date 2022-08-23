@@ -29,4 +29,31 @@ export interface MovieObject {
   video?: boolean;
   vote_average: number;
   vote_count?: number;
+  belongs_to_collection?: any;
+  budget?: number;
+  credits?: any;
+  genres?: any;
+  homepage?: string;
+  imdb_id?: string;
+  production_companies?: any;
+  production_countries?: any;
+  revenue?: number;
+  runtime?: number;
+  spoken_languages?: any;
+  status?: string;
+  tagline?: string;
 }
+
+// belongs_to_collection?: any
+// budget?: number
+// credits?: any
+// genres?: any
+// homepage?: string
+// imdb_id?: string
+// production_companies?: any
+// production_countries?: any
+// revenue?:number
+// runtime?: number
+// spoken_languages?: any
+// status?:string
+// tagline?: string

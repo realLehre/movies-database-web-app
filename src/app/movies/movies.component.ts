@@ -14,14 +14,17 @@ export class MoviesComponent implements OnInit {
   trendingMovies: Array<MovieObject>;
   trendingMoviesRating: Array<number>;
   trendingMoviesPoster: string[];
+  trendingMoviesId: number[];
 
   popularMovies: Array<MovieObject>;
   popularMoviesRating: Array<number>;
   popularMoviesPoster: string[];
+  popularMoviesId: number[];
 
   topRatedMovies: Array<MovieObject>;
   topRatedMoviesRating: Array<number>;
   topRatedMoviesPoster: string[];
+  topRatedMoviesId: number[];
 
   constructor(
     private movieService: MoviesService,
@@ -46,6 +49,12 @@ export class MoviesComponent implements OnInit {
         ratings.push(Math.floor(this.trendingMovies[key].vote_average * 10));
       }
       this.trendingMoviesRating = ratings;
+
+      const ids = [];
+      for (const key in this.trendingMovies) {
+        ids.push(this.trendingMovies[key].id);
+      }
+      this.trendingMoviesId = ids;
     });
 
     this.httpService.getPopular().subscribe((data) => {
@@ -65,6 +74,12 @@ export class MoviesComponent implements OnInit {
         ratings.push(Math.floor(this.popularMovies[key].vote_average * 10));
       }
       this.popularMoviesRating = ratings;
+
+      const ids = [];
+      for (const key in this.popularMovies) {
+        ids.push(this.popularMovies[key].id);
+      }
+      this.popularMoviesId = ids;
     });
 
     this.httpService.getTopRated().subscribe((data) => {
@@ -84,6 +99,12 @@ export class MoviesComponent implements OnInit {
         ratings.push(Math.floor(this.topRatedMovies[key].vote_average * 10));
       }
       this.topRatedMoviesRating = ratings;
+
+      const ids = [];
+      for (const key in this.topRatedMovies) {
+        ids.push(this.topRatedMovies[key].id);
+      }
+      this.topRatedMoviesId = ids;
     });
   }
 

@@ -6,6 +6,9 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpService } from 'src/app/services/http.service';
+import { MovieObject } from 'src/app/shared/movie.model';
 
 @Component({
   selector: 'app-movie-details',
@@ -14,14 +17,33 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class MovieDetailsComponent implements OnInit, AfterViewChecked {
-  rating: number = 80;
+  movie: MovieObject;
+  movieId: number;
+  rating: number;
+  moviePoster: string;
+  movieBackdrop: string;
   movieWidth: number;
   @ViewChild('videoContainer', { static: true })
   videoContainer: ElementRef<HTMLDivElement>;
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private httpService: HttpService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((param) => {
+      this.movieId = +param['id'];
+    });
+
+    this.httpService.getMovieDetails(this.movieId).subscribe((movieData) => {
+      this.movie = movieData;
+      this.rating = Math.floor(movieData.vote_average * 10);
+      this.moviePoster = `https://image.tmdb.org/t/p/original${movieData.poster_path}`;
+      this.movieBackdrop = `https://image.tmdb.org/t/p/original${movieData.backdrop_path}`;
+      console.log(this.movie);
+    });
+  }
 
   ngAfterViewChecked(): void {
     this.movieWidth = this.videoContainer.nativeElement.offsetWidth;

@@ -48,10 +48,10 @@
   padding-bottom: 5px;
   overflow: auto;
 
-  &.popular,
-  &.top-rated {
-    padding-bottom: 25px;
-  }
+  // &.popular,
+  // &.top-rated {
+  //   padding-bottom: 25px;
+  // }
 }
 
 ::-webkit-scrollbar {
@@ -61,7 +61,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
+  // box-shadow: inset 0 0 5px grey;
   border-radius: 10px;
 }
 

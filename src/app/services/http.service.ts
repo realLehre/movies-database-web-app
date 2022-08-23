@@ -25,12 +25,6 @@ export class HttpService {
   //   );
   // }
 
-  // getMovieDetails() {
-  //   return this.http.get(
-  //     `https://api.themoviedb.org/3/movie/297762?api_key=${this.api_key}&append_to_response=credits`
-  //   );
-  // }
-
   getTrending() {
     return this.http.get<Response>(
       `https://api.themoviedb.org/3/trending/movie/week?api_key=${env.API_Key}`
@@ -46,6 +40,12 @@ export class HttpService {
   getTopRated() {
     return this.http.get<Response>(
       `https://api.themoviedb.org/3/movie/top_rated?api_key=${env.API_Key}&language=en-US&page=1`
+    );
+  }
+
+  getMovieDetails(id) {
+    return this.http.get<MovieObject>(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${this.api_key}&append_to_response=credits`
     );
   }
 }

@@ -5,25 +5,28 @@
         <div
           class="overview-container"
           [ngStyle]="{
-            backgroundImage: 'url(../../../../../assets/images/backdrop.jpg)'
+            backgroundImage:
+              'url(https://image.tmdb.org/t/p/original' +
+              movie.backdrop_path +
+              ')'
           }"
         >
           <div class="overview">
             <div class="overview-poster">
               <div class="poster">
-                <img src="../../../assets/images/captain-marvel.jpg" alt="" />
+                <img [src]="moviePoster" alt="" />
               </div>
             </div>
 
             <div class="overview-content-container">
               <div class="overview-content">
-                <div class="movie-name">Captain marvel</div>
-                <div class="movie-date">08/05/2020</div>
+                <div class="movie-name">{{ movie.title }}</div>
+                <div class="movie-date">{{ movie.release_date | date }}</div>
                 <div class="movie-genre">
                   <ul>
-                    <li>Action</li>
-                    <li>Adventure</li>
-                    <li>Fantasy</li>
+                    <li *ngFor="let genre of movie.genres">{{ genre.name }}</li>
+                    <!-- <li>Adventure</li>
+                    <li>Fantasy</li> -->
                   </ul>
                 </div>
               </div>
@@ -47,9 +50,11 @@
                 ></circle-progress>
 
                 <div class="votes-popularity">
-                  <div class="count">Vote Count: <span>4462</span></div>
+                  <div class="count">
+                    Vote Count: <span>{{ movie.vote_count }}</span>
+                  </div>
                   <div class="popularity">
-                    Popularity: <span>1405.346</span>
+                    Popularity: <span>{{ movie.popularity }}</span>
                   </div>
                 </div>
               </div>
@@ -57,10 +62,7 @@
               <div class="movie-overview-content">
                 <div class="heading">Overview</div>
                 <div class="content">
-                  When a mysterious stranger arrives from the future with a dire
-                  warning, Leo is forced to rise and lead his brothers, Raph,
-                  Donnie, and Mikey in a fight to save the world from a
-                  terrifying alien species.
+                  {{ movie.overview }}
                 </div>
               </div>
 

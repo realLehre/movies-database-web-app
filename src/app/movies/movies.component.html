@@ -5,7 +5,7 @@
     <div class="movies-class trending">
       <div
         class="movie"
-        [routerLink]="['/movies', '2']"
+        [routerLink]="['/movies', trendingMoviesId[i]]"
         *ngFor="let movie of trendingMovies; let i = index"
       >
         <div class="movie-img">
@@ -46,7 +46,7 @@
     <div class="movies-class popular">
       <div
         class="movie"
-        [routerLink]="['/movies', '2']"
+        [routerLink]="['/movies', popularMoviesId[i]]"
         *ngFor="let movie of popularMovies; let i = index"
       >
         <div class="movie-img">
@@ -87,7 +87,7 @@
     <div class="movies-class top-rated">
       <div
         class="movie"
-        [routerLink]="['/movies', '2']"
+        [routerLink]="['/movies', topRatedMoviesId[i]]"
         *ngFor="let movie of topRatedMovies; let i = index"
       >
         <div class="movie-img">
