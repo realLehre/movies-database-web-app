@@ -48,4 +48,9 @@ export class HttpService {
       `https://api.themoviedb.org/3/movie/${id}?api_key=${this.api_key}&append_to_response=credits`
     );
   }
+
+  searchMovies(movie: string) {
+    return this.http.get<Response>(`
+      https://api.themoviedb.org/3/search/movie?api_key=${env.API_Key}&language=en-US&page=1&include_adult=false&query=${movie}`);
+  }
 }

@@ -1,5 +1,46 @@
 <div class="movies-container">
-  <div class="movies">
+  <div class="movies movies-search" *ngIf="searchState">
+    <div class="movies-type">Search results and similar movies for</div>
+
+    <div class="movies-class trending">
+      <div
+        class="movie"
+        [routerLink]="['/movies', searchMoviesId[i]]"
+        *ngFor="let movie of searchMovies; let i = index"
+      >
+        <div class="movie-img">
+          <img [src]="searchMoviesPoster[i]" alt="" />
+        </div>
+        <div class="movie-info">
+          <div class="movie-rating">
+            <circle-progress
+              backgroundColor="black"
+              [percent]="searchMoviesRating[i]"
+              [radius]="18"
+              [outerStrokeWidth]="3"
+              [innerStrokeWidth]="4"
+              [outerStrokeColor]="ratingColor(searchMoviesRating[i])"
+              [innerStrokeColor]="'#C7E596'"
+              [animation]="true"
+              [animationDuration]="300"
+              titleFontSize="13"
+              titleFontWeight="900"
+              unitsFontWeight="500"
+              [backgroundPadding]="2"
+            ></circle-progress>
+          </div>
+
+          <div class="movie-title-date">
+            <div class="movie-name">{{ movie.title }}</div>
+
+            <div class="movie-date">{{ movie.release_date | date }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="movies" *ngIf="!searchState">
     <div class="movies-type">Trending</div>
 
     <div class="movies-class trending">
@@ -40,7 +81,7 @@
     </div>
   </div>
 
-  <div class="movies">
+  <div class="movies" *ngIf="!searchState">
     <div class="movies-type popular">Currently Popular</div>
 
     <div class="movies-class popular">
@@ -81,7 +122,7 @@
     </div>
   </div>
 
-  <div class="movies">
+  <div class="movies" *ngIf="!searchState">
     <div class="movies-type">Top Rated</div>
 
     <div class="movies-class top-rated">

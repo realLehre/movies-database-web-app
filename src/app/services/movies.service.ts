@@ -1,5 +1,6 @@
 import { getLocaleMonthNames } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { MovieObject } from '../shared/movie.model';
 import { HttpService } from './http.service';
 
@@ -9,11 +10,19 @@ export class MoviesService {
   popularMovies: MovieObject[] = [];
   topRatedMovies: MovieObject[] = [];
 
+  search = new Subject<boolean>();
+  searchState: boolean;
+  searchName = new Subject<string>();
+  moviesSearch = new Subject<MovieObject[]>();
+
   constructor(private httpService: HttpService) {}
 
-  showTrendingMovies() {}
+  searchResult(state: boolean) {
+    this.searchState = state;
+  }
 
-  getTrendingMovies() {
-    console.log(this.trendingMovies);
+  searchedMovies(movies: MovieObject[]) {
+    return this.moviesSearch.next(movies);
+    console.log(this.moviesSearch);
   }
 }

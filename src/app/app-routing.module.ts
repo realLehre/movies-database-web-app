@@ -4,8 +4,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 
 const appRoute: Routes = [
-  { path: '', component: HomepageComponent },
-  { path: 'search/:movies-search', component: HomepageComponent },
+  { path: 'movies', component: HomepageComponent },
+  { path: 'movies/search/:movie-name', component: HomepageComponent },
   { path: 'movies/:id', component: MovieDetailsComponent },
 ];
 

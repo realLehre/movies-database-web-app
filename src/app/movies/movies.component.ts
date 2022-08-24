@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 
 import { MoviesService } from '../services/movies.service';
@@ -26,9 +27,17 @@ export class MoviesComponent implements OnInit {
   topRatedMoviesPoster: string[];
   topRatedMoviesId: number[];
 
+  searchState: boolean;
+  searchName: string;
+  searchMovies: Array<MovieObject>;
+  searchMoviesRating: Array<number>;
+  searchMoviesPoster: string[];
+  searchMoviesId: number[];
+
   constructor(
-    private movieService: MoviesService,
-    private httpService: HttpService
+    private moviesService: MoviesService,
+    private httpService: HttpService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +115,33 @@ export class MoviesComponent implements OnInit {
       }
       this.topRatedMoviesId = ids;
     });
+
+    this.moviesService.moviesSearch.subscribe((movies) => {
+      this.searchMovies = movies;
+
+      const paths = [];
+      for (const key in this.searchMovies) {
+        paths.push(
+          'https://image.tmdb.org/t/p/original' +
+            this.searchMovies[key].poster_path
+        );
+      }
+      this.searchMoviesPoster = paths;
+
+      const ratings = [];
+      for (const key in this.searchMovies) {
+        ratings.push(Math.floor(this.searchMovies[key].vote_average * 10));
+      }
+      this.searchMoviesRating = ratings;
+
+      const ids = [];
+      for (const key in this.searchMovies) {
+        ids.push(this.searchMovies[key].id);
+      }
+      this.searchMoviesId = ids;
+    });
+
+    this.searchState = this.moviesService.searchState;
   }
 
   ratingColor(rating: number): string {

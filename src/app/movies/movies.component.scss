@@ -126,3 +126,12 @@
     }
   }
 }
+
+.movies-search {
+  position: relative;
+
+  & .movie-rating {
+    bottom: 78px;
+    left: 0;
+  }
+}

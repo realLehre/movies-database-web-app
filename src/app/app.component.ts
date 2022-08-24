@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HttpService } from './services/http.service';
+import { MoviesService } from './services/movies.service';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +11,15 @@ import { HttpService } from './services/http.service';
 export class AppComponent implements OnInit {
   title = 'movies-database-app';
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private moviesService: MoviesService
+  ) {}
 
   ngOnInit() {
-    // this.httpService.getMovies().subscribe((data) => {
-    //   console.log(data);
-    // });
-    // this.httpService.getMovieVideo().subscribe((data) => {
-    //   console.log(data);
-    // });
-    // this.httpService.getMovieDetails().subscribe((data) => {
-    //   console.log(data);
-    // });
+    this.moviesService.search.subscribe((data) => {
+      // console.log(data);
+      this.moviesService.searchResult(data);
+    });
   }
 }
