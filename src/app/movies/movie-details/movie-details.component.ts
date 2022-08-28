@@ -22,6 +22,9 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   rating: number;
   moviePoster: string;
   movieBackdrop: string;
+  movieTitle: string;
+  movieRelease_date: string;
+
   movieWidth: number;
   @ViewChild('videoContainer', { static: true })
   videoContainer: ElementRef<HTMLDivElement>;
@@ -41,6 +44,8 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       this.rating = Math.floor(movieData.vote_average * 10);
       this.moviePoster = `https://image.tmdb.org/t/p/original${movieData.poster_path}`;
       this.movieBackdrop = `https://image.tmdb.org/t/p/original${movieData.backdrop_path}`;
+      this.movieTitle = movieData.original_title;
+      this.movieRelease_date = movieData.release_date;
       console.log(this.movie);
     });
   }

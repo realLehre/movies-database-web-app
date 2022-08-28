@@ -6,9 +6,7 @@
           class="overview-container"
           [ngStyle]="{
             backgroundImage:
-              'url(https://image.tmdb.org/t/p/original' +
-              movie.backdrop_path +
-              ')'
+              'url(https://image.tmdb.org/t/p/original' + movieBackdrop + ')'
           }"
         >
           <div class="overview">
@@ -20,7 +18,7 @@
 
             <div class="overview-content-container">
               <div class="overview-content">
-                <div class="movie-name">{{ movie.title }}</div>
+                <div class="movie-name">{{ movieTitle }}</div>
                 <div class="movie-date">{{ movie.release_date | date }}</div>
                 <div class="movie-genre">
                   <ul>
@@ -67,20 +65,14 @@
               </div>
 
               <div class="movie-cast">
-                <div class="heading">Popular Casts</div>
+                <div class="heading">Popular Cast</div>
                 <div class="cast">
                   <ul>
-                    <li>
-                      <div class="name">Gal Gadot</div>
-                      <span class="character">Diana Prince / Wonder Woman</span>
-                    </li>
-                    <li>
-                      <div class="name">Chris Pine</div>
-                      <span class="character">Steve Trevor</span>
-                    </li>
-                    <li>
-                      <div class="name">Connie Nielsen</div>
-                      <span class="character">Hippolyta</span>
+                    <li *ngFor="let cast of movie.credits.cast; let i = index">
+                      <div class="name" *ngIf="i < 6">{{ cast.name }}</div>
+                      <span class="character" *ngIf="i < 6">{{
+                        cast.character
+                      }}</span>
                     </li>
                   </ul>
                 </div>

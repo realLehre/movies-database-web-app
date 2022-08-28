@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 
 import { MoviesService } from '../services/movies.service';
-import { MovieObject } from '../shared/movie.model';
+import { MovieObject, Response } from '../shared/movie.model';
 
 @Component({
   selector: 'app-movies',
@@ -45,141 +45,134 @@ export class MoviesComponent implements OnInit {
     this.httpService.getTrending().subscribe((data) => {
       this.trendingMovies = data.results;
 
-      const paths = [];
-      for (const key in this.trendingMovies) {
-        paths.push(
-          'https://image.tmdb.org/t/p/original' +
-            this.trendingMovies[key].poster_path
-        );
-      }
-      this.trendingMoviesPoster = paths;
+      this.trendingMoviesPoster = this.moviesPoster(
+        this.trendingMovies,
+        this.trendingMoviesPoster
+      );
 
-      const ratings = [];
-      for (const key in this.trendingMovies) {
-        ratings.push(Math.floor(this.trendingMovies[key].vote_average * 10));
-      }
-      this.trendingMoviesRating = ratings;
+      this.trendingMoviesRating = this.moviesRating(
+        this.trendingMovies,
+        this.trendingMoviesRating
+      );
 
-      const ids = [];
-      for (const key in this.trendingMovies) {
-        ids.push(this.trendingMovies[key].id);
-      }
-      this.trendingMoviesId = ids;
+      this.trendingMoviesId = this.moviesId(
+        this.trendingMovies,
+        this.trendingMoviesId
+      );
     });
 
     // Popular
     this.httpService.getPopular().subscribe((data) => {
       this.popularMovies = data.results;
 
-      const paths = [];
-      for (const key in this.popularMovies) {
-        paths.push(
-          'https://image.tmdb.org/t/p/original' +
-            this.popularMovies[key].poster_path
-        );
-      }
-      this.popularMoviesPoster = paths;
+      this.popularMoviesPoster = this.moviesPoster(
+        this.popularMovies,
+        this.popularMoviesPoster
+      );
 
-      const ratings = [];
-      for (const key in this.popularMovies) {
-        ratings.push(Math.floor(this.popularMovies[key].vote_average * 10));
-      }
-      this.popularMoviesRating = ratings;
+      this.popularMoviesRating = this.moviesRating(
+        this.popularMovies,
+        this.popularMoviesRating
+      );
 
-      const ids = [];
-      for (const key in this.popularMovies) {
-        ids.push(this.popularMovies[key].id);
-      }
-      this.popularMoviesId = ids;
+      this.popularMoviesId = this.moviesId(
+        this.popularMovies,
+        this.popularMoviesId
+      );
     });
 
     // Top rated
     this.httpService.getTopRated().subscribe((data) => {
       this.topRatedMovies = data.results;
 
-      const paths = [];
-      for (const key in this.topRatedMovies) {
-        paths.push(
-          'https://image.tmdb.org/t/p/original' +
-            this.topRatedMovies[key].poster_path
-        );
-      }
-      this.topRatedMoviesPoster = paths;
+      this.topRatedMoviesPoster = this.moviesPoster(
+        this.topRatedMovies,
+        this.topRatedMoviesPoster
+      );
 
-      const ratings = [];
-      for (const key in this.topRatedMovies) {
-        ratings.push(Math.floor(this.topRatedMovies[key].vote_average * 10));
-      }
-      this.topRatedMoviesRating = ratings;
+      this.topRatedMoviesRating = this.moviesRating(
+        this.topRatedMovies,
+        this.topRatedMoviesRating
+      );
 
-      const ids = [];
-      for (const key in this.topRatedMovies) {
-        ids.push(this.topRatedMovies[key].id);
-      }
-      this.topRatedMoviesId = ids;
+      this.topRatedMoviesId = this.moviesId(
+        this.topRatedMovies,
+        this.topRatedMoviesId
+      );
     });
 
     // search
     if (localStorage.getItem('Movies')) {
-      this.searchMovies = JSON.parse(localStorage.getItem('Movies'));
-
-      const paths = [];
-      for (const key in this.searchMovies) {
-        paths.push(
-          'https://image.tmdb.org/t/p/original' +
-            this.searchMovies[key].poster_path
-        );
-      }
-      this.searchMoviesPoster = paths;
-
-      const ratings = [];
-      for (const key in this.searchMovies) {
-        ratings.push(Math.floor(this.searchMovies[key].vote_average * 10));
-      }
-      this.searchMoviesRating = ratings;
-
-      const ids = [];
-      for (const key in this.searchMovies) {
-        ids.push(this.searchMovies[key].id);
-      }
-      this.searchMoviesId = ids;
-
-      this.moviesService.searchName.subscribe((name) => {
-        this.searchName = name;
-      });
+      const movies = JSON.parse(localStorage.getItem('Movies'));
+      this.searchMoviesFunc(movies);
     }
 
     this.moviesService.moviesSearch.subscribe((movies) => {
-      this.searchMovies = movies;
-      localStorage.setItem('Movies', JSON.stringify(movies));
-
-      const paths = [];
-      for (const key in this.searchMovies) {
-        paths.push(
-          'https://image.tmdb.org/t/p/original' +
-            this.searchMovies[key].poster_path
-        );
-      }
-      this.searchMoviesPoster = paths;
-
-      const ratings = [];
-      for (const key in this.searchMovies) {
-        ratings.push(Math.floor(this.searchMovies[key].vote_average * 10));
-      }
-      this.searchMoviesRating = ratings;
-
-      const ids = [];
-      for (const key in this.searchMovies) {
-        ids.push(this.searchMovies[key].id);
-      }
-      this.searchMoviesId = ids;
-
-      this.moviesService.searchName.subscribe((name) => {
-        this.searchName = name;
-      });
+      this.searchMoviesFunc(movies);
     });
 
     this.searchState = this.moviesService.searchState;
+  }
+
+  moviesPoster(movieType, moviePoster) {
+    const paths = [];
+    for (const key in movieType) {
+      paths.push(
+        'https://image.tmdb.org/t/p/original' + movieType[key].poster_path
+      );
+    }
+    moviePoster = paths;
+    return moviePoster;
+  }
+
+  moviesRating(movieType, movieRating) {
+    const ratings = [];
+    for (const key in movieType) {
+      ratings.push(Math.floor(movieType[key].vote_average * 10));
+    }
+    movieRating = ratings;
+
+    return movieRating;
+  }
+
+  moviesId(movieType, movieId) {
+    const ids = [];
+    for (const key in movieType) {
+      ids.push(movieType[key].id);
+    }
+    movieId = ids;
+
+    return movieId;
+  }
+
+  searchMoviesFunc(movies) {
+    this.searchMovies = movies;
+    localStorage.setItem('Movies', JSON.stringify(movies));
+
+    const paths = [];
+    for (const key in this.searchMovies) {
+      paths.push(
+        'https://image.tmdb.org/t/p/original' +
+          this.searchMovies[key].poster_path
+      );
+    }
+    this.searchMoviesPoster = paths;
+
+    const ratings = [];
+    for (const key in this.searchMovies) {
+      ratings.push(Math.floor(this.searchMovies[key].vote_average * 10));
+    }
+    this.searchMoviesRating = ratings;
+
+    const ids = [];
+    for (const key in this.searchMovies) {
+      ids.push(this.searchMovies[key].id);
+    }
+    this.searchMoviesId = ids;
+
+    this.moviesService.searchName.subscribe((name) => {
+      this.searchName = name;
+    });
   }
 
   ratingColor(rating: number): string {

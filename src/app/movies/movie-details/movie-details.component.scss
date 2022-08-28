@@ -98,19 +98,19 @@
             flex-wrap: wrap;
             & li {
               position: relative;
-              font-size: 17px;
-              padding: 3px 8px;
+              font-size: 15px;
               border-radius: 5px;
               padding-left: 12px;
+              color: $dark-white;
 
               &:after {
                 position: absolute;
                 content: "";
-                width: 7px;
-                height: 7px;
+                width: 5px;
+                height: 5px;
                 border-radius: 50%;
                 background: white;
-                left: 0;
+                left: 3px;
                 top: 50%;
                 transform: translateY(-50%);
               }
@@ -151,9 +151,13 @@
       & .movie-overview-content {
         margin-bottom: 20px;
         & .heading {
-          font-size: 25px;
+          font-size: 18px;
           font-weight: 500;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          color: $dark-white;
+          border-bottom: 1px solid $dark-white;
+          padding-bottom: 8px;
         }
 
         & .content {
@@ -167,9 +171,13 @@
       & .movie-cast {
         margin-top: 40px;
         & .heading {
-          font-size: 25px;
+          font-size: 18px;
           font-weight: 500;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          color: $dark-white;
+          border-bottom: 1px solid $dark-white;
+          padding-bottom: 8px;
         }
 
         & .cast {
@@ -180,13 +188,14 @@
 
             & li {
               &:not(:last-child) {
-                margin-bottom: 5px;
+                margin-bottom: 10px;
                 margin-right: 25px;
               }
               & .name {
-                font-size: 20px;
+                font-size: 15px;
                 font-weight: 500;
                 display: block;
+                text-transform: uppercase;
               }
 
               & .character {
