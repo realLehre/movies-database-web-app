@@ -1,17 +1,17 @@
 @import "config";
 
-.container {
+.header-container {
+  display: block;
   background: black;
   border-bottom: 1px solid white;
   position: fixed;
   top: 0;
   left: 0;
-  margin-bottom: 40px;
   width: 100vw;
   z-index: 100;
 }
 
-.main-container {
+.header {
   width: 90%;
   max-width: 1400px;
   margin-inline: auto;

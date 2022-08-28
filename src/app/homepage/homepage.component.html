@@ -1,16 +1,20 @@
-<div class="sort">
-  <mat-form-field>
-    <mat-label>Sort</mat-label>
-    <mat-select>
-      <mat-option value="popularity">Popularity</mat-option>
-      <mat-option value="release-date">Release date</mat-option>
-      <mat-option value="votes">Votes</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-
-<div class="movies">
-  <div class="movies-container">
-    <app-movies></app-movies>
+<div class="homepage">
+  <div class="sort">
+    <mat-form-field>
+      <mat-label>Sort</mat-label>
+      <mat-select>
+        <mat-option value="popularity">Popularity</mat-option>
+        <mat-option value="release-date">Release date</mat-option>
+        <mat-option value="votes">Votes</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
+
+  <div class="movies">
+    <div class="movies-container">
+      <app-movies></app-movies>
+    </div>
+  </div>
+
+  <app-loading-spinner></app-loading-spinner>
 </div>

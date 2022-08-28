@@ -8,8 +8,6 @@
   // padding: 0 20px;
   overflow: auto;
   padding-bottom: 30px;
-  max-width: 1400px;
-  margin-inline: auto;
 }
 
 .movies {
@@ -17,6 +15,10 @@
 
   &:not(:last-child) {
     margin-bottom: 100px;
+  }
+
+  &:last-child {
+    margin-bottom: 0px;
   }
 }
 
