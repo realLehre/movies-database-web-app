@@ -1,6 +1,8 @@
 <div class="movies-container">
   <div class="movies movies-search" *ngIf="searchState">
-    <div class="movies-type">Search results and similar movies for</div>
+    <div class="movies-type">
+      Search results and similar movies for {{ searchName }}
+    </div>
 
     <div class="movies-class trending">
       <div

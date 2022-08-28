@@ -27,32 +27,22 @@ export class HeaderComponent implements OnInit {
   onSubmit() {
     const search = this.searchForm.value.searchResult.toLowerCase();
 
-    this.moviesService.searchName.next(search);
-    // this.httpService.searchMovies(search);
-    this.router.navigate(['movies', 'search', search]);
+    if (this.searchForm.invalid) {
+      return null;
+    } else {
+      this.moviesService.searchName.next(search);
+      // this.httpService.searchMovies(search);
+      this.router.navigate(['movies', 'search', search]);
 
-    this.httpService.searchMovies(search).subscribe((data) => {
-      this.moviesService.searchedMovies(data.results);
-      // const paths = [];
-      // for (const key in this.searchMovies) {
-      //   paths.push(
-      //     'https://image.tmdb.org/t/p/original' +
-      //       this.searchMovies[key].poster_path
-      //   );
-      // }
-      // this.searchMoviesPoster = paths;
-      // const ratings = [];
-      // for (const key in this.searchMovies) {
-      //   ratings.push(Math.floor(this.searchMovies[key].vote_average * 10));
-      // }
-      // this.searchMoviesRating = ratings;
-      // const ids = [];
-      // for (const key in this.searchMovies) {
-      //   ids.push(this.searchMovies[key].id);
-      // }
-      // this.searchMoviesId = ids;
-    });
+      this.httpService.searchMovies(search).subscribe((data) => {
+        this.moviesService.searchedMovies(data.results);
 
-    this.router.navigate(['movies', 'search', search]);
+        this.moviesService.searchName.next(search);
+      });
+
+      this.router.navigate(['movies', 'search', search]);
+    }
+
+    this.searchForm.reset();
   }
 }

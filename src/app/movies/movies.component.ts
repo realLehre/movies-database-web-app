@@ -41,6 +41,7 @@ export class MoviesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Trending
     this.httpService.getTrending().subscribe((data) => {
       this.trendingMovies = data.results;
 
@@ -66,6 +67,7 @@ export class MoviesComponent implements OnInit {
       this.trendingMoviesId = ids;
     });
 
+    // Popular
     this.httpService.getPopular().subscribe((data) => {
       this.popularMovies = data.results;
 
@@ -91,6 +93,7 @@ export class MoviesComponent implements OnInit {
       this.popularMoviesId = ids;
     });
 
+    // Top rated
     this.httpService.getTopRated().subscribe((data) => {
       this.topRatedMovies = data.results;
 
@@ -116,8 +119,9 @@ export class MoviesComponent implements OnInit {
       this.topRatedMoviesId = ids;
     });
 
-    this.moviesService.moviesSearch.subscribe((movies) => {
-      this.searchMovies = movies;
+    // search
+    if (localStorage.getItem('Movies')) {
+      this.searchMovies = JSON.parse(localStorage.getItem('Movies'));
 
       const paths = [];
       for (const key in this.searchMovies) {
@@ -139,6 +143,40 @@ export class MoviesComponent implements OnInit {
         ids.push(this.searchMovies[key].id);
       }
       this.searchMoviesId = ids;
+
+      this.moviesService.searchName.subscribe((name) => {
+        this.searchName = name;
+      });
+    }
+
+    this.moviesService.moviesSearch.subscribe((movies) => {
+      this.searchMovies = movies;
+      localStorage.setItem('Movies', JSON.stringify(movies));
+
+      const paths = [];
+      for (const key in this.searchMovies) {
+        paths.push(
+          'https://image.tmdb.org/t/p/original' +
+            this.searchMovies[key].poster_path
+        );
+      }
+      this.searchMoviesPoster = paths;
+
+      const ratings = [];
+      for (const key in this.searchMovies) {
+        ratings.push(Math.floor(this.searchMovies[key].vote_average * 10));
+      }
+      this.searchMoviesRating = ratings;
+
+      const ids = [];
+      for (const key in this.searchMovies) {
+        ids.push(this.searchMovies[key].id);
+      }
+      this.searchMoviesId = ids;
+
+      this.moviesService.searchName.subscribe((name) => {
+        this.searchName = name;
+      });
     });
 
     this.searchState = this.moviesService.searchState;
