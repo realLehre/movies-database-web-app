@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 
 import { MoviesService } from '../services/movies.service';
-import { MovieObject, Response } from '../shared/movie.model';
+import { MovieObject } from '../shared/movie.model';
 
 @Component({
   selector: 'app-movies',

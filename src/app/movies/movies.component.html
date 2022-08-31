@@ -11,9 +11,6 @@
         *ngFor="let movie of searchMovies; let i = index"
       >
         <div class="movie-img">
-          <img [src]="searchMoviesPoster[i]" alt="" />
-        </div>
-        <div class="movie-info">
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -31,7 +28,9 @@
               [backgroundPadding]="2"
             ></circle-progress>
           </div>
-
+          <img [src]="searchMoviesPoster[i]" alt="" />
+        </div>
+        <div class="movie-info">
           <div class="movie-title-date">
             <div class="movie-name">{{ movie.title }}</div>
 
@@ -52,9 +51,6 @@
         *ngFor="let movie of trendingMovies; let i = index"
       >
         <div class="movie-img">
-          <img [src]="trendingMoviesPoster[i]" alt="" />
-        </div>
-        <div class="movie-info">
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -72,7 +68,9 @@
               [backgroundPadding]="2"
             ></circle-progress>
           </div>
-
+          <img [src]="trendingMoviesPoster[i]" alt="" />
+        </div>
+        <div class="movie-info">
           <div class="movie-title-date">
             <div class="movie-name">{{ movie.title }}</div>
 
@@ -93,9 +91,6 @@
         *ngFor="let movie of popularMovies; let i = index"
       >
         <div class="movie-img">
-          <img [src]="popularMoviesPoster[i]" alt="" />
-        </div>
-        <div class="movie-info">
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -113,7 +108,9 @@
               [backgroundPadding]="2"
             ></circle-progress>
           </div>
-
+          <img [src]="popularMoviesPoster[i]" alt="" />
+        </div>
+        <div class="movie-info">
           <div class="movie-title-date">
             <div class="movie-name">{{ movie.title }}</div>
 
@@ -134,9 +131,6 @@
         *ngFor="let movie of topRatedMovies; let i = index"
       >
         <div class="movie-img">
-          <img [src]="topRatedMoviesPoster[i]" alt="" />
-        </div>
-        <div class="movie-info">
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -154,7 +148,9 @@
               [backgroundPadding]="2"
             ></circle-progress>
           </div>
-
+          <img [src]="topRatedMoviesPoster[i]" alt="" />
+        </div>
+        <div class="movie-info">
           <div class="movie-title-date">
             <div class="movie-name">{{ movie.title }}</div>
 

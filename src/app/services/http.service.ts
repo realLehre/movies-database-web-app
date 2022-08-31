@@ -81,7 +81,7 @@ export class HttpService {
           const moviePoster: string = `https://image.tmdb.org/t/p/original${movieData.poster_path}`;
 
           const movieBackdrop: string = movieData.backdrop_path;
-          const movieTitle: string = movieData.original_title;
+          const movieTitle: string = movieData.title;
           const movieRelease_date: string = movieData.release_date;
           const casts: Array<Object> = movieData.credits.cast;
           const genres = [];

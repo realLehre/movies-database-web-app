@@ -17,6 +17,8 @@ export class MoviesService {
 
   isLoading = new Subject<boolean>();
 
+  favorite: MovieObject[] = [];
+
   constructor() {}
 
   searchResult(state: boolean) {

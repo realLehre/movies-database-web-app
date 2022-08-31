@@ -3,9 +3,43 @@
 @import "~swiper/scss/free-mode";
 @import "~swiper/scss/pagination";
 
+::-webkit-scrollbar {
+  height: 8px;
+  cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  // box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(85, 85, 85);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
+}
+
 .movies-container {
+  position: relative;
   overflow: auto;
-  // padding-bottom: 30px;
+  &::after {
+    position: absolute;
+    content: "";
+    width: 70px;
+    height: 100%;
+    background: black;
+    filter: blur(50px);
+    top: 0;
+    right: 0;
+    z-index: 10;
+  }
 }
 
 .movies {
@@ -45,35 +79,6 @@
 .movies-class {
   display: flex;
   padding-bottom: 5px;
-  // overflow: auto;
-
-  // &.popular,
-  // &.top-rated {
-  //   padding-bottom: 25px;
-  // }
-}
-
-::-webkit-scrollbar {
-  height: 8px;
-  cursor: pointer;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  // box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: rgb(85, 85, 85);
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: grey;
 }
 
 .movie {
@@ -93,7 +98,7 @@
         position: absolute;
         content: "";
         width: 100%;
-        height: 100%;
+        height: 275px;
         background: $main-color;
         opacity: 0.5;
         top: 0;
@@ -104,9 +109,15 @@
   }
 
   &-img {
-    // background-size: cover;
+    position: relative;
     width: 100%;
     height: 275px;
+
+    & .movie-rating {
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+    }
 
     &::after {
       position: absolute;
@@ -137,13 +148,6 @@
     padding-bottom: 2px;
     width: 100%;
     border-radius: 0 0 8px 8px;
-    z-index: 20;
-
-    & .movie-rating {
-      position: absolute;
-      bottom: 58px;
-      left: 5px;
-    }
 
     & .movie-title-date {
       & .movie-name {
