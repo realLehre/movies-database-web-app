@@ -45,7 +45,7 @@
 .movies-class {
   display: flex;
   padding-bottom: 5px;
-  overflow: auto;
+  // overflow: auto;
 
   // &.popular,
   // &.top-rated {
@@ -85,10 +85,41 @@
     margin-right: 20px;
   }
 
+  &:hover {
+    & .movie-img {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: $main-color;
+        opacity: 0.5;
+        top: 0;
+        left: 0;
+        z-index: 10;
+      }
+    }
+  }
+
   &-img {
-    background-size: cover;
+    // background-size: cover;
     width: 100%;
     height: 275px;
+
+    &::after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      background: $main-color;
+      opacity: 0;
+      top: 0;
+      left: 0;
+      @include transition;
+      z-index: 10;
+    }
 
     & img {
       width: 200px;
@@ -98,14 +129,15 @@
   }
 
   &-info {
+    position: relative;
     background: white;
     color: black;
     @include flex;
-
     padding: 10px 10px;
     padding-bottom: 2px;
     width: 100%;
     border-radius: 0 0 8px 8px;
+    z-index: 20;
 
     & .movie-rating {
       position: absolute;
