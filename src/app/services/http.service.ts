@@ -1,9 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 import { environment as env } from 'src/environments/environment.prod';
-import { Movie, MovieObject, Response } from '../shared/movie.model';
+import {
+  Movie,
+  MovieObject,
+  RefinedResponse,
+  Response,
+} from '../shared/movie.model';
 import { MoviesService } from './movies.service';
 
 @Injectable({ providedIn: 'root' })
@@ -14,41 +19,128 @@ export class HttpService {
   constructor(private http: HttpClient, private moviesService: MoviesService) {}
 
   getTrending() {
-    this.isLoading.next(true);
-
-    return this.http.get<Response>(
-      `https://api.themoviedb.org/3/trending/movie/week?api_key=${env.API_Key}`
-    );
+    return this.http
+      .get<Response>(
+        `https://api.themoviedb.org/3/trending/movie/week?api_key=${env.API_Key}`
+      )
+      .pipe(
+        map((data) => {
+          return this.transformMovieResponse(data.results);
+        })
+      );
   }
 
   getPopular() {
-    // this.isLoading.next(true);
-
-    return this.http.get<Response>(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${env.API_Key}&language=en-US&page=12`
-    );
+    return this.http
+      .get<Response>(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${env.API_Key}&language=en-US&page=1`
+      )
+      .pipe(
+        map((data) => {
+          return this.transformMovieResponse(data.results);
+        })
+      );
   }
 
   getTopRated() {
-    // this.isLoading.next(true);
-
-    return this.http.get<Response>(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${env.API_Key}&language=en-US&page=1`
-    );
-  }
-
-  getMovieDetails(id) {
-    // this.isLoading.next(true);
-
-    return this.http.get<MovieObject>(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${this.api_key}&append_to_response=credits`
-    );
+    return this.http
+      .get<Response>(
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${env.API_Key}&language=en-US&page=1`
+      )
+      .pipe(
+        map((data) => {
+          return this.transformMovieResponse(data.results);
+        })
+      );
   }
 
   searchMovies(movie: string) {
-    // this.isLoading.next(true);
+    return this.http
+      .get<Response>(
+        `
+      https://api.themoviedb.org/3/search/movie?api_key=${env.API_Key}&language=en-US&page=1&include_adult=false&query=${movie}`
+      )
+      .pipe(
+        map((data) => {
+          return this.transformMovieResponse(data.results);
+        })
+      );
+  }
 
-    return this.http.get<Response>(`
-      https://api.themoviedb.org/3/search/movie?api_key=${env.API_Key}&language=en-US&page=1&include_adult=false&query=${movie}`);
+  getMovieDetails(id) {
+    return this.http
+      .get<MovieObject>(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${this.api_key}&append_to_response=credits`
+      )
+      .pipe(
+        map((movieData: MovieObject) => {
+          const movie = { ...movieData };
+
+          const rating: number = Math.floor(movieData.vote_average * 10);
+          const moviePoster: string = `https://image.tmdb.org/t/p/original${movieData.poster_path}`;
+
+          const movieBackdrop: string = movieData.backdrop_path;
+          const movieTitle: string = movieData.original_title;
+          const movieRelease_date: string = movieData.release_date;
+          const casts: Array<Object> = movieData.credits.cast;
+          const genres = [];
+          for (const key in movieData.genres) {
+            genres.push(movieData.genres[key].name);
+          }
+          const homepage: string = movieData.homepage;
+          const id: number = movieData.id;
+          const overview: string = movieData.overview;
+          const popularity: number = movieData.popularity;
+
+          const runtime: number = movieData.runtime;
+          const voteCount: number = movieData.vote_count;
+
+          return {
+            vote_average: rating,
+            poster_path: moviePoster,
+            backdrop_path: movieBackdrop,
+            original_title: movieTitle,
+            release_date: movieRelease_date,
+            casts: casts,
+            homepage: homepage,
+            id: id,
+            overview: overview,
+            popularity: popularity,
+            runtime: runtime,
+            vote_count: voteCount,
+            genres: genres,
+          };
+        })
+      );
+  }
+
+  transformMovieResponse(movies) {
+    let refinedData: RefinedResponse;
+
+    const paths = [];
+    for (const key in movies) {
+      paths.push(
+        'https://image.tmdb.org/t/p/original' + movies[key].poster_path
+      );
+    }
+
+    const ratings = [];
+    for (const key in movies) {
+      ratings.push(Math.floor(movies[key].vote_average * 10));
+    }
+
+    const ids = [];
+    for (const key in movies) {
+      ids.push(movies[key].id);
+    }
+
+    refinedData = {
+      movies: movies,
+      moviePosterPaths: paths,
+      movieRatings: ratings,
+      movieIds: ids,
+    };
+
+    return refinedData;
   }
 }

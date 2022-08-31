@@ -6,23 +6,23 @@
           class="overview-container"
           [ngStyle]="{
             backgroundImage:
-              'url(https://image.tmdb.org/t/p/original' + movieBackdrop + ')'
+              'url(https://image.tmdb.org/t/p/original' + backdrop_path + ')'
           }"
         >
           <div class="overview">
             <div class="overview-poster">
               <div class="poster">
-                <img [src]="moviePoster" alt="" />
+                <img [src]="poster_path" alt="" />
               </div>
             </div>
 
             <div class="overview-content-container">
               <div class="overview-content">
-                <div class="movie-name">{{ movieTitle }}</div>
-                <div class="movie-date">{{ movie.release_date | date }}</div>
+                <div class="movie-name">{{ original_title }}</div>
+                <div class="movie-date">{{ release_date | date }}</div>
                 <div class="movie-genre">
                   <ul>
-                    <li *ngFor="let genre of movie.genres">{{ genre.name }}</li>
+                    <li *ngFor="let genre of genres">{{ genre }}</li>
                     <!-- <li>Adventure</li>
                     <li>Fantasy</li> -->
                   </ul>
@@ -32,11 +32,11 @@
               <div class="movie-rating">
                 <circle-progress
                   backgroundColor="black"
-                  [percent]="rating"
+                  [percent]="vote_average"
                   [radius]="40"
                   [outerStrokeWidth]="10"
                   [innerStrokeWidth]="2"
-                  [outerStrokeColor]="ratingColor(rating)"
+                  [outerStrokeColor]="ratingColor(vote_average)"
                   [innerStrokeColor]="'#C7E596'"
                   [animation]="true"
                   [animationDuration]="300"
@@ -49,10 +49,10 @@
 
                 <div class="votes-popularity">
                   <div class="count">
-                    Vote Count: <span>{{ movie.vote_count }}</span>
+                    Vote Count: <span>{{ vote_count }}</span>
                   </div>
                   <div class="popularity">
-                    Popularity: <span>{{ movie.popularity }}</span>
+                    Popularity: <span>{{ popularity }}</span>
                   </div>
                 </div>
               </div>
@@ -60,7 +60,7 @@
               <div class="movie-overview-content">
                 <div class="heading">Overview</div>
                 <div class="content">
-                  {{ movie.overview }}
+                  {{ overview }}
                 </div>
               </div>
 
@@ -68,7 +68,7 @@
                 <div class="heading">Popular Cast</div>
                 <div class="cast">
                   <ul>
-                    <li *ngFor="let cast of movie.credits.cast; let i = index">
+                    <li *ngFor="let cast of casts; let i = index">
                       <div class="name" *ngIf="i < 6">{{ cast.name }}</div>
                       <span class="character" *ngIf="i < 6">{{
                         cast.character

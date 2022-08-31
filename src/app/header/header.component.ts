@@ -30,12 +30,10 @@ export class HeaderComponent implements OnInit {
     if (this.searchForm.invalid) {
       return null;
     } else {
-      this.moviesService.searchName.next(search);
-      // this.httpService.searchMovies(search);
       this.router.navigate(['movies', 'search', search]);
 
       this.httpService.searchMovies(search).subscribe((data) => {
-        this.moviesService.searchedMovies(data.results);
+        this.moviesService.searchedMovies(data);
 
         this.moviesService.searchName.next(search);
       });

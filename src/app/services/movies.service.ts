@@ -1,7 +1,7 @@
 import { getLocaleMonthNames } from '@angular/common';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MovieObject } from '../shared/movie.model';
+import { MovieObject, RefinedResponse } from '../shared/movie.model';
 import { HttpService } from './http.service';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +13,7 @@ export class MoviesService {
   search = new Subject<boolean>();
   searchState: boolean;
   searchName = new Subject<string>();
-  moviesSearch = new Subject<MovieObject[]>();
+  moviesSearch = new Subject<RefinedResponse>();
 
   isLoading = new Subject<boolean>();
 
@@ -23,7 +23,7 @@ export class MoviesService {
     this.searchState = state;
   }
 
-  searchedMovies(movies: MovieObject[]) {
+  searchedMovies(movies: RefinedResponse) {
     return this.moviesSearch.next(movies);
   }
 }

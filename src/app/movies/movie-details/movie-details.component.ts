@@ -19,11 +19,18 @@ import { MovieObject } from 'src/app/shared/movie.model';
 export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   movie: MovieObject;
   movieId: number;
-  rating: number;
-  moviePoster: string;
-  movieBackdrop: string;
-  movieTitle: string;
-  movieRelease_date: string;
+  vote_average;
+  poster_path;
+  backdrop_path;
+  original_title;
+  release_date;
+  casts;
+  homepage;
+  overview;
+  popularity;
+  runtime;
+  vote_count;
+  genres;
 
   movieWidth: number;
   @ViewChild('videoContainer', { static: true })
@@ -41,12 +48,18 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
 
     this.httpService.getMovieDetails(this.movieId).subscribe((movieData) => {
       this.movie = movieData;
-      this.rating = Math.floor(movieData.vote_average * 10);
-      this.moviePoster = `https://image.tmdb.org/t/p/original${movieData.poster_path}`;
-      this.movieBackdrop = `https://image.tmdb.org/t/p/original${movieData.backdrop_path}`;
-      this.movieTitle = movieData.original_title;
-      this.movieRelease_date = movieData.release_date;
-      console.log(this.movie);
+      this.vote_average = movieData.vote_average;
+      this.poster_path = movieData.poster_path;
+      this.backdrop_path = movieData.backdrop_path;
+      this.original_title = movieData.original_title;
+      this.release_date = movieData.release_date;
+      this.casts = movieData.casts;
+      this.homepage = movieData.homepage;
+      this.overview = movieData.overview;
+      this.popularity = movieData.popularity;
+      this.runtime = movieData.runtime;
+      this.vote_count = movieData.vote_count;
+      this.genres = movieData.genres;
     });
   }
 

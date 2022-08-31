@@ -13,6 +13,13 @@ export interface Response {
   total_results: number;
 }
 
+export interface RefinedResponse {
+  movies: Array<MovieObject>;
+  moviePosterPaths: string[];
+  movieIds: number[];
+  movieRatings: number[];
+}
+
 export interface MovieObject {
   adult?: boolean;
   backdrop_path: string;
@@ -25,7 +32,7 @@ export interface MovieObject {
   popularity?: number;
   poster_path: string;
   release_date: string;
-  title: string;
+  title?: string;
   video?: boolean;
   vote_average: number;
   vote_count?: number;
@@ -42,6 +49,7 @@ export interface MovieObject {
   spoken_languages?: any;
   status?: string;
   tagline?: string;
+  casts?: Array<Object>;
 }
 
 // belongs_to_collection?: any

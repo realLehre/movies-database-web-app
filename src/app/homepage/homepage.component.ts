@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+
 import { HttpService } from '../services/http.service';
 import { MoviesService } from '../services/movies.service';
 
