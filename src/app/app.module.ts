@@ -16,6 +16,7 @@ import { MoviesComponent } from './movies/movies.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { HeaderComponent } from './header/header.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { SpinnersAngularModule } from 'spinners-angular';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     ReactiveFormsModule,
     YouTubePlayerModule,
     SwiperModule,
+    SpinnersAngularModule,
     NgCircleProgressModule.forRoot({
       backgroundColor: 'white',
       radius: 20,
