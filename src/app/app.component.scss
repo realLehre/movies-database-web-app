@@ -1,7 +1,19 @@
+.progress {
+  & mat-progress-bar {
+    position: absolute;
+    left: 0;
+    top: 78px;
+    z-index: 120;
+  }
+}
+
 .container {
   height: 100%;
+  position: relative;
 
   & .header {
+    position: relative;
     margin-bottom: 130px;
+    z-index: 3;
   }
 }

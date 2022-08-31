@@ -1,5 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/theming";
+
+@include mat-core();
+
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap");
+
+.mat-progress-bar {
+  .mat-progress-bar-fill::after {
+    background: red;
+  }
+  .mat-progress-bar-buffer {
+    background: white;
+  }
+}
 
 body {
   font-family: "Open Sans", sans-serif;

@@ -15,7 +15,9 @@ export class MoviesService {
   searchName = new Subject<string>();
   moviesSearch = new Subject<MovieObject[]>();
 
-  constructor(private httpService: HttpService) {}
+  isLoading = new Subject<boolean>();
+
+  constructor() {}
 
   searchResult(state: boolean) {
     this.searchState = state;
@@ -23,6 +25,5 @@ export class MoviesService {
 
   searchedMovies(movies: MovieObject[]) {
     return this.moviesSearch.next(movies);
-    console.log(this.moviesSearch);
   }
 }

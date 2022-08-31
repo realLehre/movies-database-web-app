@@ -4,20 +4,15 @@
 @import "~swiper/scss/pagination";
 
 .movies-container {
-  // display: flex;
-  // padding: 0 20px;
   overflow: auto;
-  padding-bottom: 30px;
+  // padding-bottom: 30px;
 }
 
 .movies {
   overflow: auto;
+  margin-bottom: 100px;
 
-  &:not(:last-child) {
-    margin-bottom: 100px;
-  }
-
-  &:last-child {
+  &.top-rated {
     margin-bottom: 0px;
   }
 }
@@ -135,7 +130,6 @@
   position: relative;
 
   & .movie-rating {
-    bottom: 78px;
     left: 0;
   }
 }

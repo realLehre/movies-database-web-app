@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { HttpService } from '../services/http.service';
 import { MoviesService } from '../services/movies.service';
 
 @Component({
@@ -13,7 +15,8 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private httpService: HttpService
   ) {}
 
   ngOnInit(): void {
@@ -23,5 +26,12 @@ export class HomepageComponent implements OnInit {
     });
 
     this.search = this.moviesService.searchState;
+
+    // this.httpService.isLoading.subscribe((state) => {
+    //   this.isLoading = state;
+    //   console.log(!this.isLoading);
+    // });
+
+    this.moviesService.isLoading.next(false);
   }
 }

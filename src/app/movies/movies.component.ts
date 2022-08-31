@@ -43,6 +43,8 @@ export class MoviesComponent implements OnInit {
   ngOnInit(): void {
     // Trending
     this.httpService.getTrending().subscribe((data) => {
+      this.httpService.isLoading.next(false);
+
       this.trendingMovies = data.results;
 
       this.trendingMoviesPoster = this.moviesPoster(
@@ -63,6 +65,8 @@ export class MoviesComponent implements OnInit {
 
     // Popular
     this.httpService.getPopular().subscribe((data) => {
+      // this.httpService.isLoading.next(false);
+
       this.popularMovies = data.results;
 
       this.popularMoviesPoster = this.moviesPoster(
@@ -83,6 +87,8 @@ export class MoviesComponent implements OnInit {
 
     // Top rated
     this.httpService.getTopRated().subscribe((data) => {
+      // this.httpService.isLoading.next(false);
+
       this.topRatedMovies = data.results;
 
       this.topRatedMoviesPoster = this.moviesPoster(
@@ -110,6 +116,11 @@ export class MoviesComponent implements OnInit {
     this.moviesService.moviesSearch.subscribe((movies) => {
       this.searchMoviesFunc(movies);
     });
+
+    if (localStorage.getItem('searchName')) {
+      const name = JSON.parse(localStorage.getItem('searchName'));
+      this.searchName = name;
+    }
 
     this.searchState = this.moviesService.searchState;
   }
@@ -172,6 +183,7 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.searchName.subscribe((name) => {
       this.searchName = name;
+      localStorage.setItem('searchName', JSON.stringify(name));
     });
   }
 
