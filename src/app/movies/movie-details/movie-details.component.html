@@ -81,11 +81,11 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Trailer">
+      <mat-tab label="Watch Related Video">
         <div class="trailer-video" #videoContainer>
           <youtube-player
             [ngStyle]="{ width: '100%' }"
-            videoId="EYjQBFCbRbE"
+            [videoId]="videoId"
             suggestedQuality="highres"
             [height]="700"
             [width]="movieWidth"

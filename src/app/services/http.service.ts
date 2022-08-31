@@ -75,6 +75,7 @@ export class HttpService {
       .pipe(
         map((movieData: MovieObject) => {
           const movie = { ...movieData };
+          console.log(movie);
 
           const rating: number = Math.floor(movieData.vote_average * 10);
           const moviePoster: string = `https://image.tmdb.org/t/p/original${movieData.poster_path}`;
@@ -110,6 +111,24 @@ export class HttpService {
             vote_count: voteCount,
             genres: genres,
           };
+        })
+      );
+  }
+
+  getVideo(id) {
+    return this.http
+      .get<{ id: number; results: Array<Object> }>(
+        `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${env.API_Key}&language=en-US`
+      )
+      .pipe(
+        map((video) => {
+          const videoId = video.results[0];
+
+          for (const key in videoId) {
+            if (key == 'key') {
+              return videoId[key];
+            }
+          }
         })
       );
   }

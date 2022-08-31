@@ -31,6 +31,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   runtime;
   vote_count;
   genres;
+  videoId: string;
 
   movieWidth: number;
   @ViewChild('videoContainer', { static: true })
@@ -60,6 +61,10 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       this.runtime = movieData.runtime;
       this.vote_count = movieData.vote_count;
       this.genres = movieData.genres;
+    });
+
+    this.httpService.getVideo(this.movieId).subscribe((movieKey) => {
+      this.videoId = movieKey;
     });
   }
 
