@@ -10,10 +10,11 @@
         [routerLink]="['/movies', searchMoviesId[i]]"
         *ngFor="let movie of searchMovies; let i = index"
       >
+        <div class="favorite" (click)="toggleLike()">
+          <i class="fa-solid fa-star"></i>
+        </div>
+
         <div class="movie-img">
-          <div class="favorite" (click)="toggleLike()">
-            <i class="fa-solid fa-star"></i>
-          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -49,10 +50,11 @@
 
     <div class="movies-class trending">
       <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
+        <div class="favorite" (click)="toggleLike()">
+          <i class="fa fa-star"></i>
+        </div>
+
         <div class="movie-img" [routerLink]="['/movies', trendingMoviesId[i]]">
-          <div class="favorite" (click)="toggleLike()">
-            <i class="fa fa-star"></i>
-          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -92,10 +94,11 @@
         [routerLink]="['/movies', popularMoviesId[i]]"
         *ngFor="let movie of popularMovies; let i = index"
       >
+        <div class="favorite" (click)="toggleLike()">
+          <i class="fa fa-star"></i>
+        </div>
+
         <div class="movie-img">
-          <div class="favorite" (click)="toggleLike()">
-            <i class="fa fa-star"></i>
-          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -129,10 +132,11 @@
         [routerLink]="['/movies', popularMoviesId_2[i]]"
         *ngFor="let movie of popularMovies_2; let i = index"
       >
+        <div class="favorite" (click)="toggleLike()">
+          <i class="fa fa-star"></i>
+        </div>
+
         <div class="movie-img">
-          <div class="favorite" (click)="toggleLike()">
-            <i class="fa fa-star"></i>
-          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -172,10 +176,11 @@
         [routerLink]="['/movies', topRatedMoviesId[i]]"
         *ngFor="let movie of topRatedMovies; let i = index"
       >
+        <div class="favorite" (click)="toggleLike()">
+          <i class="fa fa-star"></i>
+        </div>
+
         <div class="movie-img">
-          <div class="favorite" (click)="toggleLike()">
-            <i class="fa fa-star"></i>
-          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
