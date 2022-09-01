@@ -8,6 +8,12 @@
         <mat-option value="votes">Votes</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <div class="favorites">
+      <button [routerLink]="['/movies', 'favorites']">
+        See your favorite movies
+      </button>
+    </div>
   </div>
 
   <div class="movies">

@@ -17,6 +17,8 @@ import { MovieDetailsComponent } from './movies/movie-details/movie-details.comp
 import { HeaderComponent } from './header/header.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { SpinnersAngularModule } from 'spinners-angular';
+import { FavoriteDirective } from './shared/favorite.directive';
+import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movies.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { SpinnersAngularModule } from 'spinners-angular';
     MovieDetailsComponent,
     HeaderComponent,
     LoadingSpinnerComponent,
+    FavoriteDirective,
+    FavoriteMoviesComponent,
   ],
   imports: [
     BrowserModule,

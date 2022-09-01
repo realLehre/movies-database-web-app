@@ -10,10 +10,6 @@
         [routerLink]="['/movies', searchMoviesId[i]]"
         *ngFor="let movie of searchMovies; let i = index"
       >
-        <div class="favorite" (click)="toggleLike()">
-          <i class="fa-solid fa-star"></i>
-        </div>
-
         <div class="movie-img">
           <div class="movie-rating">
             <circle-progress
@@ -50,9 +46,12 @@
 
     <div class="movies-class trending">
       <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
-        <div class="favorite" (click)="toggleLike()">
-          <i class="fa fa-star"></i>
-        </div>
+        <i
+          appFavorite
+          class="fa fa-star"
+          id="favorite"
+          (click)="toggleLike(trendingMovies[i], i)"
+        ></i>
 
         <div class="movie-img" [routerLink]="['/movies', trendingMoviesId[i]]">
           <div class="movie-rating">
@@ -94,10 +93,6 @@
         [routerLink]="['/movies', popularMoviesId[i]]"
         *ngFor="let movie of popularMovies; let i = index"
       >
-        <div class="favorite" (click)="toggleLike()">
-          <i class="fa fa-star"></i>
-        </div>
-
         <div class="movie-img">
           <div class="movie-rating">
             <circle-progress
@@ -132,10 +127,6 @@
         [routerLink]="['/movies', popularMoviesId_2[i]]"
         *ngFor="let movie of popularMovies_2; let i = index"
       >
-        <div class="favorite" (click)="toggleLike()">
-          <i class="fa fa-star"></i>
-        </div>
-
         <div class="movie-img">
           <div class="movie-rating">
             <circle-progress
@@ -176,10 +167,6 @@
         [routerLink]="['/movies', topRatedMoviesId[i]]"
         *ngFor="let movie of topRatedMovies; let i = index"
       >
-        <div class="favorite" (click)="toggleLike()">
-          <i class="fa fa-star"></i>
-        </div>
-
         <div class="movie-img">
           <div class="movie-rating">
             <circle-progress

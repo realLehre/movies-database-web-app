@@ -108,12 +108,23 @@ export class MoviesComponent implements OnInit {
     });
 
     this.searchState = this.moviesService.searchState;
+
+    this.moviesService.isLiked.subscribe((state) => {
+      this.liked = state;
+      console.log(this.liked);
+    });
   }
 
-  toggleLike() {
-    this.liked = !this.liked;
-
-    console.log(this.liked);
+  toggleLike(movie: MovieObject, index: number) {
+    if (this.liked) {
+      this.trendingMovies.filter((movietype, index) => {
+        if (this.trendingMovies.indexOf(movie) == index) {
+          this.moviesService.onLike(movie);
+        }
+      });
+    } else {
+      this.moviesService.onDisLike(index);
+    }
   }
 
   ratingColor(rating: number): string {

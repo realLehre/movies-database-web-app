@@ -32,6 +32,10 @@
 .movies-container {
   position: relative;
   overflow: auto;
+  width: 90%;
+  max-width: 1400px;
+
+  margin-inline: auto;
   &::after {
     position: absolute;
     content: "";
@@ -122,24 +126,7 @@
     top: 10px;
     cursor: pointer;
     z-index: 12;
-    // background: rgb(114, 61, 61);
-    // border-radius: 50%;
-    // width: 18px;
-    // height: 18px;
-    // padding: 10px;
-    // @include flex;
-    // justify-content: center;
     font-size: 18px;
-
-    // & i {
-    //   font-size: 18px;
-    // }
-
-    // &.liked {
-    //   & i {
-    //     color: red;
-    //   }
-    // }
   }
 
   &-img {

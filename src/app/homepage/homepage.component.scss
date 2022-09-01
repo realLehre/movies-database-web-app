@@ -9,6 +9,25 @@
   z-index: 1;
 }
 
+.sort {
+  @include flex;
+
+  & button {
+    border: none;
+    background: $main-color;
+    padding: 10px 15px;
+    color: white;
+    font-size: 15px;
+    @include transition;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background: $main-color-hover;
+    }
+  }
+}
+
 mat-form-field {
   width: 50%;
 }

@@ -1,8 +1,6 @@
-import { getLocaleMonthNames } from '@angular/common';
-import { EventEmitter, Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { MovieObject, RefinedResponse } from '../shared/movie.model';
-import { HttpService } from './http.service';
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
@@ -19,6 +17,12 @@ export class MoviesService {
 
   favorite: MovieObject[] = [];
 
+  isLiked = new Subject<boolean>();
+  // isLiked = new BehaviorSubject<boolean>(false);
+  likedMovies: MovieObject[] = [];
+  // likedMoviesObs = new Subject<MovieObject[]>(this.likedMovies);
+  likedMoviesObs = new BehaviorSubject<MovieObject[]>(this.likedMovies);
+
   constructor() {}
 
   searchResult(state: boolean) {
@@ -27,5 +31,63 @@ export class MoviesService {
 
   searchedMovies(movies: RefinedResponse) {
     return this.moviesSearch.next(movies);
+  }
+
+  onLike(movie: MovieObject) {
+    this.likedMovies.push(movie);
+    this.likedMoviesObs.next(this.likedMovies);
+
+    this.likedMoviesObs.subscribe((data) => {
+      console.log(data);
+      localStorage.setItem('liked', JSON.stringify(data));
+    });
+  }
+
+  onDisLike(index: number) {
+    this.likedMovies.splice(index, 1);
+    this.likedMoviesObs.next(this.likedMovies);
+
+    this.likedMoviesObs.subscribe((data) => {
+      console.log(data);
+      localStorage.setItem('liked', JSON.stringify(data));
+    });
+  }
+
+  getLiked() {
+    const likedMoviesS = JSON.parse(localStorage.getItem('liked'));
+    //  this.likedMoviesObs.subscribe((data) => {
+    //    console.log(data);
+    //    localStorage.setItem('liked', JSON.stringify(data));
+    //  });
+
+    let refinedData: RefinedResponse;
+
+    const paths = [];
+    for (const key in likedMoviesS) {
+      paths.push(
+        'https://image.tmdb.org/t/p/original' + likedMoviesS[key].poster_path
+      );
+    }
+
+    const ratings = [];
+    for (const key in likedMoviesS) {
+      ratings.push(Math.floor(likedMoviesS[key].vote_average * 10));
+    }
+
+    const ids = [];
+    for (const key in likedMoviesS) {
+      ids.push(likedMoviesS[key].id);
+    }
+
+    refinedData = {
+      movies: likedMoviesS,
+      moviePosterPaths: paths,
+      movieRatings: ratings,
+      movieIds: ids,
+    };
+
+    // localStorage.setItem('liked', JSON.stringify(refinedData));
+
+    return refinedData;
   }
 }
