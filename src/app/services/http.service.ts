@@ -42,6 +42,18 @@ export class HttpService {
       );
   }
 
+  getPopular_2() {
+    return this.http
+      .get<Response>(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${env.API_Key}&language=en-US&page=2`
+      )
+      .pipe(
+        map((data) => {
+          return this.transformMovieResponse(data.results);
+        })
+      );
+  }
+
   getTopRated() {
     return this.http
       .get<Response>(

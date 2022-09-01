@@ -4,14 +4,17 @@
 @import "~swiper/scss/pagination";
 
 ::-webkit-scrollbar {
+  position: relative;
   height: 8px;
   cursor: pointer;
+  z-index: 12;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  // box-shadow: inset 0 0 5px grey;
+  box-shadow: inset 0 0 2px grey;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 /* Handle */
@@ -86,6 +89,10 @@
   cursor: pointer;
   width: 200px;
 
+  &.popular_2 {
+    display: inline;
+  }
+
   &:not(:last-child) {
     margin-right: 20px;
   }
@@ -104,6 +111,7 @@
         top: 0;
         left: 0;
         z-index: 10;
+        border-radius: 8px 8px 0 0;
       }
     }
   }
@@ -112,6 +120,19 @@
     position: relative;
     width: 100%;
     height: 275px;
+
+    & .favorite {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      cursor: pointer;
+      z-index: 12;
+
+      & i {
+        font-size: 18px;
+        box-shadow: 1px 1px 5px black;
+      }
+    }
 
     & .movie-rating {
       position: absolute;
@@ -129,6 +150,7 @@
       top: 0;
       left: 0;
       @include transition;
+      border-radius: 8px 8px 0 0;
       z-index: 10;
     }
 

@@ -22,6 +22,11 @@ export class MoviesComponent implements OnInit {
   popularMoviesPoster: string[];
   popularMoviesId: number[];
 
+  popularMovies_2: Array<MovieObject>;
+  popularMoviesRating_2: Array<number>;
+  popularMoviesPoster_2: string[];
+  popularMoviesId_2: number[];
+
   topRatedMovies: Array<MovieObject>;
   topRatedMoviesRating: Array<number>;
   topRatedMoviesPoster: string[];
@@ -33,6 +38,8 @@ export class MoviesComponent implements OnInit {
   searchMoviesRating: Array<number>;
   searchMoviesPoster: string[];
   searchMoviesId: number[];
+
+  liked: boolean = false;
 
   constructor(
     private moviesService: MoviesService,
@@ -55,6 +62,12 @@ export class MoviesComponent implements OnInit {
       this.popularMoviesPoster = movieData.moviePosterPaths;
       this.popularMoviesRating = movieData.movieRatings;
       this.popularMoviesId = movieData.movieIds;
+    });
+    this.httpService.getPopular_2().subscribe((movieData) => {
+      this.popularMovies_2 = movieData.movies;
+      this.popularMoviesPoster_2 = movieData.moviePosterPaths;
+      this.popularMoviesRating_2 = movieData.movieRatings;
+      this.popularMoviesId_2 = movieData.movieIds;
     });
 
     // Top rated
@@ -95,6 +108,12 @@ export class MoviesComponent implements OnInit {
     });
 
     this.searchState = this.moviesService.searchState;
+  }
+
+  toggleLike() {
+    this.liked = !this.liked;
+
+    console.log(this.liked);
   }
 
   ratingColor(rating: number): string {

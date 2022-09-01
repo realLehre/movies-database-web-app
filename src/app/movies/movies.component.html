@@ -11,6 +11,9 @@
         *ngFor="let movie of searchMovies; let i = index"
       >
         <div class="movie-img">
+          <div class="favorite" (click)="toggleLike()">
+            <i class="fa-solid fa-star"></i>
+          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -45,12 +48,11 @@
     <div class="movies-type">Trending</div>
 
     <div class="movies-class trending">
-      <div
-        class="movie"
-        [routerLink]="['/movies', trendingMoviesId[i]]"
-        *ngFor="let movie of trendingMovies; let i = index"
-      >
-        <div class="movie-img">
+      <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
+        <div class="movie-img" [routerLink]="['/movies', trendingMoviesId[i]]">
+          <div class="favorite" (click)="toggleLike()">
+            <i class="fa fa-star"></i>
+          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -91,6 +93,9 @@
         *ngFor="let movie of popularMovies; let i = index"
       >
         <div class="movie-img">
+          <div class="favorite" (click)="toggleLike()">
+            <i class="fa fa-star"></i>
+          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -118,6 +123,43 @@
           </div>
         </div>
       </div>
+
+      <div
+        class="movie popular_2"
+        [routerLink]="['/movies', popularMoviesId_2[i]]"
+        *ngFor="let movie of popularMovies_2; let i = index"
+      >
+        <div class="movie-img">
+          <div class="favorite" (click)="toggleLike()">
+            <i class="fa fa-star"></i>
+          </div>
+          <div class="movie-rating">
+            <circle-progress
+              backgroundColor="black"
+              [percent]="popularMoviesRating_2[i]"
+              [radius]="18"
+              [outerStrokeWidth]="3"
+              [innerStrokeWidth]="4"
+              [outerStrokeColor]="ratingColor(popularMoviesRating_2[i])"
+              [innerStrokeColor]="'#C7E596'"
+              [animation]="true"
+              [animationDuration]="300"
+              titleFontSize="13"
+              titleFontWeight="900"
+              unitsFontWeight="500"
+              [backgroundPadding]="2"
+            ></circle-progress>
+          </div>
+          <img [src]="popularMoviesPoster_2[i]" alt="" />
+        </div>
+        <div class="movie-info">
+          <div class="movie-title-date">
+            <div class="movie-name">{{ movie.title }}</div>
+
+            <div class="movie-date">{{ movie.release_date | date }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -131,6 +173,9 @@
         *ngFor="let movie of topRatedMovies; let i = index"
       >
         <div class="movie-img">
+          <div class="favorite" (click)="toggleLike()">
+            <i class="fa fa-star"></i>
+          </div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
