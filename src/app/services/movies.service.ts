@@ -4,7 +4,7 @@ import { MovieObject, RefinedResponse } from '../shared/movie.model';
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
-  trendingMovies: MovieObject[];
+  trendingMovies: MovieObject[] = [];
   popularMovies: MovieObject[] = [];
   topRatedMovies: MovieObject[] = [];
 
@@ -18,10 +18,10 @@ export class MoviesService {
   favorite: MovieObject[] = [];
 
   isLiked = new Subject<boolean>();
-  // isLiked = new BehaviorSubject<boolean>(false);
+  // isLiked = new BehaviorSubject<boolean>(true);
   likedMovies: MovieObject[] = [];
-  // likedMoviesObs = new Subject<MovieObject[]>(this.likedMovies);
-  likedMoviesObs = new BehaviorSubject<MovieObject[]>(this.likedMovies);
+  likedMoviesObs = new Subject<MovieObject[]>();
+  // likedMoviesObs = new BehaviorSubject<MovieObject[]>(this.likedMovies);
 
   constructor() {}
 
@@ -33,25 +33,9 @@ export class MoviesService {
     return this.moviesSearch.next(movies);
   }
 
-  onLike(movie: MovieObject) {
-    this.likedMovies.push(movie);
-    this.likedMoviesObs.next(this.likedMovies);
+  onLike(movie: MovieObject) {}
 
-    this.likedMoviesObs.subscribe((data) => {
-      console.log(data);
-      localStorage.setItem('liked', JSON.stringify(data));
-    });
-  }
-
-  onDisLike(index: number) {
-    this.likedMovies.splice(index, 1);
-    this.likedMoviesObs.next(this.likedMovies);
-
-    this.likedMoviesObs.subscribe((data) => {
-      console.log(data);
-      localStorage.setItem('liked', JSON.stringify(data));
-    });
-  }
+  onDisLike(index: number) {}
 
   getLiked() {
     const likedMoviesS = JSON.parse(localStorage.getItem('liked'));

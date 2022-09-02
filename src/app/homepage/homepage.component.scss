@@ -79,3 +79,26 @@ mat-label {
   background-color: red !important;
   display: none;
 }
+
+@media (max-width: 420px) {
+  .homepage {
+    width: 100%;
+    padding-left: 20px;
+  }
+
+  .sort {
+    width: 95%;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+
+    & button {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}

@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  AfterContentChecked,
+  Component,
+  DoCheck,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 
@@ -108,23 +114,14 @@ export class MoviesComponent implements OnInit {
     });
 
     this.searchState = this.moviesService.searchState;
-
-    this.moviesService.isLiked.subscribe((state) => {
-      this.liked = state;
-      console.log(this.liked);
-    });
   }
 
   toggleLike(movie: MovieObject, index: number) {
-    if (this.liked) {
-      this.trendingMovies.filter((movietype, index) => {
-        if (this.trendingMovies.indexOf(movie) == index) {
-          this.moviesService.onLike(movie);
-        }
-      });
-    } else {
-      this.moviesService.onDisLike(index);
-    }
+    this.liked = !this.liked;
+
+    // this.moviesService.isLiked.next(this.liked);
+
+    console.log(this.liked);
   }
 
   ratingColor(rating: number): string {
