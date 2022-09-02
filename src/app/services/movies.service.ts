@@ -17,10 +17,11 @@ export class MoviesService {
 
   favorite: MovieObject[] = [];
 
-  isLiked = new Subject<boolean>();
-  // isLiked = new BehaviorSubject<boolean>(true);
+  // isLiked = new Subject<boolean>();
+  isLiked = new BehaviorSubject<boolean>(true);
   likedMovies: MovieObject[] = [];
   likedMoviesObs = new Subject<MovieObject[]>();
+  isAlreadyLiked: boolean = false;
   // likedMoviesObs = new BehaviorSubject<MovieObject[]>(this.likedMovies);
 
   constructor() {}
@@ -33,9 +34,37 @@ export class MoviesService {
     return this.moviesSearch.next(movies);
   }
 
-  onLike(movie: MovieObject) {}
+  onLike(movie: MovieObject, id: number) {
+    this.likedMovies.filter((movie) => {
+      if (id == movie.id) {
+        this.isAlreadyLiked = true;
+      } else {
+        this.isAlreadyLiked = false;
+      }
+      return;
+    });
+    if (!this.isAlreadyLiked) {
+      this.likedMovies.push(movie);
+      this.likedMoviesObs.next(this.likedMovies);
+      this.likedMoviesObs.subscribe((data) => {
+        localStorage.setItem('liked', JSON.stringify(data));
+        console.log(data);
+      });
+    }
+  }
 
-  onDisLike(index: number) {}
+  onDisLike(id: number) {
+    this.likedMovies.filter((movie, index) => {
+      if (id == movie.id) {
+        this.likedMovies.splice(index, 1);
+      }
+    });
+    this.likedMoviesObs.next(this.likedMovies);
+    this.likedMoviesObs.subscribe((data) => {
+      localStorage.setItem('liked', JSON.stringify(data));
+      console.log(data);
+    });
+  }
 
   getLiked() {
     const likedMoviesS = JSON.parse(localStorage.getItem('liked'));

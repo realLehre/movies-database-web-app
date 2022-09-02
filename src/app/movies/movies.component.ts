@@ -2,7 +2,9 @@ import {
   AfterContentChecked,
   Component,
   DoCheck,
+  ElementRef,
   OnInit,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -46,6 +48,7 @@ export class MoviesComponent implements OnInit {
   searchMoviesId: number[];
 
   liked: boolean = false;
+  @ViewChild('favorite') fav: ElementRef;
 
   constructor(
     private moviesService: MoviesService,
@@ -114,15 +117,43 @@ export class MoviesComponent implements OnInit {
     });
 
     this.searchState = this.moviesService.searchState;
+
+    if (localStorage.getItem('likedState')) {
+      this.liked = JSON.parse(localStorage.getItem('likedState'));
+      this.toggleLike;
+    }
+    // this.moviesService.isLiked.next(this.liked);
   }
 
-  toggleLike(movie: MovieObject, index: number) {
+  toggleLike(e, movie: MovieObject, id: number) {
     this.liked = !this.liked;
 
-    // this.moviesService.isLiked.next(this.liked);
+    localStorage.setItem('likedState', JSON.stringify(this.liked));
 
-    console.log(this.liked);
+    if (this.liked) {
+      e.target.classList.add('liked');
+
+      this.moviesService.onLike(movie, id);
+    } else {
+      e.target.classList.remove('liked');
+      this.moviesService.onDisLike(id);
+    }
   }
+  // toggleLike(movie: MovieObject, index: number) {
+  //   this.liked = !this.liked;
+
+  //   localStorage.setItem('likedState', JSON.stringify(this.liked));
+
+  //   if (localStorage.getItem('likedState')) {
+  //     this.liked = JSON.parse(localStorage.getItem('likedState'));
+  //   }
+
+  //   this.moviesService.isLiked.next(this.liked);
+
+  //   console.log(this.fav.nativeElement.parentElement);
+
+  //   // console.log(this.liked);
+  // }
 
   ratingColor(rating: number): string {
     if (rating < 51) {

@@ -123,6 +123,10 @@
     cursor: pointer;
     z-index: 12;
     font-size: 18px;
+
+    &.liked {
+      color: red;
+    }
   }
 
   &-img {

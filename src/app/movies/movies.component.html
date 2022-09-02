@@ -47,10 +47,10 @@
     <div class="movies-class trending">
       <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
         <i
-          appFavorite
           class="fa fa-star"
           id="favorite"
-          (click)="toggleLike(trendingMovies[i], i)"
+          (click)="toggleLike($event, trendingMovies[i], trendingMovies[i].id)"
+          #favorite
         ></i>
 
         <div class="movie-img" [routerLink]="['/movies', trendingMoviesId[i]]">

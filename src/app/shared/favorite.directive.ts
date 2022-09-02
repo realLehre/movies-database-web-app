@@ -18,8 +18,6 @@ export class FavoriteDirective implements OnInit {
   constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
-    this.liked = JSON.parse(localStorage.getItem('likedState'));
-
     this.moviesService.isLiked.subscribe((state) => {
       this.liked = state;
     });
