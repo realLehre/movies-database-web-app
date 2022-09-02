@@ -35,7 +35,7 @@ export class FavoriteDirective implements OnInit {
 
     this.moviesService.isLiked.next(this.liked);
   }
-  @HostListener('load') onLoad(eventData: Event) {
+  @HostListener('mouseenter') onLoad(eventData: Event) {
     if (localStorage.getItem('likedState')) {
       this.liked = JSON.parse(localStorage.getItem('likedState'));
     }

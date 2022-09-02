@@ -1,0 +1,38 @@
+@import "config";
+
+.page-not-found {
+  width: 90%;
+  max-width: 1400px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.error-header {
+  font-size: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $main-color;
+}
+
+.error-message {
+  font-size: 25px;
+  font-weight: 500;
+  margin: 50px 0;
+  line-height: 1.2;
+}
+
+.to-homepage {
+  border: none;
+  background: $main-color;
+  padding: 15px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  border-radius: 3px;
+  @include transition;
+  cursor: pointer;
+
+  &:hover {
+    background: $main-color-hover;
+  }
+}

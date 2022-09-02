@@ -19,6 +19,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { SpinnersAngularModule } from 'spinners-angular';
 import { FavoriteDirective } from './shared/favorite.directive';
 import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movies.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movie
     LoadingSpinnerComponent,
     FavoriteDirective,
     FavoriteMoviesComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
