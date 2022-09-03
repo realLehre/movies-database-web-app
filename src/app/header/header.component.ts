@@ -11,6 +11,7 @@ import { MoviesService } from '../services/movies.service';
 })
 export class HeaderComponent implements OnInit {
   searchForm: FormGroup;
+  error: boolean = false;
 
   constructor(
     private router: Router,
@@ -32,10 +33,17 @@ export class HeaderComponent implements OnInit {
     } else {
       this.router.navigate(['movies', 'search', search]);
 
-      this.httpService.searchMovies(search).subscribe((data) => {
-        this.moviesService.searchedMovies(data);
+      this.httpService.searchMovies(search).subscribe({
+        next: (data) => {
+          this.moviesService.searchedMovies(data);
 
-        this.moviesService.searchName.next(search);
+          this.moviesService.searchName.next(search);
+        },
+        error: (err) => {
+          if (err) {
+            this.error = true;
+          }
+        },
       });
 
       this.router.navigate(['movies', 'search', search]);

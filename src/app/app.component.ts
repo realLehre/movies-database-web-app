@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Router,
   Event,
@@ -16,7 +16,7 @@ import { MoviesService } from './services/movies.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   title = 'movies-database-app';
   isLoading: boolean = true;
   obs: Subscription;
@@ -49,9 +49,9 @@ export class AppComponent implements OnInit, OnDestroy {
       // console.log(data);
       this.moviesService.searchResult(data);
     });
-  }
 
-  ngOnDestroy(): void {
-    // this.obs.unsubscribe();
+    this.moviesService.isFetching.subscribe((state) => {
+      this.isLoading = state;
+    });
   }
 }

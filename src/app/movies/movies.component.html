@@ -1,4 +1,5 @@
-<div class="movies-container">
+<div class="error-container" *ngIf="error">An error occured!</div>
+<div class="movies-container" [ngClass]="{ blur: isFetching }" *ngIf="!error">
   <div class="movies movies-search" *ngIf="searchState">
     <div class="movies-type">
       Search results and similar movies for {{ searchName }}
@@ -7,7 +8,7 @@
     <div class="movies-class trending">
       <div
         class="movie"
-        [routerLink]="['/movies', searchMoviesId[i]]"
+        [routerLink]="['/movies', searchMoviesId[i], 'details']"
         *ngFor="let movie of searchMovies; let i = index"
       >
         <div class="movie-img">
@@ -50,18 +51,9 @@
 
       <div class="movies-class trending">
         <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
-          <i
-            class="fa fa-star"
-            id="favorite"
-            (click)="
-              toggleLike($event, trendingMovies[i], trendingMovies[i].id)
-            "
-            #favorite
-          ></i>
-
           <div
             class="movie-img"
-            [routerLink]="['/movies', trendingMoviesId[i]]"
+            [routerLink]="['/movies', trendingMoviesId[i], 'details']"
           >
             <div class="movie-rating">
               <circle-progress
@@ -104,7 +96,7 @@
       <div class="movies-class popular">
         <div
           class="movie"
-          [routerLink]="['/movies', popularMoviesId[i]]"
+          [routerLink]="['/movies', popularMoviesId[i], 'details']"
           *ngFor="let movie of popularMovies; let i = index"
         >
           <div class="movie-img">
@@ -138,7 +130,7 @@
 
         <div
           class="movie popular_2"
-          [routerLink]="['/movies', popularMoviesId_2[i]]"
+          [routerLink]="['/movies', popularMoviesId_2[i], 'details']"
           *ngFor="let movie of popularMovies_2; let i = index"
         >
           <div class="movie-img">
@@ -175,7 +167,7 @@
 
   <div
     class="sort-container"
-    *ngIf="sortValue == 'all' || sortValue == 'top rated'"
+    *ngIf="sortValue == 'all' || sortValue == 'top-rated'"
   >
     <div class="movies top-rated" *ngIf="!searchState">
       <div class="movies-type">Top Rated</div>
@@ -183,7 +175,7 @@
       <div class="movies-class top-rated">
         <div
           class="movie"
-          [routerLink]="['/movies', topRatedMoviesId[i]]"
+          [routerLink]="['/movies', topRatedMoviesId[i], 'details']"
           *ngFor="let movie of topRatedMovies; let i = index"
         >
           <div class="movie-img">

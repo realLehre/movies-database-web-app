@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
+import { MoviesService } from 'src/app/services/movies.service';
 import { MovieObject } from 'src/app/shared/movie.model';
 
 @Component({
@@ -17,6 +18,8 @@ import { MovieObject } from 'src/app/shared/movie.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class MovieDetailsComponent implements OnInit, AfterViewChecked {
+  error: boolean = false;
+
   movie: MovieObject;
   movieId: number;
   vote_average;
@@ -33,13 +36,16 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   genres;
   videoId: string;
 
+  isFetching: boolean = false;
+
   movieWidth: number;
   @ViewChild('videoContainer', { static: true })
   videoContainer: ElementRef<HTMLDivElement>;
 
   constructor(
     private route: ActivatedRoute,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private moviesService: MoviesService
   ) {}
 
   ngOnInit(): void {
@@ -47,20 +53,33 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       this.movieId = +param['id'];
     });
 
-    this.httpService.getMovieDetails(this.movieId).subscribe((movieData) => {
-      this.movie = movieData;
-      this.vote_average = movieData.vote_average;
-      this.poster_path = movieData.poster_path;
-      this.backdrop_path = movieData.backdrop_path;
-      this.original_title = movieData.original_title;
-      this.release_date = movieData.release_date;
-      this.casts = movieData.casts;
-      this.homepage = movieData.homepage;
-      this.overview = movieData.overview;
-      this.popularity = movieData.popularity;
-      this.runtime = movieData.runtime;
-      this.vote_count = movieData.vote_count;
-      this.genres = movieData.genres;
+    this.isFetching = true;
+    this.moviesService.isFetching.next(this.isFetching);
+    this.httpService.getMovieDetails(this.movieId).subscribe({
+      next: (movieData) => {
+        this.isFetching = false;
+        this.moviesService.isFetching.next(this.isFetching);
+        this.movie = movieData;
+        this.vote_average = movieData.vote_average;
+        this.poster_path = movieData.poster_path;
+        this.backdrop_path = movieData.backdrop_path;
+        this.original_title = movieData.original_title;
+        this.release_date = movieData.release_date;
+        this.casts = movieData.casts;
+        this.homepage = movieData.homepage;
+        this.overview = movieData.overview;
+        this.popularity = movieData.popularity;
+        this.runtime = movieData.runtime;
+        this.vote_count = movieData.vote_count;
+        this.genres = movieData.genres;
+      },
+      error: (error) => {
+        if (error) {
+          this.error = true;
+          this.isFetching = false;
+          this.moviesService.isFetching.next(this.isFetching);
+        }
+      },
     });
 
     this.httpService.getVideo(this.movieId).subscribe((movieKey) => {

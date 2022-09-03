@@ -1,9 +1,18 @@
 @import "config";
 
+.error-container {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+  background: red;
+  padding: 10px 15px;
+}
+
 .details-tab-container {
-  //   background: white;
-  //   width: 90%;
   margin-inline: auto;
+  &.blur {
+    filter: blur(10px);
+  }
 }
 
 .mat-tab-label-container {
@@ -212,12 +221,7 @@
 }
 
 .trailer-video {
-  //   width: 100vw;
   margin-inline: auto;
-
-  //   & youtube-player {
-  //     width: 100%;
-  //   }
 }
 
 @media (max-width: 420px) {

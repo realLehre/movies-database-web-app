@@ -26,14 +26,6 @@ export class FavoriteMoviesComponent implements OnInit {
     this.likedMoviesPoster = this.moviesService.getLiked().moviePosterPaths;
     this.likedMoviesRating = this.moviesService.getLiked().movieRatings;
     this.likedMoviesId = this.moviesService.getLiked().movieIds;
-
-    // this.httpService.getTopRated()
-    // .subscribe((movieData) => {
-    //   this.likedMovies = movieData.movies;
-    //   this.likedMoviesPoster = movieData.moviePosterPaths;
-    //   this.likedMoviesRating = movieData.movieRatings;
-    //   this.likedMoviesId = movieData.movieIds;
-    // });
   }
 
   ratingColor(rating: number): string {

@@ -1,8 +1,8 @@
 .progress {
   & mat-progress-bar {
-    position: absolute;
+    position: fixed;
     left: 0;
-    top: 78px;
+    top: 77px;
     z-index: 120;
   }
 }

@@ -21,6 +21,8 @@ export class MoviesService {
   likedMoviesObs = new Subject<MovieObject[]>();
   isAlreadyLiked: boolean = false;
 
+  isFetching = new Subject<boolean>();
+
   constructor() {}
 
   searchResult(state: boolean) {
@@ -32,15 +34,7 @@ export class MoviesService {
   }
 
   onLike(movie: MovieObject, id: number) {
-    this.likedMovies.filter((movie) => {
-      if (id == movie.id) {
-        this.isAlreadyLiked = true;
-      } else {
-        this.isAlreadyLiked = false;
-      }
-      return;
-    });
-    if (!this.isAlreadyLiked) {
+    if (!this.likedMovies.some((item) => item.id == id)) {
       this.likedMovies.push(movie);
       this.likedMoviesObs.next(this.likedMovies);
       this.likedMoviesObs.subscribe((data) => {

@@ -1,14 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Subject } from 'rxjs';
+import { catchError, map, Subject, throwError } from 'rxjs';
 
 import { environment as env } from 'src/environments/environment.prod';
-import {
-  Movie,
-  MovieObject,
-  RefinedResponse,
-  Response,
-} from '../shared/movie.model';
+import { MovieObject, RefinedResponse, Response } from '../shared/movie.model';
 import { MoviesService } from './movies.service';
 
 @Injectable({ providedIn: 'root' })
@@ -26,6 +21,9 @@ export class HttpService {
       .pipe(
         map((data) => {
           return this.transformMovieResponse(data.results);
+        }),
+        catchError((error) => {
+          return this.handleError(error);
         })
       );
   }
@@ -38,6 +36,9 @@ export class HttpService {
       .pipe(
         map((data) => {
           return this.transformMovieResponse(data.results);
+        }),
+        catchError((error) => {
+          return this.handleError(error);
         })
       );
   }
@@ -50,6 +51,9 @@ export class HttpService {
       .pipe(
         map((data) => {
           return this.transformMovieResponse(data.results);
+        }),
+        catchError((error) => {
+          return this.handleError(error);
         })
       );
   }
@@ -62,6 +66,9 @@ export class HttpService {
       .pipe(
         map((data) => {
           return this.transformMovieResponse(data.results);
+        }),
+        catchError((error) => {
+          return this.handleError(error);
         })
       );
   }
@@ -75,6 +82,9 @@ export class HttpService {
       .pipe(
         map((data) => {
           return this.transformMovieResponse(data.results);
+        }),
+        catchError((error) => {
+          return this.handleError(error);
         })
       );
   }
@@ -123,6 +133,9 @@ export class HttpService {
             vote_count: voteCount,
             genres: genres,
           };
+        }),
+        catchError((error) => {
+          return this.handleError(error);
         })
       );
   }
@@ -173,5 +186,11 @@ export class HttpService {
     };
 
     return refinedData;
+  }
+
+  handleError(error) {
+    return throwError(() => {
+      return new Error(error);
+    });
   }
 }

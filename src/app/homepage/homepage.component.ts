@@ -37,11 +37,6 @@ export class HomepageComponent implements OnInit {
 
     this.search = this.moviesService.searchState;
 
-    // this.httpService.isLoading.subscribe((state) => {
-    //   this.isLoading = state;
-    //   console.log(!this.isLoading);
-    // });
-
     this.moviesService.isLoading.next(false);
   }
 

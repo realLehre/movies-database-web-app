@@ -1,4 +1,9 @@
-<div class="details-tab-container">
+<div class="error-container" *ngIf="error">An error occured!</div>
+<div
+  class="details-tab-container"
+  [ngClass]="{ blur: isFetching }"
+  *ngIf="!error"
+>
   <div class="details-tab">
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Overview">

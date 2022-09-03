@@ -29,9 +29,21 @@
   background: grey;
 }
 
+.error-container {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+  background: red;
+  padding: 10px 15px;
+}
+
 .movies-container {
   position: relative;
-  // overflow: auto;
+
+  &.blur {
+    filter: blur(5px);
+  }
+
   &::after {
     position: absolute;
     content: "";
