@@ -6,12 +6,13 @@ import { MovieDetailsComponent } from './movies/movie-details/movie-details.comp
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoute: Routes = [
+  { path: 'movies/favorites', component: FavoriteMoviesComponent },
   {
     path: 'movies',
     component: HomepageComponent,
-    children: [],
+    children: [{ path: ':type', component: HomepageComponent }],
   },
-  { path: 'movies/favorites', component: FavoriteMoviesComponent },
+
   { path: 'movies/search/:movie-name', component: HomepageComponent },
 
   { path: 'movies/:id', component: MovieDetailsComponent },

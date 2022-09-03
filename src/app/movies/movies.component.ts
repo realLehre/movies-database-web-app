@@ -61,8 +61,13 @@ export class MoviesComponent implements OnInit {
   ngOnInit(): void {
     this.moviesService.sortValue.subscribe((value) => {
       this.sortValue = value;
-      console.log(value);
+      if (this.sortValue == 'all') {
+        this.router.navigate(['/movies']);
+      } else {
+        this.router.navigate(['/movies', this.sortValue]);
+      }
     });
+
     // Trending
     this.httpService.getTrending().subscribe((movieData) => {
       this.trendingMovies = movieData.movies;
