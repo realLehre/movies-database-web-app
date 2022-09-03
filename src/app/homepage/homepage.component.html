@@ -2,10 +2,11 @@
   <div class="sort">
     <mat-form-field>
       <mat-label>Sort</mat-label>
-      <mat-select>
-        <mat-option value="popularity">Popularity</mat-option>
-        <mat-option value="release-date">Release date</mat-option>
-        <mat-option value="votes">Votes</mat-option>
+      <mat-select [(ngModel)]="sort" (selectionChange)="onSort(sort)">
+        <mat-option value="all">All movies</mat-option>
+        <mat-option value="trending">Trending</mat-option>
+        <mat-option value="popular">Popular</mat-option>
+        <mat-option value="top rated">Top rated</mat-option>
       </mat-select>
     </mat-form-field>
 

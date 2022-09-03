@@ -4,9 +4,7 @@ import { MovieObject, RefinedResponse } from '../shared/movie.model';
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
-  trendingMovies: MovieObject[] = [];
-  popularMovies: MovieObject[] = [];
-  topRatedMovies: MovieObject[] = [];
+  sortValue = new Subject<string>();
 
   search = new Subject<boolean>();
   searchState: boolean;
@@ -22,7 +20,6 @@ export class MoviesService {
   likedMovies: MovieObject[] = [];
   likedMoviesObs = new Subject<MovieObject[]>();
   isAlreadyLiked: boolean = false;
-  // likedMoviesObs = new BehaviorSubject<MovieObject[]>(this.likedMovies);
 
   constructor() {}
 

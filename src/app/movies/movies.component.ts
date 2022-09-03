@@ -20,6 +20,8 @@ import { MovieObject } from '../shared/movie.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class MoviesComponent implements OnInit {
+  sortValue: string = 'all';
+
   trendingMovies: Array<MovieObject>;
   trendingMoviesRating: Array<number>;
   trendingMoviesPoster: string[];
@@ -57,6 +59,10 @@ export class MoviesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.moviesService.sortValue.subscribe((value) => {
+      this.sortValue = value;
+      console.log(value);
+    });
     // Trending
     this.httpService.getTrending().subscribe((movieData) => {
       this.trendingMovies = movieData.movies;
@@ -122,7 +128,6 @@ export class MoviesComponent implements OnInit {
       this.liked = JSON.parse(localStorage.getItem('likedState'));
       this.toggleLike;
     }
-    // this.moviesService.isLiked.next(this.liked);
   }
 
   toggleLike(e, movie: MovieObject, id: number) {

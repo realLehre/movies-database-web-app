@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  AfterContentChecked,
+  Component,
+  DoCheck,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpService } from '../services/http.service';
@@ -11,6 +19,8 @@ import { MoviesService } from '../services/movies.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class HomepageComponent implements OnInit {
+  sort: string;
+
   search: boolean;
 
   constructor(
@@ -33,5 +43,9 @@ export class HomepageComponent implements OnInit {
     // });
 
     this.moviesService.isLoading.next(false);
+  }
+
+  onSort(sort) {
+    this.moviesService.sortValue.next(sort);
   }
 }
