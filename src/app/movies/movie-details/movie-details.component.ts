@@ -98,7 +98,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     this.movieWidth = this.detailsContainer.nativeElement.offsetWidth;
 
     if (this.movieWidth >= 480) {
-      this.movieHeight = 550;
+      this.movieHeight = 600;
     }
     if (this.movieWidth <= 470) {
       this.movieHeight = 350;
