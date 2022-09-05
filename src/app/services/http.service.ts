@@ -97,7 +97,6 @@ export class HttpService {
       .pipe(
         map((movieData: MovieObject) => {
           const movie = { ...movieData };
-          console.log(movie);
 
           const rating: number = Math.floor(movieData.vote_average * 10);
           const moviePoster: string = `https://image.tmdb.org/t/p/original${movieData.poster_path}`;

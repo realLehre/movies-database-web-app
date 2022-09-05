@@ -39,13 +39,14 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   isFetching: boolean = false;
 
   movieWidth: number;
-  @ViewChild('videoContainer', { static: true })
-  videoContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('videoContainer', { static: false })
+  videoContainer: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     private httpService: HttpService,
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private elRef: ElementRef
   ) {}
 
   ngOnInit(): void {

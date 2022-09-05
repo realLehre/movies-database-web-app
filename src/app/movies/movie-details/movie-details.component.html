@@ -4,7 +4,7 @@
   [ngClass]="{ blur: isFetching }"
   *ngIf="!error"
 >
-  <div class="details-tab">
+  <div class="details-tab" #videoContainer>
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Overview">
         <div
@@ -87,9 +87,8 @@
         </div>
       </mat-tab>
       <mat-tab label="Watch Related Video">
-        <div class="trailer-video" #videoContainer>
+        <div class="trailer-video">
           <youtube-player
-            [ngStyle]="{ width: '100%' }"
             [videoId]="videoId"
             suggestedQuality="highres"
             [height]="700"
