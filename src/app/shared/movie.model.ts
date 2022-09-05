@@ -18,6 +18,7 @@ export interface RefinedResponse {
   moviePosterPaths: string[];
   movieIds: number[];
   movieRatings: number[];
+  movieNames?: string[];
 }
 
 export interface MovieObject {

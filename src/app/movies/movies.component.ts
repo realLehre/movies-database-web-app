@@ -27,21 +27,25 @@ export class MoviesComponent implements OnInit {
   trendingMoviesRating: Array<number>;
   trendingMoviesPoster: string[];
   trendingMoviesId: number[];
+  trendingMoviesNames: string[];
 
   popularMovies: Array<MovieObject>;
   popularMoviesRating: Array<number>;
   popularMoviesPoster: string[];
   popularMoviesId: number[];
+  popularMoviesNames: string[];
 
   popularMovies_2: Array<MovieObject>;
   popularMoviesRating_2: Array<number>;
   popularMoviesPoster_2: string[];
   popularMoviesId_2: number[];
+  popularMoviesNames_2: string[];
 
   topRatedMovies: Array<MovieObject>;
   topRatedMoviesRating: Array<number>;
   topRatedMoviesPoster: string[];
   topRatedMoviesId: number[];
+  topRatedMoviesNames: string[];
 
   searchState: boolean;
   searchName: string;
@@ -49,6 +53,7 @@ export class MoviesComponent implements OnInit {
   searchMoviesRating: Array<number>;
   searchMoviesPoster: string[];
   searchMoviesId: number[];
+  searchMoviesNames: string[];
 
   liked: boolean = false;
   @ViewChild('favorite') fav: ElementRef;
@@ -92,6 +97,7 @@ export class MoviesComponent implements OnInit {
         this.trendingMoviesPoster = movieData.moviePosterPaths;
         this.trendingMoviesRating = movieData.movieRatings;
         this.trendingMoviesId = movieData.movieIds;
+        this.trendingMoviesNames = movieData.movieNames;
       },
       error: (err) => {
         if (err) {
@@ -109,6 +115,7 @@ export class MoviesComponent implements OnInit {
         this.popularMoviesPoster = movieData.moviePosterPaths;
         this.popularMoviesRating = movieData.movieRatings;
         this.popularMoviesId = movieData.movieIds;
+        this.popularMoviesNames = movieData.movieNames;
       },
       error: (err) => {
         if (err) {
@@ -124,6 +131,7 @@ export class MoviesComponent implements OnInit {
         this.popularMoviesPoster_2 = movieData.moviePosterPaths;
         this.popularMoviesRating_2 = movieData.movieRatings;
         this.popularMoviesId_2 = movieData.movieIds;
+        this.popularMoviesNames_2 = movieData.movieNames;
       },
       error: (err) => {
         if (err) {
@@ -143,6 +151,7 @@ export class MoviesComponent implements OnInit {
         this.topRatedMoviesPoster = movieData.moviePosterPaths;
         this.topRatedMoviesRating = movieData.movieRatings;
         this.topRatedMoviesId = movieData.movieIds;
+        this.topRatedMoviesNames = movieData.movieNames;
       },
       error: (err) => {
         if (err) {
@@ -176,6 +185,7 @@ export class MoviesComponent implements OnInit {
         this.searchMoviesPoster = movies.moviePosterPaths;
         this.searchMoviesRating = movies.movieRatings;
         this.searchMoviesId = movies.movieIds;
+        this.searchMoviesNames = movies.movieNames;
 
         this.moviesService.searchName.subscribe((name) => {
           this.searchName = name;

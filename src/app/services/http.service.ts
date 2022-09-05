@@ -182,11 +182,17 @@ export class HttpService {
       ids.push(movies[key].id);
     }
 
+    const names = [];
+    for (const key in movies) {
+      names.push(movies[key].original_title.replace(/\s+/g, ''));
+    }
+
     refinedData = {
       movies: movies,
       moviePosterPaths: paths,
       movieRatings: ratings,
       movieIds: ids,
+      movieNames: names,
     };
 
     return refinedData;
