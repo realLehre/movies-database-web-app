@@ -146,13 +146,18 @@ export class HttpService {
       )
       .pipe(
         map((video) => {
-          const videoId = video.results[0];
+          const videoId = video.results;
 
-          for (const key in videoId) {
-            if (key == 'key') {
-              return videoId[key];
+          const videoKeys: string[] = [];
+          videoId.forEach((videoObj) => {
+            for (const key in videoObj) {
+              if (key == 'key') {
+                videoKeys.push(videoObj[key]);
+              }
             }
-          }
+          });
+
+          return videoKeys;
         })
       );
   }

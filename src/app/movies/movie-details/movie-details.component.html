@@ -4,7 +4,7 @@
   [ngClass]="{ blur: isFetching }"
   *ngIf="!error"
 >
-  <div class="details-tab" #videoContainer>
+  <div class="details-tab" #detailsContainer>
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Overview">
         <div
@@ -87,16 +87,23 @@
         </div>
       </mat-tab>
       <mat-tab label="Watch Related Video">
-        <div class="trailer-video">
-          <youtube-player
-            [videoId]="videoId"
-            suggestedQuality="highres"
-            [height]="700"
-            [width]="movieWidth"
-            [startSeconds]="0"
-            [endSeconds]="600"
-          >
-          </youtube-player>
+        <div
+          class="video-container"
+          *ngFor="let videoKey of videoId; let i = index"
+          #videoContainer
+        >
+          <div class="trailer-video">
+            <div class="video-index">{{ i + 1 }}</div>
+            <youtube-player
+              [videoId]="videoKey"
+              suggestedQuality="highres"
+              [height]="700"
+              [width]="movieWidth"
+              [startSeconds]="0"
+              [endSeconds]="600"
+            >
+            </youtube-player>
+          </div>
         </div>
       </mat-tab>
       <!-- <mat-tab label="Third">Content 3</mat-tab> -->

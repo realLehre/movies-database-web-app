@@ -219,9 +219,25 @@
     }
   }
 }
+.video-container {
+  width: 100%;
 
+  &.blurVid {
+    filter: blur(10px);
+  }
+}
 .trailer-video {
   margin-inline: auto;
+
+  & .video-index {
+    padding-left: 10px;
+    font-size: 30px;
+    font-weight: 700;
+    color: $main-color;
+    margin-bottom: 10px;
+  }
+
+  margin-bottom: 30px;
 }
 
 @media (max-width: 420px) {

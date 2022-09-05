@@ -34,11 +34,15 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   runtime;
   vote_count;
   genres;
-  videoId: string;
+  videoId: string[];
 
   isFetching: boolean = false;
+  isFetchingVid: boolean = false;
 
   movieWidth: number;
+  @ViewChild('detailsContainer', { static: false })
+  detailsContainer: ElementRef;
+
   @ViewChild('videoContainer', { static: false })
   videoContainer: ElementRef;
 
@@ -60,6 +64,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       next: (movieData) => {
         this.isFetching = false;
         this.moviesService.isFetching.next(this.isFetching);
+
         this.movie = movieData;
         this.vote_average = movieData.vote_average;
         this.poster_path = movieData.poster_path;
@@ -89,7 +94,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.movieWidth = this.videoContainer.nativeElement.offsetWidth;
+    this.movieWidth = this.detailsContainer.nativeElement.offsetWidth;
   }
 
   ratingColor(rating: number): string {
