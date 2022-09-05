@@ -40,6 +40,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   isFetchingVid: boolean = false;
 
   movieWidth: number;
+  movieHeight: number;
   @ViewChild('detailsContainer', { static: false })
   detailsContainer: ElementRef;
 
@@ -95,6 +96,13 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.movieWidth = this.detailsContainer.nativeElement.offsetWidth;
+
+    if (this.movieWidth >= 480) {
+      this.movieHeight = 550;
+    }
+    if (this.movieWidth <= 470) {
+      this.movieHeight = 350;
+    }
   }
 
   ratingColor(rating: number): string {
