@@ -170,6 +170,7 @@ export class MoviesComponent implements OnInit {
       this.searchMoviesPoster = movies.moviePosterPaths;
       this.searchMoviesRating = movies.movieRatings;
       this.searchMoviesId = movies.movieIds;
+      this.searchMoviesNames = movies.movieNames;
     }
 
     if (localStorage.getItem('searchName')) {
