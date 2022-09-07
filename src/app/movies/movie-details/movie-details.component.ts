@@ -111,13 +111,6 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.recommendedMoviesNames = movieData.movieNames;
         this.recommendedMoviesLength = this.recommendedMovies.length;
       },
-      error: (err) => {
-        if (err) {
-          this.error = true;
-          this.isFetching = false;
-          this.moviesService.isFetching.next(this.isFetching);
-        }
-      },
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;

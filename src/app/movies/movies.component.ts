@@ -17,7 +17,6 @@ import { MovieObject } from '../shared/movie.model';
   selector: 'app-movies',
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class MoviesComponent implements OnInit {
   sortValue: string = 'all';
@@ -73,20 +72,6 @@ export class MoviesComponent implements OnInit {
     this.moviesService.sortValue.subscribe({
       next: (value) => {
         this.sortValue = value;
-        if (this.sortValue == 'all') {
-          this.router.navigate(['/movies']);
-        } else {
-          this.router.navigate(['/movies'], {
-            queryParams: { sort: this.sortValue },
-          });
-        }
-      },
-      error: (err) => {
-        if (err) {
-          this.error = true;
-          this.isFetching = false;
-          this.moviesService.isFetching.next(this.isFetching);
-        }
       },
     });
 
