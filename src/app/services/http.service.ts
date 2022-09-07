@@ -133,6 +133,8 @@ export class HttpService {
           let runtime: any = movieData.runtime;
           if (runtime > 60) {
             runtime = this.formatTime(runtime);
+          } else {
+            runtime = runtime + 'm';
           }
           const voteCount: number = movieData.vote_count;
 
