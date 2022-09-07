@@ -73,6 +73,22 @@ export class HttpService {
       );
   }
 
+  getSimilar(id) {
+    return this.http
+      .get<Response>(
+        `
+      https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${env.API_Key}&language=en-US&page=1`
+      )
+      .pipe(
+        map((data) => {
+          return this.transformMovieResponse(data.results);
+        }),
+        catchError((error) => {
+          return this.handleError(error);
+        })
+      );
+  }
+
   searchMovies(movie: string) {
     return this.http
       .get<Response>(
@@ -105,7 +121,7 @@ export class HttpService {
           const movieTitle: string = movieData.title;
           const movieRelease_date: string = movieData.release_date;
           const casts: Array<Object> = movieData.credits.cast;
-          const genres = [];
+          const genres: Array<Object> = [];
           for (const key in movieData.genres) {
             genres.push(movieData.genres[key].name);
           }
@@ -114,7 +130,10 @@ export class HttpService {
           const overview: string = movieData.overview;
           const popularity: number = movieData.popularity;
 
-          const runtime: number = movieData.runtime;
+          let runtime: any = movieData.runtime;
+          if (runtime > 60) {
+            runtime = this.formatTime(runtime);
+          }
           const voteCount: number = movieData.vote_count;
 
           return {
@@ -202,5 +221,14 @@ export class HttpService {
     return throwError(() => {
       return new Error(error);
     });
+  }
+
+  formatTime(time) {
+    var num = time;
+    var hours = num / 60;
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + 'hr ' + rminutes + 'm';
   }
 }

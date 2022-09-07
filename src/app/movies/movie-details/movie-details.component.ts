@@ -1,12 +1,14 @@
 import {
+  AfterContentChecked,
   AfterViewChecked,
   Component,
+  DoCheck,
   ElementRef,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { MoviesService } from 'src/app/services/movies.service';
 import { MovieObject } from 'src/app/shared/movie.model';
@@ -22,18 +24,18 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
 
   movie: MovieObject;
   movieId: number;
-  vote_average;
-  poster_path;
-  backdrop_path;
-  original_title;
-  release_date;
+  vote_average: number;
+  poster_path: string;
+  backdrop_path: string;
+  original_title: string;
+  release_date: string;
   casts;
-  homepage;
-  overview;
-  popularity;
-  runtime;
-  vote_count;
-  genres;
+  homepage: string;
+  overview: string;
+  popularity: number;
+  runtime: any;
+  vote_count: number;
+  genres: Array<Object>;
   videoId: string[];
 
   isFetching: boolean = false;
@@ -47,11 +49,18 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   @ViewChild('videoContainer', { static: false })
   videoContainer: ElementRef;
 
+  recommendedMovies: Array<MovieObject>;
+  recommendedMoviesRating: Array<number>;
+  recommendedMoviesPoster: string[];
+  recommendedMoviesId: number[];
+  recommendedMoviesNames: string[];
+  recommendedMoviesLength;
+
   constructor(
     private route: ActivatedRoute,
     private httpService: HttpService,
     private moviesService: MoviesService,
-    private elRef: ElementRef
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +101,26 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     this.httpService.getVideo(this.movieId).subscribe((movieKey) => {
       this.videoId = movieKey;
     });
+
+    this.httpService.getSimilar(this.movieId).subscribe({
+      next: (movieData) => {
+        this.recommendedMovies = movieData.movies;
+        this.recommendedMoviesPoster = movieData.moviePosterPaths;
+        this.recommendedMoviesRating = movieData.movieRatings;
+        this.recommendedMoviesId = movieData.movieIds;
+        this.recommendedMoviesNames = movieData.movieNames;
+        this.recommendedMoviesLength = this.recommendedMovies.length;
+      },
+      error: (err) => {
+        if (err) {
+          this.error = true;
+          this.isFetching = false;
+          this.moviesService.isFetching.next(this.isFetching);
+        }
+      },
+    });
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngAfterViewChecked(): void {
@@ -103,6 +132,14 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     if (this.movieWidth <= 470) {
       this.movieHeight = 350;
     }
+  }
+
+  loadDetails(index: number) {
+    this.router.navigate([
+      '/movies',
+      this.recommendedMoviesId[index],
+      this.recommendedMoviesNames[index],
+    ]);
   }
 
   ratingColor(rating: number): string {
