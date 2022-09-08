@@ -51,6 +51,29 @@
 
       <div class="movies-class trending">
         <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
+          <div class="fav-container" #like>
+            <i
+              class="fa fa-star"
+              id="favorite"
+              (click)="
+                addToLiked($event, i, trendingMovies[i].id, trendingMovies[i])
+              "
+            ></i>
+            <i
+              class="fa fa-star liked"
+              id="favorite"
+              *ngIf="likedMovies[i]"
+              (click)="
+                removeFromLiked(
+                  $event,
+                  i,
+                  trendingMovies[i].id,
+                  trendingMovies[i]
+                )
+              "
+            ></i>
+          </div>
+
           <div
             class="movie-img"
             [routerLink]="[

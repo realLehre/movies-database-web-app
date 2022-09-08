@@ -15,8 +15,8 @@ export class MoviesService {
 
   favorite: MovieObject[] = [];
 
-  // isLiked = new Subject<boolean>();
-  isLiked = new BehaviorSubject<boolean>(true);
+  isLiked = new Subject<boolean>();
+  // isLiked = new BehaviorSubject<boolean>(true);
   likedMovies: MovieObject[] = [];
   likedMoviesObs = new Subject<MovieObject[]>();
   isAlreadyLiked: boolean = false;
@@ -34,6 +34,9 @@ export class MoviesService {
   }
 
   onLike(movie: MovieObject, id: number) {
+    this.isLiked.subscribe((state) => {
+      console.log(state);
+    });
     if (!this.likedMovies.some((item) => item.id == id)) {
       this.likedMovies.push(movie);
       this.likedMoviesObs.next(this.likedMovies);
@@ -59,10 +62,6 @@ export class MoviesService {
 
   getLiked() {
     const likedMoviesS = JSON.parse(localStorage.getItem('liked'));
-    //  this.likedMoviesObs.subscribe((data) => {
-    //    console.log(data);
-    //    localStorage.setItem('liked', JSON.stringify(data));
-    //  });
 
     let refinedData: RefinedResponse;
 
@@ -89,8 +88,6 @@ export class MoviesService {
       movieRatings: ratings,
       movieIds: ids,
     };
-
-    // localStorage.setItem('liked', JSON.stringify(refinedData));
 
     return refinedData;
   }

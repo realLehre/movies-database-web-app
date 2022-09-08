@@ -8,10 +8,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { HttpService } from '../services/http.service';
 
 import { MoviesService } from '../services/movies.service';
-import { MovieObject } from '../shared/movie.model';
+import { MovieObject, RefinedResponse } from '../shared/movie.model';
 
 @Component({
   selector: 'app-movies',
@@ -55,9 +56,10 @@ export class MoviesComponent implements OnInit {
   searchMoviesNames: string[];
 
   liked: boolean = false;
-  @ViewChild('favorite') fav: ElementRef;
 
   isFetching: boolean = false;
+
+  @ViewChild('like', { static: false }) likedEl: ElementRef<HTMLDivElement>;
 
   constructor(
     private moviesService: MoviesService,
@@ -183,19 +185,52 @@ export class MoviesComponent implements OnInit {
     this.searchState = this.moviesService.searchState;
   }
 
-  toggleLike(e, movie: MovieObject, id: number) {
+  likedMovies: MovieObject[] = [];
+  foundMovie: boolean;
+
+  addToLiked(e, index, id, movie) {
+    this.liked = !this.liked;
+    // e.target.classList.add('liked');
+    if (this.likedMovies.some((item) => item.id == id)) {
+      return;
+    }
+    this.likedMovies.push(movie);
+
+    console.log(this.likedMovies);
+  }
+
+  removeFromLiked(e, index, id, movie) {
+    // if (this.likedMovies.some((item) => item.id == id)) {
+    //   this.likedMovies.splice(index, 1);
+    // }
+    this.likedMovies.splice(index, 1);
+
+    console.log(this.likedMovies);
+  }
+
+  isPresent(id) {
+    if (this.likedMovies.some((movie) => movie.id == id)) {
+      this.foundMovie = true;
+    }
+
+    return this.foundMovie;
+  }
+
+  toggleLike(e, movie: MovieObject, id: number, index) {
     this.liked = !this.liked;
 
-    localStorage.setItem('likedState', JSON.stringify(this.liked));
+    this.moviesService.isLiked.next(this.liked);
+    console.log(this.liked);
 
-    if (this.liked) {
-      e.target.classList.add('liked');
+    // localStorage.setItem('likedState', JSON.stringify(this.liked));
 
-      this.moviesService.onLike(movie, id);
-    } else {
-      e.target.classList.remove('liked');
-      this.moviesService.onDisLike(id);
-    }
+    // if (this.liked == true) {
+    //   this.moviesService.onLike(movie, id);
+    //   e.target.classList.add('liked');
+    // } else {
+    //   e.target.classList.remove('liked');
+    //   this.moviesService.onDisLike(id);
+    // }
   }
 
   ratingColor(rating: number): string {
