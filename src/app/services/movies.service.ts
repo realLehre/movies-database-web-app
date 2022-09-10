@@ -23,7 +23,9 @@ export class MoviesService {
 
   isFetching = new Subject<boolean>();
 
-  constructor() {}
+  constructor() {
+    this.likedMovies = JSON.parse(localStorage.getItem('liked'));
+  }
 
   searchResult(state: boolean) {
     this.searchState = state;
@@ -39,6 +41,8 @@ export class MoviesService {
     }
     this.likedMovies.push(movie);
 
+    localStorage.setItem('liked', JSON.stringify(this.likedMovies));
+
     this.likedMoviesObs.next(this.likedMovies);
     this.likedMoviesObs.subscribe((data) => {
       localStorage.setItem('liked', JSON.stringify(data));
@@ -52,6 +56,9 @@ export class MoviesService {
         this.likedMovies.splice(index, 1);
       }
     });
+    console.log('main liked', this.likedMovies);
+
+    localStorage.setItem('liked', JSON.stringify(this.likedMovies));
 
     this.likedMoviesObs.next(this.likedMovies);
     this.likedMoviesObs.subscribe((data) => {

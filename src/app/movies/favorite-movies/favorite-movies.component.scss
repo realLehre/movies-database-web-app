@@ -192,3 +192,60 @@
     left: 0;
   }
 }
+
+@media (max-width: 480px) {
+  .movies-container {
+    &::after {
+      width: 20px;
+      filter: blur(30px);
+    }
+  }
+
+  .movies {
+    margin-bottom: 50px;
+  }
+
+  .movie {
+    width: 170px;
+
+    &:hover {
+      & .movie-img {
+        &::after {
+          height: 245px;
+        }
+      }
+    }
+
+    &-img {
+      height: 245px;
+
+      & img {
+        width: 170px;
+        height: 245px;
+      }
+    }
+
+    &-info {
+      & .movie-title-date {
+        & .movie-name {
+          font-size: 15px;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+          line-height: 1.1;
+        }
+
+        & .movie-date {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  .movies-search {
+    position: relative;
+
+    & .movie-rating {
+      left: 0;
+    }
+  }
+}

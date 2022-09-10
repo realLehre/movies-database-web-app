@@ -209,13 +209,13 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     });
 
     this.searchState = this.moviesService.searchState;
-    this.likedState = JSON.parse(localStorage.getItem('likedState'));
   }
 
   ngAfterViewInit(): void {}
 
   addToLiked(e, id, movie) {
     movie['liked'] = !movie['liked'];
+    console.log(movie['liked']);
 
     if (movie['liked'] == true) {
       this.moviesService.onLike(movie, id);
