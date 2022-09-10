@@ -129,6 +129,7 @@ export class HttpService {
           const id: number = movieData.id;
           const overview: string = movieData.overview;
           const popularity: number = movieData.popularity;
+          const liked: boolean = false;
 
           let runtime: any = movieData.runtime;
           if (runtime > 60) {
@@ -152,6 +153,7 @@ export class HttpService {
             runtime: runtime,
             vote_count: voteCount,
             genres: genres,
+            liked: liked,
           };
         }),
         catchError((error) => {
@@ -207,6 +209,10 @@ export class HttpService {
     for (const key in movies) {
       names.push(movies[key].original_title.replace(/\s+/g, ''));
     }
+
+    movies = movies.map((movie) => {
+      return { ...movie, liked: false };
+    });
 
     refinedData = {
       movies: movies,

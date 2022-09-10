@@ -51,6 +51,7 @@ export interface MovieObject {
   status?: string;
   tagline?: string;
   casts?: Array<Object>;
+  liked?: boolean;
 }
 
 // belongs_to_collection?: any

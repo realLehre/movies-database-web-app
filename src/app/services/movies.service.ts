@@ -34,17 +34,16 @@ export class MoviesService {
   }
 
   onLike(movie: MovieObject, id: number) {
-    this.isLiked.subscribe((state) => {
-      console.log(state);
-    });
-    if (!this.likedMovies.some((item) => item.id == id)) {
-      this.likedMovies.push(movie);
-      this.likedMoviesObs.next(this.likedMovies);
-      this.likedMoviesObs.subscribe((data) => {
-        localStorage.setItem('liked', JSON.stringify(data));
-        console.log(data);
-      });
+    if (this.likedMovies.some((item) => item.id == id)) {
+      return;
     }
+    this.likedMovies.push(movie);
+
+    this.likedMoviesObs.next(this.likedMovies);
+    this.likedMoviesObs.subscribe((data) => {
+      localStorage.setItem('liked', JSON.stringify(data));
+      console.log(data);
+    });
   }
 
   onDisLike(id: number) {
@@ -53,6 +52,7 @@ export class MoviesService {
         this.likedMovies.splice(index, 1);
       }
     });
+
     this.likedMoviesObs.next(this.likedMovies);
     this.likedMoviesObs.subscribe((data) => {
       localStorage.setItem('liked', JSON.stringify(data));
@@ -60,8 +60,13 @@ export class MoviesService {
     });
   }
 
+  getLikedMovies() {
+    return JSON.parse(localStorage.getItem('liked'));
+  }
+
   getLiked() {
     const likedMoviesS = JSON.parse(localStorage.getItem('liked'));
+    // const likedMoviesS = this.likedMovies;
 
     let refinedData: RefinedResponse;
 

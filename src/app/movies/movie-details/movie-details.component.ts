@@ -76,6 +76,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.moviesService.isFetching.next(this.isFetching);
 
         this.movie = movieData;
+
         this.vote_average = movieData.vote_average;
         this.poster_path = movieData.poster_path;
         this.backdrop_path = movieData.backdrop_path;
