@@ -160,6 +160,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.topRatedMoviesRating = movieData.movieRatings;
         this.topRatedMoviesId = movieData.movieIds;
         this.topRatedMoviesNames = movieData.movieNames;
+
         this.topRatedMovies.forEach((movie) => {
           if (likedMoviesTest.some((item) => item.id == movie.id)) {
             movie['liked'] = true;
@@ -184,6 +185,12 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       this.searchMoviesRating = movies.movieRatings;
       this.searchMoviesId = movies.movieIds;
       this.searchMoviesNames = movies.movieNames;
+
+      this.searchMovies.forEach((movie) => {
+        if (likedMoviesTest.some((item) => item.id == movie.id)) {
+          movie['liked'] = true;
+        }
+      });
     }
 
     if (localStorage.getItem('searchName')) {

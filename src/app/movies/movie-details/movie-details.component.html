@@ -128,9 +128,29 @@
           <div
             class="movie"
             *ngFor="let movie of recommendedMovies; let i = index"
-            (click)="loadDetails(i)"
           >
-            <div class="movie-img">
+            <div class="fav-container" #like>
+              <i
+                class="fa fa-star"
+                id="favorite"
+                [ngClass]="{ liked: recommendedMovies[i].liked }"
+                (click)="
+                  addToLiked(
+                    $event,
+                    recommendedMovies[i].id,
+                    recommendedMovies[i]
+                  )
+                "
+              ></i>
+            </div>
+            <div
+              class="movie-img"
+              [routerLink]="[
+                '/movies',
+                recommendedMoviesId[i],
+                recommendedMoviesNames[i]
+              ]"
+            >
               <div class="movie-rating">
                 <circle-progress
                   backgroundColor="black"

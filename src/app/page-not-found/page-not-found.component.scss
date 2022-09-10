@@ -12,6 +12,7 @@
   font-weight: 700;
   text-transform: uppercase;
   color: $main-color;
+  line-height: 1.2;
 }
 
 .error-message {
@@ -34,5 +35,9 @@
 
   &:hover {
     background: $main-color-hover;
+  }
+
+  & i {
+    font-size: 20px;
   }
 }

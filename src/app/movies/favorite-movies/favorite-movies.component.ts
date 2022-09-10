@@ -15,6 +15,7 @@ export class FavoriteMoviesComponent implements OnInit {
   likedMoviesRating: Array<number>;
   likedMoviesPoster: string[];
   likedMoviesId: number[];
+  likedMoviesName: string[];
 
   constructor(
     private moviesService: MoviesService,
@@ -26,6 +27,27 @@ export class FavoriteMoviesComponent implements OnInit {
     this.likedMoviesPoster = this.moviesService.getLiked().moviePosterPaths;
     this.likedMoviesRating = this.moviesService.getLiked().movieRatings;
     this.likedMoviesId = this.moviesService.getLiked().movieIds;
+    this.likedMoviesName = this.moviesService.getLiked().movieNames;
+
+    const likedMoviesTest = this.moviesService.getLikedMovies();
+
+    this.likedMovies.forEach((movie) => {
+      if (likedMoviesTest.some((item) => item.id == movie.id)) {
+        movie['liked'] = true;
+      }
+    });
+  }
+
+  addToLiked(e, id, movie) {
+    movie['liked'] = !movie['liked'];
+    console.log(movie['liked']);
+
+    if (movie['liked'] == true) {
+      this.moviesService.onLike(movie, id);
+    } else {
+      this.moviesService.onDisLike(id);
+      window.location.reload();
+    }
   }
 
   ratingColor(rating: number): string {

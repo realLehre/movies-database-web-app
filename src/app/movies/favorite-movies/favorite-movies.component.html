@@ -1,14 +1,29 @@
-<div class="movies-container">
+<div class="fav-message" *ngIf="likedMovies.length < 1">
+  <i class="fa fa-exclamation-circle" id="bang" aria-hidden="true"></i> No
+  movies added to your favorite list. Visit
+  <span id="homepage" [routerLink]="['/movies']">
+    <i class="fa fa-home"></i>Homepage </span
+  >or Search Movies
+</div>
+
+<div class="movies-container" *ngIf="likedMovies.length > 0">
   <div class="movies movies-search">
     <div class="movies-type">Your favorite movies</div>
 
     <div class="movies-class trending">
-      <div
-        class="movie"
-        [routerLink]="['/movies', likedMoviesId[i]]"
-        *ngFor="let movie of likedMovies; let i = index"
-      >
-        <div class="movie-img">
+      <div class="movie" *ngFor="let movie of likedMovies; let i = index">
+        <div class="fav-container" #like>
+          <i
+            class="fa fa-star"
+            id="favorite"
+            [ngClass]="{ liked: likedMovies[i].liked }"
+            (click)="addToLiked($event, likedMovies[i].id, likedMovies[i])"
+          ></i>
+        </div>
+        <div
+          class="movie-img"
+          [routerLink]="['/movies', likedMoviesId[i], likedMoviesName[i]]"
+        >
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"

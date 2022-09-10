@@ -6,12 +6,19 @@
     </div>
 
     <div class="movies-class trending">
-      <div
-        class="movie"
-        [routerLink]="['/movies', searchMoviesId[i], searchMoviesNames[i]]"
-        *ngFor="let movie of searchMovies; let i = index"
-      >
-        <div class="movie-img">
+      <div class="movie" *ngFor="let movie of searchMovies; let i = index">
+        <div class="fav-container" #like>
+          <i
+            class="fa fa-star"
+            id="favorite"
+            [ngClass]="{ liked: searchMovies[i].liked }"
+            (click)="addToLiked($event, searchMovies[i].id, searchMovies[i])"
+          ></i>
+        </div>
+        <div
+          class="movie-img"
+          [routerLink]="['/movies', searchMoviesId[i], searchMoviesNames[i]]"
+        >
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"

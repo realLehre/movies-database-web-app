@@ -29,6 +29,35 @@
   background: grey;
 }
 
+.fav-message {
+  //   display: flex;
+  //   align-items: center;
+  //   flex-wrap: wrap;
+  width: 90%;
+  max-width: 1400px;
+  margin-inline: auto;
+  font-size: 18px;
+
+  & #bang {
+    font-size: 40px;
+    font-weight: 700;
+    color: $main-color;
+    margin-right: 8px;
+  }
+
+  & #homepage {
+    font-size: 20px;
+    color: $main-color;
+    cursor: pointer;
+    @include transition;
+    margin: 0 5px;
+
+    &:hover {
+      color: $main-color-hover;
+    }
+  }
+}
+
 .movies-container {
   position: relative;
   overflow: auto;
@@ -127,6 +156,10 @@
     cursor: pointer;
     z-index: 12;
     font-size: 18px;
+
+    &.liked {
+      color: $main-color;
+    }
   }
 
   &-img {

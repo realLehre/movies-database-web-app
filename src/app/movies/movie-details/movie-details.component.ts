@@ -70,6 +70,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
 
     this.isFetching = true;
     this.moviesService.isFetching.next(this.isFetching);
+
     this.httpService.getMovieDetails(this.movieId).subscribe({
       next: (movieData) => {
         this.isFetching = false;
@@ -103,6 +104,8 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       this.videoId = movieKey;
     });
 
+    const likedMoviesTest = this.moviesService.getLikedMovies();
+
     this.httpService.getSimilar(this.movieId).subscribe({
       next: (movieData) => {
         this.recommendedMovies = movieData.movies;
@@ -111,6 +114,12 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.recommendedMoviesId = movieData.movieIds;
         this.recommendedMoviesNames = movieData.movieNames;
         this.recommendedMoviesLength = this.recommendedMovies.length;
+
+        this.recommendedMovies.forEach((movie) => {
+          if (likedMoviesTest.some((item) => item.id == movie.id)) {
+            movie['liked'] = true;
+          }
+        });
       },
     });
 
@@ -128,12 +137,15 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  loadDetails(index: number) {
-    this.router.navigate([
-      '/movies',
-      this.recommendedMoviesId[index],
-      this.recommendedMoviesNames[index],
-    ]);
+  addToLiked(e, id, movie) {
+    movie['liked'] = !movie['liked'];
+    console.log(movie['liked']);
+
+    if (movie['liked'] == true) {
+      this.moviesService.onLike(movie, id);
+    } else {
+      this.moviesService.onDisLike(id);
+    }
   }
 
   ratingColor(rating: number): string {

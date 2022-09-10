@@ -94,11 +94,17 @@ export class MoviesService {
       ids.push(likedMoviesS[key].id);
     }
 
+    const names = [];
+    for (const key in likedMoviesS) {
+      names.push(likedMoviesS[key].original_title.replace(/\s+/g, ''));
+    }
+
     refinedData = {
       movies: likedMoviesS,
       moviePosterPaths: paths,
       movieRatings: ratings,
       movieIds: ids,
+      movieNames: names,
     };
 
     return refinedData;
