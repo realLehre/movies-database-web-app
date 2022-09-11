@@ -1,8 +1,4 @@
 @import "config";
-@import "~swiper/scss";
-@import "~swiper/scss/free-mode";
-@import "~swiper/scss/pagination";
-
 ::-webkit-scrollbar {
   position: relative;
   height: 8px;
@@ -30,9 +26,6 @@
 }
 
 .fav-message {
-  //   display: flex;
-  //   align-items: center;
-  //   flex-wrap: wrap;
   width: 90%;
   max-width: 1400px;
   margin-inline: auto;
@@ -60,7 +53,6 @@
 
 .movies-container {
   position: relative;
-  overflow: auto;
   width: 90%;
   max-width: 1400px;
 
@@ -79,7 +71,6 @@
 }
 
 .movies {
-  overflow: auto;
   margin-bottom: 100px;
 
   &.top-rated {
@@ -114,6 +105,7 @@
 .movies-class {
   display: flex;
   padding-bottom: 5px;
+  overflow: auto;
 }
 
 .movie {

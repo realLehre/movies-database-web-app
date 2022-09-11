@@ -38,9 +38,7 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.likedMovies = JSON.parse(localStorage.getItem('liked'));
-  }
+  ngAfterViewInit(): void {}
 
   removeFromLiked(index, id, movie) {
     movie['liked'] = !movie['liked'];
