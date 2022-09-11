@@ -114,6 +114,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.popularMoviesRating = movieData.movieRatings;
         this.popularMoviesId = movieData.movieIds;
         this.popularMoviesNames = movieData.movieNames;
+
         this.popularMovies.forEach((movie) => {
           if (likedMoviesTest.some((item) => item.id == movie.id)) {
             movie['liked'] = true;
@@ -135,6 +136,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.popularMoviesRating_2 = movieData.movieRatings;
         this.popularMoviesId_2 = movieData.movieIds;
         this.popularMoviesNames_2 = movieData.movieNames;
+
         this.popularMovies_2.forEach((movie) => {
           if (likedMoviesTest.some((item) => item.id == movie.id)) {
             movie['liked'] = true;
@@ -222,7 +224,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
 
   addToLiked(e, id, movie) {
     movie['liked'] = !movie['liked'];
-    console.log(movie['liked']);
 
     if (movie['liked'] == true) {
       this.moviesService.onLike(movie, id);

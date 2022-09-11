@@ -8,16 +8,22 @@
 
 <div class="movies-container" *ngIf="likedMovies.length > 0">
   <div class="movies movies-search">
-    <div class="movies-type">Your favorite movies</div>
+    <div class="movies-type">
+      Your favorite movies
+      <span class="clear-fav" (click)="clearLikedMovies()">
+        <button>Remove all movies</button>
+      </span>
+    </div>
 
     <div class="movies-class trending">
       <div class="movie" *ngFor="let movie of likedMovies; let i = index">
+        <div class="fav-overlay"></div>
         <div class="fav-container" #like>
           <i
             class="fa fa-star"
             id="favorite"
             [ngClass]="{ liked: likedMovies[i].liked }"
-            (click)="addToLiked($event, likedMovies[i].id, likedMovies[i])"
+            (click)="removeFromLiked(i, likedMovies[i].id, likedMovies[i])"
           ></i>
         </div>
         <div

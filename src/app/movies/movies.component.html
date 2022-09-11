@@ -7,6 +7,7 @@
 
     <div class="movies-class trending">
       <div class="movie" *ngFor="let movie of searchMovies; let i = index">
+        <div class="fav-overlay"></div>
         <div class="fav-container" #like>
           <i
             class="fa fa-star"
@@ -58,6 +59,7 @@
 
       <div class="movies-class trending">
         <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
+          <div class="fav-overlay"></div>
           <div class="fav-container" #like>
             <i
               class="fa fa-star"
@@ -117,6 +119,7 @@
 
       <div class="movies-class popular">
         <div class="movie" *ngFor="let movie of popularMovies; let i = index">
+          <div class="fav-overlay"></div>
           <div class="fav-container" #like>
             <i
               class="fa fa-star"
@@ -167,6 +170,7 @@
           class="movie popular_2"
           *ngFor="let movie of popularMovies_2; let i = index"
         >
+          <div class="fav-overlay"></div>
           <div class="fav-container" #like>
             <i
               class="fa fa-star"
@@ -225,6 +229,7 @@
 
       <div class="movies-class top-rated">
         <div class="movie" *ngFor="let movie of topRatedMovies; let i = index">
+          <div class="fav-overlay"></div>
           <div class="fav-container" #like>
             <i
               class="fa fa-star"

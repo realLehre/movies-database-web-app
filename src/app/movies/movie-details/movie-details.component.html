@@ -129,6 +129,7 @@
             class="movie"
             *ngFor="let movie of recommendedMovies; let i = index"
           >
+            <div class="fav-overlay"></div>
             <div class="fav-container" #like>
               <i
                 class="fa fa-star"

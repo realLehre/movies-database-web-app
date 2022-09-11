@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 import { MoviesService } from 'src/app/services/movies.service';
 import { MovieObject } from 'src/app/shared/movie.model';
@@ -8,7 +8,7 @@ import { MovieObject } from 'src/app/shared/movie.model';
   templateUrl: './favorite-movies.component.html',
   styleUrls: ['./favorite-movies.component.scss'],
 })
-export class FavoriteMoviesComponent implements OnInit {
+export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
   likedState: boolean;
   likedName: string;
   likedMovies: Array<MovieObject>;
@@ -38,16 +38,19 @@ export class FavoriteMoviesComponent implements OnInit {
     });
   }
 
-  addToLiked(e, id, movie) {
-    movie['liked'] = !movie['liked'];
-    console.log(movie['liked']);
+  ngAfterViewInit(): void {
+    this.likedMovies = JSON.parse(localStorage.getItem('liked'));
+  }
 
-    if (movie['liked'] == true) {
-      this.moviesService.onLike(movie, id);
-    } else {
-      this.moviesService.onDisLike(id);
-      window.location.reload();
-    }
+  removeFromLiked(index, id, movie) {
+    movie['liked'] = !movie['liked'];
+    this.moviesService.onDisLike(id);
+    window.location.reload();
+  }
+
+  clearLikedMovies() {
+    localStorage.setItem('liked', JSON.stringify([]));
+    window.location.reload();
   }
 
   ratingColor(rating: number): string {
