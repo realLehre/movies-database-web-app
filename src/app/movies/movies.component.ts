@@ -225,10 +225,23 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   addToLiked(e, id, movie) {
     movie['liked'] = !movie['liked'];
 
+    const movieContainer = e.target.parentElement.parentElement;
+
     if (movie['liked'] == true) {
       this.moviesService.onLike(movie, id);
+
+      movieContainer.classList.add('showAdd');
+
+      setTimeout(() => {
+        movieContainer.classList.remove('showAdd');
+      }, 650);
     } else {
       this.moviesService.onDisLike(id);
+
+      movieContainer.classList.add('showRemove');
+      setTimeout(() => {
+        movieContainer.classList.remove('showRemove');
+      }, 650);
     }
   }
 

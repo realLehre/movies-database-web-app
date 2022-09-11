@@ -36,6 +36,7 @@
 
 .movies-container {
   position: relative;
+  width: 100%;
 
   &.blur {
     filter: blur(5px);
@@ -98,6 +99,18 @@
   cursor: pointer;
   width: 200px;
 
+  &.showAdd {
+    & .liked-alert.add {
+      opacity: 1;
+    }
+  }
+
+  &.showRemove {
+    & .liked-alert.remove {
+      opacity: 1;
+    }
+  }
+
   &.popular_2 {
     display: inline;
   }
@@ -154,6 +167,19 @@
     position: relative;
     width: 100%;
     height: 275px;
+
+    & .liked-alert {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: $main-color;
+      font-size: 14px;
+      text-transform: uppercase;
+      padding: 5px 15px;
+      opacity: 0;
+      @include transition;
+      z-index: 11;
+    }
 
     & .movie-rating {
       position: absolute;
@@ -219,6 +245,15 @@
       width: 20px;
       filter: blur(30px);
     }
+  }
+
+  .liked-alert {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    font-size: 12px;
+
+    padding: 5px 10px;
   }
 
   .movies {

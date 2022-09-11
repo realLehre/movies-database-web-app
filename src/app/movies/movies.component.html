@@ -20,6 +20,8 @@
           class="movie-img"
           [routerLink]="['/movies', searchMoviesId[i], searchMoviesNames[i]]"
         >
+          <div class="liked-alert add">Movie added to favorites</div>
+          <div class="liked-alert remove">Movie removed from favorites</div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -79,6 +81,9 @@
               trendingMoviesNames[i]
             ]"
           >
+            <div class="liked-alert add">Movie added to favorites</div>
+            <div class="liked-alert remove">Movie removed from favorites</div>
+
             <div class="movie-rating">
               <circle-progress
                 backgroundColor="black"
@@ -138,6 +143,9 @@
               popularMoviesNames[i]
             ]"
           >
+            <div class="liked-alert add">Movie added to favorites</div>
+            <div class="liked-alert remove">Movie removed from favorites</div>
+
             <div class="movie-rating">
               <circle-progress
                 backgroundColor="black"
@@ -189,6 +197,9 @@
               popularMoviesNames_2[i]
             ]"
           >
+            <div class="liked-alert add">Movie added to favorites</div>
+            <div class="liked-alert remove">Movie removed from favorites</div>
+
             <div class="movie-rating">
               <circle-progress
                 backgroundColor="black"
@@ -248,6 +259,9 @@
               topRatedMoviesNames[i]
             ]"
           >
+            <div class="liked-alert add">Movie added to favorites</div>
+            <div class="liked-alert remove">Movie removed from favorites</div>
+
             <div class="movie-rating">
               <circle-progress
                 backgroundColor="black"

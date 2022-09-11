@@ -16,7 +16,7 @@ export class HttpService {
   getTrending() {
     return this.http
       .get<Response>(
-        `https://api.themoviedb.org/3/trending/movie/week?api_key=${env.API_Key}`
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${env.API_Key}`
       )
       .pipe(
         map((data) => {
