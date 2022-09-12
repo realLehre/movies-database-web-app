@@ -71,7 +71,6 @@ export class MoviesService {
 
   getLiked() {
     const likedMoviesS = JSON.parse(localStorage.getItem('liked'));
-    // const likedMoviesS = this.likedMovies;
 
     let refinedData: RefinedResponse;
 
