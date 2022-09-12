@@ -54,7 +54,9 @@
 
   <div
     class="sort-container"
-    *ngIf="sortValue == 'all' || sortValue == 'trending'"
+    *ngIf="
+      sortValue == 'all' || sortValue == 'trending' || sortValue == 'action'
+    "
   >
     <div class="movies" *ngIf="!searchState">
       <div class="movies-type">Trending</div>
@@ -117,7 +119,9 @@
 
   <div
     class="sort-container"
-    *ngIf="sortValue == 'all' || sortValue == 'popular'"
+    *ngIf="
+      sortValue == 'all' || sortValue == 'popular' || sortValue == 'action'
+    "
   >
     <div class="movies" *ngIf="!searchState">
       <div class="movies-type popular">Currently Popular</div>
@@ -233,7 +237,9 @@
 
   <div
     class="sort-container"
-    *ngIf="sortValue == 'all' || sortValue == 'top-rated'"
+    *ngIf="
+      sortValue == 'all' || sortValue == 'top-rated' || sortValue == 'action'
+    "
   >
     <div class="movies top-rated" *ngIf="!searchState">
       <div class="movies-type">Top Rated</div>

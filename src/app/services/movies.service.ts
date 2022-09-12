@@ -25,7 +25,11 @@ export class MoviesService {
   isFetching = new Subject<boolean>();
 
   constructor() {
-    this.likedMovies = JSON.parse(localStorage.getItem('liked'));
+    if (JSON.parse(localStorage.getItem('liked')) != null) {
+      this.likedMovies = JSON.parse(localStorage.getItem('liked'));
+    } else {
+      this.likedMovies = [];
+    }
   }
 
   searchResult(state: boolean) {
@@ -37,11 +41,14 @@ export class MoviesService {
   }
 
   onLike(movie: MovieObject, id: number) {
-    if (this.likedMovies.some((item) => item.id == id)) {
-      return;
+    if (this.likedMovies != null) {
+      if (this.likedMovies.some((item) => item.id == id)) {
+        return;
+      }
     }
 
     this.likedMovies.push(movie);
+
     localStorage.setItem('liked', JSON.stringify(this.likedMovies));
 
     this.likedMoviesObs.next(this.likedMovies);
@@ -66,7 +73,11 @@ export class MoviesService {
   }
 
   getLikedMovies() {
-    return JSON.parse(localStorage.getItem('liked'));
+    if (JSON.parse(localStorage.getItem('liked')) != null) {
+      return JSON.parse(localStorage.getItem('liked'));
+    } else {
+      return [];
+    }
   }
 
   getLiked() {

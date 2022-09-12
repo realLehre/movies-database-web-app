@@ -74,18 +74,30 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.isFetching = true;
     this.moviesService.isFetching.next(this.isFetching);
 
-    this.moviesService.sortValue.subscribe({
-      next: (value) => {
-        this.sortValue = value;
-      },
-    });
-
     const likedMoviesTest = this.moviesService.getLikedMovies();
 
     // Trending
     this.httpService.getTrending().subscribe({
       next: (movieData) => {
         this.trendingMovies = movieData.movies;
+
+        // this.moviesService.sortValue.subscribe({
+        //   next: (value) => {
+        //     this.sortValue = value;
+        //     if (value == 'action') {
+        //       this.trendingMovies.filter((movie, index) => {
+        //         for (const key in movie['genre_ids']) {
+        //           if (movie['genre_ids'][key] !== 28) {
+        //             this.trendingMovies.splice(index, 1);
+        //           }
+        //         }
+        //       });
+        //     } else {
+        //       this.trendingMovies = movieData.movies;
+        //     }
+        //   },
+        // });
+
         this.trendingMoviesPoster = movieData.moviePosterPaths;
         this.trendingMoviesRating = movieData.movieRatings;
         this.trendingMoviesId = movieData.movieIds;
@@ -218,9 +230,46 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     });
 
     this.searchState = this.moviesService.searchState;
+
+    this.moviesService.sortValue.subscribe({
+      next: (value) => {
+        this.sortValue = value;
+      },
+    });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    // if (this.sortValue == 'action') {
+    //   this.trendingMovies.filter((movie, index) => {
+    //     for (const key in movie['genre_ids']) {
+    //       if (movie['genre_ids'][key] !== 28) {
+    //         this.trendingMovies.splice(index, 1);
+    //       }
+    //     }
+    //   });
+    //   this.popularMovies.filter((movie, index) => {
+    //     for (const key in movie['genre_ids']) {
+    //       if (movie['genre_ids'][key] !== 28) {
+    //         this.popularMovies.splice(index, 1);
+    //       }
+    //     }
+    //   });
+    //   this.popularMovies_2.filter((movie, index) => {
+    //     for (const key in movie['genre_ids']) {
+    //       if (movie['genre_ids'][key] !== 28) {
+    //         this.popularMovies_2.splice(index, 1);
+    //       }
+    //     }
+    //   });
+    //   this.topRatedMovies.filter((movie, index) => {
+    //     for (const key in movie['genre_ids']) {
+    //       if (movie['genre_ids'][key] !== 28) {
+    //         this.topRatedMovies.splice(index, 1);
+    //       }
+    //     }
+    //   });
+    // }
+  }
 
   addToLiked(e, id, movie) {
     movie['liked'] = !movie['liked'];
