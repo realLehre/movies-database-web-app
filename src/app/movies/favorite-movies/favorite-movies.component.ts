@@ -23,7 +23,12 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.likedMovies = this.moviesService.getLiked().movies;
+    if (!this.moviesService.getLiked()) {
+      this.likedMovies = [];
+    } else {
+      this.likedMovies = this.moviesService.getLiked().movies;
+    }
+
     this.likedMoviesPoster = this.moviesService.getLiked().moviePosterPaths;
     this.likedMoviesRating = this.moviesService.getLiked().movieRatings;
     this.likedMoviesId = this.moviesService.getLiked().movieIds;
@@ -31,7 +36,7 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
 
     const likedMoviesTest = this.moviesService.getLikedMovies();
 
-    if (this.likedMovies != null) {
+    if (this.likedMovies.length != 0) {
       this.likedMovies.forEach((movie) => {
         if (likedMoviesTest.some((item) => item.id == movie.id)) {
           movie['liked'] = true;
