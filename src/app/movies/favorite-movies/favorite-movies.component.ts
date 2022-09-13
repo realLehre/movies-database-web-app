@@ -31,11 +31,13 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
 
     const likedMoviesTest = this.moviesService.getLikedMovies();
 
-    this.likedMovies.forEach((movie) => {
-      if (likedMoviesTest.some((item) => item.id == movie.id)) {
-        movie['liked'] = true;
-      }
-    });
+    if (this.likedMovies != null) {
+      this.likedMovies.forEach((movie) => {
+        if (likedMoviesTest.some((item) => item.id == movie.id)) {
+          movie['liked'] = true;
+        }
+      });
+    }
   }
 
   ngAfterViewInit(): void {}
@@ -47,8 +49,10 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
   }
 
   clearLikedMovies() {
-    localStorage.setItem('liked', JSON.stringify([]));
-    window.location.reload();
+    if (confirm('Are you sure?!')) {
+      localStorage.setItem('liked', JSON.stringify([]));
+      window.location.reload();
+    }
   }
 
   ratingColor(rating: number): string {

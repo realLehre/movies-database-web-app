@@ -1,4 +1,4 @@
-<div class="fav-message" *ngIf="likedMovies.length < 1">
+<div class="fav-message" *ngIf="likedMovies.length == 0">
   <i class="fa fa-exclamation-circle" id="bang" aria-hidden="true"></i> No
   movies added to your favorite list. Visit
   <span id="homepage" [routerLink]="['/movies']">
