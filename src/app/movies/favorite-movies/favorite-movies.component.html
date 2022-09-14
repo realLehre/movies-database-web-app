@@ -23,7 +23,7 @@
             class="fa fa-star"
             id="favorite"
             [ngClass]="{ liked: likedMovies[i].liked }"
-            (click)="removeFromLiked(i, likedMovies[i].id, likedMovies[i])"
+            (click)="removeFromLiked(likedMovies[i].id)"
           ></i>
         </div>
         <div
@@ -51,7 +51,9 @@
         </div>
         <div class="movie-info">
           <div class="movie-title-date">
-            <div class="movie-name">{{ movie.title }}</div>
+            <div class="movie-name">
+              {{ movie.title }}
+            </div>
 
             <div class="movie-date">{{ movie.release_date | date }}</div>
           </div>

@@ -53,17 +53,3 @@ export interface MovieObject {
   casts?: Array<Object>;
   liked?: boolean;
 }
-
-// belongs_to_collection?: any
-// budget?: number
-// credits?: any
-// genres?: any
-// homepage?: string
-// imdb_id?: string
-// production_companies?: any
-// production_countries?: any
-// revenue?:number
-// runtime?: number
-// spoken_languages?: any
-// status?:string
-// tagline?: string

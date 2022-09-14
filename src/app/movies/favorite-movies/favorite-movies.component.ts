@@ -17,10 +17,7 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
   likedMoviesId: number[];
   likedMoviesName: string[];
 
-  constructor(
-    private moviesService: MoviesService,
-    private httpService: HttpService
-  ) {}
+  constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
     if (this.moviesService.getLikedMovies().length == 0) {
@@ -47,16 +44,20 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-  removeFromLiked(index, id, movie) {
-    movie['liked'] = !movie['liked'];
+  removeFromLiked(id) {
     this.moviesService.onDisLike(id);
-    window.location.reload();
+
+    this.likedMovies = this.moviesService.getLiked().movies;
+    this.likedMoviesPoster = this.moviesService.getLiked().moviePosterPaths;
+    this.likedMoviesRating = this.moviesService.getLiked().movieRatings;
+    this.likedMoviesId = this.moviesService.getLiked().movieIds;
+    this.likedMoviesName = this.moviesService.getLiked().movieNames;
   }
 
   clearLikedMovies() {
     if (confirm('Are you sure?!')) {
+      this.likedMovies = [];
       localStorage.setItem('liked', JSON.stringify([]));
-      window.location.reload();
     }
   }
 

@@ -15,9 +15,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { MoviesComponent } from './movies/movies.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { HeaderComponent } from './header/header.component';
-import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { SpinnersAngularModule } from 'spinners-angular';
-import { FavoriteDirective } from './shared/favorite.directive';
+
 import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movies.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
@@ -28,8 +27,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MoviesComponent,
     MovieDetailsComponent,
     HeaderComponent,
-    LoadingSpinnerComponent,
-    FavoriteDirective,
     FavoriteMoviesComponent,
     PageNotFoundComponent,
   ],

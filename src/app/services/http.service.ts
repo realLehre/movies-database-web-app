@@ -73,6 +73,21 @@ export class HttpService {
       );
   }
 
+  getTopRated_2() {
+    return this.http
+      .get<Response>(
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${env.API_Key}&language=en-US&page=2`
+      )
+      .pipe(
+        map((data) => {
+          return this.transformMovieResponse(data.results);
+        }),
+        catchError((error) => {
+          return this.handleError(error);
+        })
+      );
+  }
+
   getSimilar(id) {
     return this.http
       .get<Response>(

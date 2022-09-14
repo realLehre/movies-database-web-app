@@ -12,17 +12,10 @@ export class MoviesService {
   moviesSearch = new Subject<RefinedResponse>();
 
   isLoading = new Subject<boolean>();
-
-  favorite: MovieObject[] = [];
-
-  isLiked = new Subject<boolean>();
-  // isLiked = new BehaviorSubject<boolean>(true);
-  likedMovies: MovieObject[] = [];
-
-  likedMoviesObs = new Subject<MovieObject[]>();
-  isAlreadyLiked: boolean = false;
-
   isFetching = new Subject<boolean>();
+
+  likedMovies: MovieObject[] = [];
+  likedMoviesObs = new Subject<MovieObject[]>();
 
   constructor() {
     if (JSON.parse(localStorage.getItem('liked')) != null) {

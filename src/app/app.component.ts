@@ -46,7 +46,6 @@ export class AppComponent implements OnInit {
     });
 
     this.moviesService.search.subscribe((data) => {
-      // console.log(data);
       this.moviesService.searchResult(data);
     });
 

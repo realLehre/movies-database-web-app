@@ -1,20 +1,15 @@
 import {
-  AfterContentChecked,
-  AfterViewChecked,
   AfterViewInit,
   Component,
-  DoCheck,
   ElementRef,
   OnInit,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { HttpService } from '../services/http.service';
 
 import { MoviesService } from '../services/movies.service';
-import { MovieObject, RefinedResponse } from '../shared/movie.model';
+import { MovieObject } from '../shared/movie.model';
 
 @Component({
   selector: 'app-movies',
@@ -49,6 +44,12 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   topRatedMoviesId: number[];
   topRatedMoviesNames: string[];
 
+  topRatedMovies_2: Array<MovieObject>;
+  topRatedMovies_2Rating: Array<number>;
+  topRatedMovies_2Poster: string[];
+  topRatedMovies_2Id: number[];
+  topRatedMovies_2Names: string[];
+
   searchState: boolean;
   searchName: string;
   searchMovies: Array<MovieObject>;
@@ -66,8 +67,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private moviesService: MoviesService,
-    private httpService: HttpService,
-    private router: Router
+    private httpService: HttpService
   ) {}
 
   ngOnInit(): void {
@@ -176,6 +176,31 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.topRatedMoviesNames = movieData.movieNames;
 
         this.topRatedMovies.forEach((movie) => {
+          if (likedMoviesTest.some((item) => item.id == movie.id)) {
+            movie['liked'] = true;
+          }
+        });
+      },
+      error: (err) => {
+        if (err) {
+          this.error = true;
+          this.isFetching = false;
+          this.moviesService.isFetching.next(this.isFetching);
+        }
+      },
+    });
+
+    this.httpService.getTopRated_2().subscribe({
+      next: (movieData) => {
+        this.isFetching = false;
+        this.moviesService.isFetching.next(this.isFetching);
+        this.topRatedMovies_2 = movieData.movies;
+        this.topRatedMovies_2Poster = movieData.moviePosterPaths;
+        this.topRatedMovies_2Rating = movieData.movieRatings;
+        this.topRatedMovies_2Id = movieData.movieIds;
+        this.topRatedMovies_2Names = movieData.movieNames;
+
+        this.topRatedMovies_2.forEach((movie) => {
           if (likedMoviesTest.some((item) => item.id == movie.id)) {
             movie['liked'] = true;
           }

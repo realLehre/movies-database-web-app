@@ -295,6 +295,60 @@
             </div>
           </div>
         </div>
+
+        <div
+          class="movie"
+          *ngFor="let movie of topRatedMovies_2; let i = index"
+        >
+          <div class="fav-overlay"></div>
+          <div class="fav-container" #like>
+            <i
+              class="fa fa-star"
+              id="favorite"
+              [ngClass]="{ liked: topRatedMovies_2[i].liked }"
+              (click)="
+                addToLiked($event, topRatedMovies_2[i].id, topRatedMovies_2[i])
+              "
+            ></i>
+          </div>
+          <div
+            class="movie-img"
+            [routerLink]="[
+              '/movies',
+              topRatedMovies_2Id[i],
+              topRatedMovies_2Names[i]
+            ]"
+          >
+            <div class="liked-alert add">Movie added to favorites</div>
+            <div class="liked-alert remove">Movie removed from favorites</div>
+
+            <div class="movie-rating">
+              <circle-progress
+                backgroundColor="black"
+                [percent]="topRatedMovies_2Rating[i]"
+                [radius]="18"
+                [outerStrokeWidth]="3"
+                [innerStrokeWidth]="4"
+                [outerStrokeColor]="ratingColor(topRatedMovies_2Rating[i])"
+                [innerStrokeColor]="'#C7E596'"
+                [animation]="true"
+                [animationDuration]="100"
+                titleFontSize="13"
+                titleFontWeight="900"
+                unitsFontWeight="500"
+                [backgroundPadding]="2"
+              ></circle-progress>
+            </div>
+            <img [src]="topRatedMovies_2Poster[i]" alt="" />
+          </div>
+          <div class="movie-info">
+            <div class="movie-title-date">
+              <div class="movie-name">{{ movie.title }}</div>
+
+              <div class="movie-date">{{ movie.release_date | date }}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
