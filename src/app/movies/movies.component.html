@@ -39,7 +39,16 @@
               [backgroundPadding]="2"
             ></circle-progress>
           </div>
-          <img [img-preloader]="searchMoviesPoster[i]" alt="" />
+          <!-- <img [img-preloader]="searchMoviesPoster[i]" alt="" /> -->
+          <img
+            [src]="
+              imgLoaded
+                ? searchMoviesPoster[i]
+                : 'assets/images/placeholder-gif.gif'
+            "
+            alt=""
+            (loaded)="test()"
+          />
         </div>
         <div class="movie-info">
           <div class="movie-title-date">

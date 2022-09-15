@@ -18,6 +18,7 @@ import { HeaderComponent } from './header/header.component';
 import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movies.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ImagePreloader } from './shared/image-preloader.directive';
+import { LoadedDirective } from './shared/img-preloader.directive';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ImagePreloader } from './shared/image-preloader.directive';
     FavoriteMoviesComponent,
     PageNotFoundComponent,
     ImagePreloader,
+    LoadedDirective,
   ],
   imports: [
     BrowserModule,

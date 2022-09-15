@@ -351,4 +351,10 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   ratingColor(rating: number): string {
     return this.moviesService.ratingColor(rating);
   }
+
+  imgLoaded: boolean = false;
+  test() {
+    this.imgLoaded = true;
+    console.log('yes');
+  }
 }
