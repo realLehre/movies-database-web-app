@@ -91,7 +91,58 @@
     padding: 30px 20px;
 
     & .overview-poster {
+      position: relative;
       margin-right: 40px;
+
+      &.showAdd {
+        & .liked-alert.add {
+          opacity: 1;
+        }
+      }
+
+      &.showRemove {
+        & .liked-alert.remove {
+          opacity: 1;
+        }
+      }
+
+      & .fav-overlay {
+        position: absolute;
+        width: 35px;
+        height: 38px;
+        background: rgba(0, 0, 0, 0.3);
+        top: 0;
+        right: 0;
+        z-index: 10;
+        border-bottom-left-radius: 10px;
+      }
+
+      & #favorite {
+        position: absolute;
+        right: -13px;
+        top: -10px;
+        cursor: pointer;
+        z-index: 12;
+        font-size: 20px;
+        padding: 20px;
+
+        &.liked {
+          color: red;
+        }
+      }
+
+      & .liked-alert {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.5);
+        font-size: 14px;
+        text-transform: uppercase;
+        padding: 5px 15px;
+        opacity: 0;
+        @include transition;
+        z-index: 11;
+      }
 
       & .poster {
         width: 300px;

@@ -58,9 +58,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   searchMoviesId: number[];
   searchMoviesNames: string[];
 
-  liked: boolean = false;
-  likedState: boolean;
-
   isFetching: boolean = false;
 
   @ViewChild('like', { static: false }) likedEl: ElementRef<HTMLDivElement>;
@@ -80,23 +77,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.httpService.getTrending().subscribe({
       next: (movieData) => {
         this.trendingMovies = movieData.movies;
-
-        // this.moviesService.sortValue.subscribe({
-        //   next: (value) => {
-        //     this.sortValue = value;
-        //     if (value == 'action') {
-        //       this.trendingMovies.filter((movie, index) => {
-        //         for (const key in movie['genre_ids']) {
-        //           if (movie['genre_ids'][key] !== 28) {
-        //             this.trendingMovies.splice(index, 1);
-        //           }
-        //         }
-        //       });
-        //     } else {
-        //       this.trendingMovies = movieData.movies;
-        //     }
-        //   },
-        // });
+        localStorage.setItem('trending', JSON.stringify(this.trendingMovies));
+        // console.log(this.trendingMovies);
 
         this.trendingMoviesPoster = movieData.moviePosterPaths;
         this.trendingMoviesRating = movieData.movieRatings;
@@ -122,6 +104,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.httpService.getPopular().subscribe({
       next: (movieData) => {
         this.popularMovies = movieData.movies;
+        localStorage.setItem('popular', JSON.stringify(this.popularMovies));
         this.popularMoviesPoster = movieData.moviePosterPaths;
         this.popularMoviesRating = movieData.movieRatings;
         this.popularMoviesId = movieData.movieIds;
@@ -144,6 +127,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.httpService.getPopular_2().subscribe({
       next: (movieData) => {
         this.popularMovies_2 = movieData.movies;
+        localStorage.setItem('popular_2', JSON.stringify(this.popularMovies_2));
         this.popularMoviesPoster_2 = movieData.moviePosterPaths;
         this.popularMoviesRating_2 = movieData.movieRatings;
         this.popularMoviesId_2 = movieData.movieIds;
@@ -170,6 +154,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.isFetching = false;
         this.moviesService.isFetching.next(this.isFetching);
         this.topRatedMovies = movieData.movies;
+        localStorage.setItem('topRated', JSON.stringify(this.topRatedMovies));
         this.topRatedMoviesPoster = movieData.moviePosterPaths;
         this.topRatedMoviesRating = movieData.movieRatings;
         this.topRatedMoviesId = movieData.movieIds;
@@ -261,40 +246,84 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.sortValue = value;
       },
     });
+
+    this.moviesService.sortValue.subscribe({
+      next: (value) => {
+        this.sortValue = value;
+
+        if (value == 'action') {
+          this.trendingMovies.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 28) {
+                this.trendingMovies.splice(index, 1);
+                console.log(this.trendingMovies);
+              }
+            }
+          });
+          this.popularMovies.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 28) {
+                this.popularMovies.splice(index, 1);
+              }
+            }
+          });
+          this.popularMovies_2.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 28) {
+                this.popularMovies_2.splice(index, 1);
+              }
+            }
+          });
+          this.topRatedMovies.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 28) {
+                this.topRatedMovies.splice(index, 1);
+              }
+            }
+          });
+        }
+        if (value == 'drama') {
+          this.trendingMovies.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 18) {
+                this.trendingMovies.splice(index, 1);
+              }
+            }
+          });
+          this.popularMovies.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 18) {
+                this.popularMovies.splice(index, 1);
+              }
+            }
+          });
+          this.popularMovies_2.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 18) {
+                this.popularMovies_2.splice(index, 1);
+              }
+            }
+          });
+          this.topRatedMovies.filter((movie, index) => {
+            for (const key in movie['genre_ids']) {
+              if (movie['genre_ids'][key] !== 18) {
+                this.topRatedMovies.splice(index, 1);
+              }
+            }
+          });
+        }
+
+        if (value != 'action') {
+          this.trendingMovies = JSON.parse(localStorage.getItem('trending'));
+          this.popularMovies = JSON.parse(localStorage.getItem('popular'));
+          this.popularMovies_2 = JSON.parse(localStorage.getItem('popular'));
+          this.topRatedMovies = JSON.parse(localStorage.getItem('topRated'));
+        }
+      },
+    });
   }
 
-  ngAfterViewInit(): void {
-    // if (this.sortValue == 'action') {
-    //   this.trendingMovies.filter((movie, index) => {
-    //     for (const key in movie['genre_ids']) {
-    //       if (movie['genre_ids'][key] !== 28) {
-    //         this.trendingMovies.splice(index, 1);
-    //       }
-    //     }
-    //   });
-    //   this.popularMovies.filter((movie, index) => {
-    //     for (const key in movie['genre_ids']) {
-    //       if (movie['genre_ids'][key] !== 28) {
-    //         this.popularMovies.splice(index, 1);
-    //       }
-    //     }
-    //   });
-    //   this.popularMovies_2.filter((movie, index) => {
-    //     for (const key in movie['genre_ids']) {
-    //       if (movie['genre_ids'][key] !== 28) {
-    //         this.popularMovies_2.splice(index, 1);
-    //       }
-    //     }
-    //   });
-    //   this.topRatedMovies.filter((movie, index) => {
-    //     for (const key in movie['genre_ids']) {
-    //       if (movie['genre_ids'][key] !== 28) {
-    //         this.topRatedMovies.splice(index, 1);
-    //       }
-    //     }
-    //   });
-    // }
-  }
+  ngAfterViewInit(): void {}
 
   addToLiked(e, id, movie) {
     movie['liked'] = !movie['liked'];
@@ -320,12 +349,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   }
 
   ratingColor(rating: number): string {
-    if (rating < 51) {
-      return '#DC143C';
-    } else if (rating < 71) {
-      return 'yellow';
-    } else {
-      return 'green';
-    }
+    return this.moviesService.ratingColor(rating);
   }
 }

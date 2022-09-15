@@ -19,6 +19,7 @@ import { SpinnersAngularModule } from 'spinners-angular';
 
 import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movies.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ImagePreloader } from './shared/image-preloader.directive';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HeaderComponent,
     FavoriteMoviesComponent,
     PageNotFoundComponent,
+    ImagePreloader,
   ],
   imports: [
     BrowserModule,

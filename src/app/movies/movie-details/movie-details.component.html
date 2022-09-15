@@ -16,6 +16,18 @@
         >
           <div class="overview">
             <div class="overview-poster">
+              <div class="fav-overlay"></div>
+              <div class="fav-container" #like>
+                <i
+                  class="fa fa-star"
+                  id="favorite"
+                  [ngClass]="{ liked: movieLiked }"
+                  (click)="addToLiked($event, movieId, movie)"
+                ></i>
+              </div>
+
+              <div class="liked-alert add">Movie added to favorites</div>
+              <div class="liked-alert remove">Movie removed from favorites</div>
               <div class="poster">
                 <img [src]="poster_path" alt="" />
               </div>
@@ -115,7 +127,6 @@
           </div>
         </div>
       </mat-tab>
-      <!-- <mat-tab label="Third">Content 3</mat-tab> -->
     </mat-tab-group>
   </div>
 
@@ -172,7 +183,7 @@
                   [backgroundPadding]="2"
                 ></circle-progress>
               </div>
-              <img [src]="recommendedMoviesPoster[i]" alt="" />
+              <img [img-preloader]="recommendedMoviesPoster[i]" alt="" />
             </div>
             <div class="movie-info">
               <div class="movie-title-date">

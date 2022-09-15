@@ -47,12 +47,12 @@
               [backgroundPadding]="2"
             ></circle-progress>
           </div>
-          <img [src]="likedMoviesPoster[i]" alt="" />
+          <img [img-preloader]="likedMoviesPoster[i]" alt="" />
         </div>
         <div class="movie-info">
           <div class="movie-title-date">
             <div class="movie-name">
-              {{ movie.title }}
+              {{ movie.original_title }}
             </div>
 
             <div class="movie-date">{{ movie.release_date | date }}</div>

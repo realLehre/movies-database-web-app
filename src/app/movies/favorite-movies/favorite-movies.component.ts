@@ -62,12 +62,6 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
   }
 
   ratingColor(rating: number): string {
-    if (rating < 51) {
-      return '#DC143C';
-    } else if (rating < 71) {
-      return 'yellow';
-    } else {
-      return 'green';
-    }
+    return this.moviesService.ratingColor(rating);
   }
 }

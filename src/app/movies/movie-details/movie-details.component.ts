@@ -37,6 +37,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   vote_count: number;
   genres: Array<Object>;
   videoId: string[];
+  movieLiked: boolean;
 
   isFetching: boolean = false;
   isFetchingVid: boolean = false;
@@ -68,6 +69,8 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       this.movieId = +param['id'];
     });
 
+    const likedMoviesTest = this.moviesService.getLikedMovies();
+
     this.isFetching = true;
     this.moviesService.isFetching.next(this.isFetching);
 
@@ -77,7 +80,6 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.moviesService.isFetching.next(this.isFetching);
 
         this.movie = movieData;
-
         this.vote_average = movieData.vote_average;
         this.poster_path = movieData.poster_path;
         this.backdrop_path = movieData.backdrop_path;
@@ -90,6 +92,12 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.runtime = movieData.runtime;
         this.vote_count = movieData.vote_count;
         this.genres = movieData.genres;
+        this.movieLiked = movieData.liked;
+
+        if (likedMoviesTest.some((item) => item.id == this.movie.id)) {
+          this.movie['liked'] = true;
+          this.movieLiked = this.movie['liked'];
+        }
       },
       error: (error) => {
         if (error) {
@@ -103,8 +111,6 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     this.httpService.getVideo(this.movieId).subscribe((movieKey) => {
       this.videoId = movieKey;
     });
-
-    const likedMoviesTest = this.moviesService.getLikedMovies();
 
     this.httpService.getSimilar(this.movieId).subscribe({
       next: (movieData) => {
@@ -141,31 +147,36 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     movie['liked'] = !movie['liked'];
 
     const movieContainer = e.target.parentElement.parentElement;
+    const posterInDetails = e.target.parentElement.parentElement;
 
     if (movie['liked'] == true) {
       this.moviesService.onLike(movie, id);
 
+      this.movieLiked = movie['liked'];
+
       movieContainer.classList.add('showAdd');
+      posterInDetails.classList.add('showAdd');
+
       setTimeout(() => {
         movieContainer.classList.remove('showAdd');
+        posterInDetails.classList.remove('showAdd');
       }, 650);
     } else {
       this.moviesService.onDisLike(id);
 
+      this.movieLiked = movie['liked'];
+
       movieContainer.classList.add('showRemove');
+      posterInDetails.classList.add('showRemove');
+
       setTimeout(() => {
         movieContainer.classList.remove('showRemove');
+        posterInDetails.classList.remove('showRemove');
       }, 650);
     }
   }
 
   ratingColor(rating: number): string {
-    if (rating < 51) {
-      return '#DC143C';
-    } else if (rating < 71) {
-      return 'yellow';
-    } else {
-      return 'green';
-    }
+    return this.moviesService.ratingColor(rating);
   }
 }

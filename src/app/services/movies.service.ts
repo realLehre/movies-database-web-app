@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MovieObject, RefinedResponse } from '../shared/movie.model';
 
 @Injectable({ providedIn: 'root' })
@@ -87,7 +87,11 @@ export class MoviesService {
 
     const ratings = [];
     for (const key in likedMoviesS) {
-      ratings.push(Math.floor(likedMoviesS[key].vote_average * 10));
+      if (Number.isInteger(likedMoviesS[key].vote_average)) {
+        ratings.push(likedMoviesS[key].vote_average);
+      } else {
+        ratings.push(Math.floor(likedMoviesS[key].vote_average * 10));
+      }
     }
 
     const ids = [];
@@ -109,5 +113,15 @@ export class MoviesService {
     };
 
     return refinedData;
+  }
+
+  ratingColor(rating: number): string {
+    if (rating < 51) {
+      return '#DC143C';
+    } else if (rating < 71) {
+      return 'yellow';
+    } else {
+      return 'green';
+    }
   }
 }
