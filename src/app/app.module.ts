@@ -8,14 +8,12 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
-import { SwiperModule } from 'swiper/angular';
 
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { MoviesComponent } from './movies/movies.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { HeaderComponent } from './header/header.component';
-import { SpinnersAngularModule } from 'spinners-angular';
 
 import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movies.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -41,8 +39,6 @@ import { ImagePreloader } from './shared/image-preloader.directive';
     ReactiveFormsModule,
     FormsModule,
     YouTubePlayerModule,
-    SwiperModule,
-    SpinnersAngularModule,
     NgCircleProgressModule.forRoot({
       backgroundColor: 'white',
       radius: 20,
