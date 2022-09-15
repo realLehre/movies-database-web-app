@@ -12,7 +12,7 @@ export class ImagePreloader implements OnInit {
   downloadingImage: any;
   finalImage: any;
 
-  @Input() defaultImage: string = 'assets/placeholder-gif.gif';
+  @Input() defaultImage: string = 'assets/images/placeholder-gif.gif';
 
   ngOnInit() {
     this.finalImage = this.defaultImage;
