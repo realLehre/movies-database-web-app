@@ -24,6 +24,8 @@ export class HomepageComponent implements OnInit {
 
   search: boolean;
 
+  searchState: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private moviesService: MoviesService,
@@ -34,6 +36,8 @@ export class HomepageComponent implements OnInit {
     this.route.params.subscribe((param) => {
       this.search = param['movie-name'] ? true : false;
       this.moviesService.search.next(this.search);
+
+      this.searchState = param['movie-name'] ? true : false;
     });
 
     this.search = this.moviesService.searchState;

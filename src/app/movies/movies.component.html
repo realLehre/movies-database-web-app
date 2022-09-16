@@ -1,6 +1,16 @@
 <div class="error-container" *ngIf="error">An error occured!</div>
 <div class="movies-container" [ngClass]="{ blur: isFetching }" *ngIf="!error">
-  <div class="movies movies-search" *ngIf="searchState">
+  <div
+    class="movies movies-search"
+    *ngIf="
+      searchState ||
+      sortValue == 'action' ||
+      sortValue == 'drama' ||
+      sortValue == 'adventure' ||
+      sortValue == 'crime' ||
+      sortValue == 'horror'
+    "
+  >
     <div class="movies-type">
       Search results and similar movies for {{ searchName }}
     </div>

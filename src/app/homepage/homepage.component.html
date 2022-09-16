@@ -4,13 +4,16 @@
       <mat-label>Sort</mat-label>
       <mat-select [(ngModel)]="sort" (selectionChange)="onSort(sort)">
         <mat-option value="all">All movies</mat-option>
-        <mat-option value="trending">Trending</mat-option>
-        <mat-option value="popular">Popular</mat-option>
-        <mat-option value="top-rated">Top rated</mat-option>
+        <mat-option value="trending" *ngIf="!searchState">Trending</mat-option>
+        <mat-option value="popular" *ngIf="!searchState">Popular</mat-option>
+        <mat-option value="top-rated" *ngIf="!searchState"
+          >Top rated</mat-option
+        >
         <mat-option value="action">Genre - action</mat-option>
         <mat-option value="drama">Genre - drama</mat-option>
         <mat-option value="crime">Genre - crime</mat-option>
         <mat-option value="adventure">Genre - adventure</mat-option>
+        <mat-option value="horror">Genre - horror</mat-option>
       </mat-select>
     </mat-form-field>
 
