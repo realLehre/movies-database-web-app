@@ -1,6 +1,16 @@
 # MoviesDatabaseApp
+[Live website](https://ngmvdb.netlify.app/movies)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+
+#### This is a movies database web app with basic features built to demonstrate my Angular development skills using [The Movies Database API](https://developers.themoviedb.org/3/getting-started/introduction).
+
+## Features
+- See currently trending (daily), popular and top rated movies.
+- Search for movies (and similar movies) by name.
+- See accurate movie details plus videos on click. Additional recommended movies are returned if available.
+- Sort movies by genre to quickly find your choice.
+- Add movies to a favorites list to check them out later.
 
 ## Development server
 
