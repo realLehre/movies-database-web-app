@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 
 import { MoviesService } from '../services/movies.service';
-import { MovieObject } from '../shared/movie.model';
+import { MovieObject, RefinedResponse } from '../shared/movie.model';
 
 @Component({
   selector: 'app-movies',
@@ -77,9 +77,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.httpService.getTrending().subscribe({
       next: (movieData) => {
         this.trendingMovies = movieData.movies;
-        localStorage.setItem('trending', JSON.stringify(this.trendingMovies));
-        // console.log(this.trendingMovies);
-
         this.trendingMoviesPoster = movieData.moviePosterPaths;
         this.trendingMoviesRating = movieData.movieRatings;
         this.trendingMoviesId = movieData.movieIds;
@@ -90,6 +87,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
             movie['liked'] = true;
           }
         });
+
+        localStorage.setItem('trending', JSON.stringify(movieData));
       },
       error: (err) => {
         if (err) {
@@ -104,7 +103,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.httpService.getPopular().subscribe({
       next: (movieData) => {
         this.popularMovies = movieData.movies;
-        localStorage.setItem('popular', JSON.stringify(this.popularMovies));
         this.popularMoviesPoster = movieData.moviePosterPaths;
         this.popularMoviesRating = movieData.movieRatings;
         this.popularMoviesId = movieData.movieIds;
@@ -115,6 +113,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
             movie['liked'] = true;
           }
         });
+
+        localStorage.setItem('popular', JSON.stringify(movieData));
       },
       error: (err) => {
         if (err) {
@@ -127,7 +127,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.httpService.getPopular_2().subscribe({
       next: (movieData) => {
         this.popularMovies_2 = movieData.movies;
-        localStorage.setItem('popular_2', JSON.stringify(this.popularMovies_2));
         this.popularMoviesPoster_2 = movieData.moviePosterPaths;
         this.popularMoviesRating_2 = movieData.movieRatings;
         this.popularMoviesId_2 = movieData.movieIds;
@@ -138,6 +137,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
             movie['liked'] = true;
           }
         });
+
+        localStorage.setItem('popular_2', JSON.stringify(movieData));
       },
       error: (err) => {
         if (err) {
@@ -151,10 +152,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     // Top rated
     this.httpService.getTopRated().subscribe({
       next: (movieData) => {
-        this.isFetching = false;
-        this.moviesService.isFetching.next(this.isFetching);
         this.topRatedMovies = movieData.movies;
-        localStorage.setItem('topRated', JSON.stringify(this.topRatedMovies));
         this.topRatedMoviesPoster = movieData.moviePosterPaths;
         this.topRatedMoviesRating = movieData.movieRatings;
         this.topRatedMoviesId = movieData.movieIds;
@@ -165,6 +163,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
             movie['liked'] = true;
           }
         });
+
+        localStorage.setItem('topRated', JSON.stringify(movieData));
       },
       error: (err) => {
         if (err) {
@@ -179,6 +179,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       next: (movieData) => {
         this.isFetching = false;
         this.moviesService.isFetching.next(this.isFetching);
+
         this.topRatedMovies_2 = movieData.movies;
         this.topRatedMovies_2Poster = movieData.moviePosterPaths;
         this.topRatedMovies_2Rating = movieData.movieRatings;
@@ -190,6 +191,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
             movie['liked'] = true;
           }
         });
+
+        localStorage.setItem('topRated_2', JSON.stringify(movieData));
       },
       error: (err) => {
         if (err) {
@@ -251,73 +254,555 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       next: (value) => {
         this.sortValue = value;
 
+        const trendingMoviesStored: RefinedResponse = JSON.parse(
+          localStorage.getItem('trending')
+        );
+
+        const popularMoviesStored: RefinedResponse = JSON.parse(
+          localStorage.getItem('popular')
+        );
+
+        const popularMovies_2Stored: RefinedResponse = JSON.parse(
+          localStorage.getItem('popular_2')
+        );
+
+        const topRatedMoviesStored: RefinedResponse = JSON.parse(
+          localStorage.getItem('topRated')
+        );
+
+        const topRatedMovies_2Stored: RefinedResponse = JSON.parse(
+          localStorage.getItem('topRated_2')
+        );
+
+        const filteredTrending = [];
+        const trendingPosters = [];
+        const trendingIds = [];
+        const trendingRatings = [];
+        const trendingNames = [];
+
+        const filteredPopular = [];
+        const popularPosters = [];
+        const popularIds = [];
+        const popularRatings = [];
+        const popularNames = [];
+
+        const filteredPopular_2 = [];
+        const popularPosters_2 = [];
+        const popularIds_2 = [];
+        const popularRatings_2 = [];
+        const popularNames_2 = [];
+
+        const filteredTopRated = [];
+        const topRatedPosters = [];
+        const topRatedIds = [];
+        const topRatedRatings = [];
+        const topRatedNames = [];
+
+        const filteredTopRated_2 = [];
+        const topRatedPosters_2 = [];
+        const topRatedIds_2 = [];
+        const topRatedRatings_2 = [];
+        const topRatedNames_2 = [];
+
         if (value == 'action') {
-          this.trendingMovies.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 28) {
-                this.trendingMovies.splice(index, 1);
-                console.log(this.trendingMovies);
+          trendingMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 28) {
+                filteredTrending.push(movie);
+
+                trendingPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                trendingIds.push(movie.id);
+
+                trendingRatings.push(Math.floor(movie.vote_average * 10));
+
+                trendingNames.push(movie.original_title.replace(/\s+/g, ''));
               }
             }
           });
-          this.popularMovies.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 28) {
-                this.popularMovies.splice(index, 1);
+          this.trendingMovies = filteredTrending;
+          this.trendingMoviesPoster = trendingPosters;
+          this.trendingMoviesId = trendingIds;
+          this.trendingMoviesNames = trendingNames;
+          this.trendingMoviesRating = trendingRatings;
+
+          popularMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 28) {
+                filteredPopular.push(movie);
+
+                popularPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                popularIds.push(movie.id);
+
+                popularRatings.push(Math.floor(movie.vote_average * 10));
+
+                popularNames.push(movie.original_title.replace(/\s+/g, ''));
               }
             }
           });
-          this.popularMovies_2.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 28) {
-                this.popularMovies_2.splice(index, 1);
+          this.popularMovies = filteredPopular;
+          this.popularMoviesPoster = popularPosters;
+          this.popularMoviesId = popularIds;
+          this.popularMoviesNames = popularNames;
+          this.popularMoviesRating = popularRatings;
+
+          popularMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 28) {
+                filteredPopular_2.push(movie);
+
+                popularPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+                popularIds_2.push(movie.id);
+
+                popularRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                popularNames_2.push(movie.original_title.replace(/\s+/g, ''));
               }
             }
           });
-          this.topRatedMovies.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 28) {
-                this.topRatedMovies.splice(index, 1);
+          this.popularMovies_2 = filteredPopular_2;
+          this.popularMoviesPoster_2 = popularPosters_2;
+          this.popularMoviesId_2 = popularIds_2;
+          this.popularMoviesNames_2 = popularNames_2;
+          this.popularMoviesRating_2 = popularRatings_2;
+
+          topRatedMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 28) {
+                filteredTopRated.push(movie);
+
+                topRatedPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds.push(movie.id);
+
+                topRatedRatings.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames.push(movie.original_title.replace(/\s+/g, ''));
               }
             }
           });
-        }
-        if (value == 'drama') {
-          this.trendingMovies.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 18) {
-                this.trendingMovies.splice(index, 1);
+          this.topRatedMovies = filteredTopRated;
+          this.topRatedMoviesPoster = topRatedPosters;
+          this.topRatedMoviesId = topRatedIds;
+          this.topRatedMoviesNames = topRatedNames;
+          this.topRatedMoviesRating = topRatedRatings;
+
+          topRatedMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 28) {
+                filteredTopRated_2.push(movie);
+
+                topRatedPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds_2.push(movie.id);
+
+                topRatedRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames_2.push(movie.original_title.replace(/\s+/g, ''));
               }
             }
           });
-          this.popularMovies.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 18) {
-                this.popularMovies.splice(index, 1);
-              }
-            }
-          });
-          this.popularMovies_2.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 18) {
-                this.popularMovies_2.splice(index, 1);
-              }
-            }
-          });
-          this.topRatedMovies.filter((movie, index) => {
-            for (const key in movie['genre_ids']) {
-              if (movie['genre_ids'][key] !== 18) {
-                this.topRatedMovies.splice(index, 1);
-              }
-            }
-          });
+          this.topRatedMovies_2 = filteredTopRated_2;
+          this.topRatedMovies_2Poster = topRatedPosters_2;
+          this.topRatedMovies_2Id = topRatedIds_2;
+          this.topRatedMovies_2Names = topRatedNames_2;
+          this.topRatedMovies_2Rating = topRatedRatings_2;
         }
 
-        if (value != 'action') {
-          this.trendingMovies = JSON.parse(localStorage.getItem('trending'));
-          this.popularMovies = JSON.parse(localStorage.getItem('popular'));
-          this.popularMovies_2 = JSON.parse(localStorage.getItem('popular'));
-          this.topRatedMovies = JSON.parse(localStorage.getItem('topRated'));
+        if (value == 'drama') {
+          trendingMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 18) {
+                filteredTrending.push(movie);
+
+                trendingPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                trendingIds.push(movie.id);
+
+                trendingRatings.push(Math.floor(movie.vote_average * 10));
+
+                trendingNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.trendingMovies = filteredTrending;
+          this.trendingMoviesPoster = trendingPosters;
+          this.trendingMoviesId = trendingIds;
+          this.trendingMoviesNames = trendingNames;
+          this.trendingMoviesRating = trendingRatings;
+
+          popularMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 18) {
+                filteredPopular.push(movie);
+
+                popularPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                popularIds.push(movie.id);
+
+                popularRatings.push(Math.floor(movie.vote_average * 10));
+
+                popularNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.popularMovies = filteredPopular;
+          this.popularMoviesPoster = popularPosters;
+          this.popularMoviesId = popularIds;
+          this.popularMoviesNames = popularNames;
+          this.popularMoviesRating = popularRatings;
+
+          popularMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 18) {
+                filteredPopular_2.push(movie);
+
+                popularPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+                popularIds_2.push(movie.id);
+
+                popularRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                popularNames_2.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.popularMovies_2 = filteredPopular_2;
+          this.popularMoviesPoster_2 = popularPosters_2;
+          this.popularMoviesId_2 = popularIds_2;
+          this.popularMoviesNames_2 = popularNames_2;
+          this.popularMoviesRating_2 = popularRatings_2;
+
+          topRatedMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 18) {
+                filteredTopRated.push(movie);
+
+                topRatedPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds.push(movie.id);
+
+                topRatedRatings.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.topRatedMovies = filteredTopRated;
+          this.topRatedMoviesPoster = topRatedPosters;
+          this.topRatedMoviesId = topRatedIds;
+          this.topRatedMoviesNames = topRatedNames;
+          this.topRatedMoviesRating = topRatedRatings;
+
+          topRatedMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 18) {
+                filteredTopRated_2.push(movie);
+
+                topRatedPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds_2.push(movie.id);
+
+                topRatedRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames_2.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.topRatedMovies_2 = filteredTopRated_2;
+          this.topRatedMovies_2Poster = topRatedPosters_2;
+          this.topRatedMovies_2Id = topRatedIds_2;
+          this.topRatedMovies_2Names = topRatedNames_2;
+          this.topRatedMovies_2Rating = topRatedRatings_2;
+        }
+
+        if (value == 'crime') {
+          trendingMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 80) {
+                filteredTrending.push(movie);
+
+                trendingPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                trendingIds.push(movie.id);
+
+                trendingRatings.push(Math.floor(movie.vote_average * 10));
+
+                trendingNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.trendingMovies = filteredTrending;
+          this.trendingMoviesPoster = trendingPosters;
+          this.trendingMoviesId = trendingIds;
+          this.trendingMoviesNames = trendingNames;
+          this.trendingMoviesRating = trendingRatings;
+
+          popularMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 80) {
+                filteredPopular.push(movie);
+
+                popularPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                popularIds.push(movie.id);
+
+                popularRatings.push(Math.floor(movie.vote_average * 10));
+
+                popularNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.popularMovies = filteredPopular;
+          this.popularMoviesPoster = popularPosters;
+          this.popularMoviesId = popularIds;
+          this.popularMoviesNames = popularNames;
+          this.popularMoviesRating = popularRatings;
+
+          popularMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 80) {
+                filteredPopular_2.push(movie);
+
+                popularPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+                popularIds_2.push(movie.id);
+
+                popularRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                popularNames_2.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.popularMovies_2 = filteredPopular_2;
+          this.popularMoviesPoster_2 = popularPosters_2;
+          this.popularMoviesId_2 = popularIds_2;
+          this.popularMoviesNames_2 = popularNames_2;
+          this.popularMoviesRating_2 = popularRatings_2;
+
+          topRatedMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 80) {
+                filteredTopRated.push(movie);
+
+                topRatedPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds.push(movie.id);
+
+                topRatedRatings.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.topRatedMovies = filteredTopRated;
+          this.topRatedMoviesPoster = topRatedPosters;
+          this.topRatedMoviesId = topRatedIds;
+          this.topRatedMoviesNames = topRatedNames;
+          this.topRatedMoviesRating = topRatedRatings;
+
+          topRatedMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 80) {
+                filteredTopRated_2.push(movie);
+
+                topRatedPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds_2.push(movie.id);
+
+                topRatedRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames_2.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.topRatedMovies_2 = filteredTopRated_2;
+          this.topRatedMovies_2Poster = topRatedPosters_2;
+          this.topRatedMovies_2Id = topRatedIds_2;
+          this.topRatedMovies_2Names = topRatedNames_2;
+          this.topRatedMovies_2Rating = topRatedRatings_2;
+        }
+
+        if (value == 'adventure') {
+          trendingMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 12) {
+                filteredTrending.push(movie);
+
+                trendingPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                trendingIds.push(movie.id);
+
+                trendingRatings.push(Math.floor(movie.vote_average * 10));
+
+                trendingNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.trendingMovies = filteredTrending;
+          this.trendingMoviesPoster = trendingPosters;
+          this.trendingMoviesId = trendingIds;
+          this.trendingMoviesNames = trendingNames;
+          this.trendingMoviesRating = trendingRatings;
+
+          popularMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 12) {
+                filteredPopular.push(movie);
+
+                popularPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                popularIds.push(movie.id);
+
+                popularRatings.push(Math.floor(movie.vote_average * 10));
+
+                popularNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.popularMovies = filteredPopular;
+          this.popularMoviesPoster = popularPosters;
+          this.popularMoviesId = popularIds;
+          this.popularMoviesNames = popularNames;
+          this.popularMoviesRating = popularRatings;
+
+          popularMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 12) {
+                filteredPopular_2.push(movie);
+
+                popularPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+                popularIds_2.push(movie.id);
+
+                popularRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                popularNames_2.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.popularMovies_2 = filteredPopular_2;
+          this.popularMoviesPoster_2 = popularPosters_2;
+          this.popularMoviesId_2 = popularIds_2;
+          this.popularMoviesNames_2 = popularNames_2;
+          this.popularMoviesRating_2 = popularRatings_2;
+
+          topRatedMoviesStored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 12) {
+                filteredTopRated.push(movie);
+
+                topRatedPosters.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds.push(movie.id);
+
+                topRatedRatings.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.topRatedMovies = filteredTopRated;
+          this.topRatedMoviesPoster = topRatedPosters;
+          this.topRatedMoviesId = topRatedIds;
+          this.topRatedMoviesNames = topRatedNames;
+          this.topRatedMoviesRating = topRatedRatings;
+
+          topRatedMovies_2Stored.movies.filter((movie) => {
+            for (const key in movie.genre_ids) {
+              if (movie.genre_ids[key] == 12) {
+                filteredTopRated_2.push(movie);
+
+                topRatedPosters_2.push(
+                  'https://image.tmdb.org/t/p/original' + movie.poster_path
+                );
+
+                topRatedIds_2.push(movie.id);
+
+                topRatedRatings_2.push(Math.floor(movie.vote_average * 10));
+
+                topRatedNames_2.push(movie.original_title.replace(/\s+/g, ''));
+              }
+            }
+          });
+          this.topRatedMovies_2 = filteredTopRated_2;
+          this.topRatedMovies_2Poster = topRatedPosters_2;
+          this.topRatedMovies_2Id = topRatedIds_2;
+          this.topRatedMovies_2Names = topRatedNames_2;
+          this.topRatedMovies_2Rating = topRatedRatings_2;
+        }
+
+        if (
+          value != 'action' &&
+          value != 'drama' &&
+          value != 'crime' &&
+          value != 'adventure'
+        ) {
+          this.trendingMovies = trendingMoviesStored.movies;
+          this.trendingMoviesPoster = trendingMoviesStored.moviePosterPaths;
+          this.trendingMoviesId = trendingMoviesStored.movieIds;
+          this.trendingMoviesNames = trendingMoviesStored.movieNames;
+          this.trendingMoviesRating = trendingMoviesStored.movieRatings;
+
+          this.popularMovies = popularMoviesStored.movies;
+          this.popularMoviesPoster = popularMoviesStored.moviePosterPaths;
+          this.popularMoviesId = popularMoviesStored.movieIds;
+          this.popularMoviesNames = popularMoviesStored.movieNames;
+          this.popularMoviesRating = popularMoviesStored.movieRatings;
+
+          this.popularMovies_2 = popularMovies_2Stored.movies;
+          this.popularMoviesPoster_2 = popularMovies_2Stored.moviePosterPaths;
+          this.popularMoviesId_2 = popularMovies_2Stored.movieIds;
+          this.popularMoviesNames_2 = popularMovies_2Stored.movieNames;
+          this.popularMoviesRating_2 = popularMovies_2Stored.movieRatings;
+
+          this.topRatedMovies = topRatedMoviesStored.movies;
+          this.topRatedMoviesPoster = topRatedMoviesStored.moviePosterPaths;
+          this.topRatedMoviesId = topRatedMoviesStored.movieIds;
+          this.topRatedMoviesNames = topRatedMoviesStored.movieNames;
+          this.topRatedMoviesRating = topRatedMoviesStored.movieRatings;
+
+          this.topRatedMovies_2 = topRatedMovies_2Stored.movies;
+          this.topRatedMovies_2Poster = topRatedMovies_2Stored.moviePosterPaths;
+          this.topRatedMovies_2Id = topRatedMovies_2Stored.movieIds;
+          this.topRatedMovies_2Names = topRatedMovies_2Stored.movieNames;
+          this.topRatedMovies_2Rating = topRatedMovies_2Stored.movieRatings;
         }
       },
     });

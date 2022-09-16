@@ -55,7 +55,13 @@
   <div
     class="sort-container"
     *ngIf="
-      sortValue == 'all' || sortValue == 'trending' || sortValue == 'action'
+      sortValue == 'all' ||
+      sortValue == 'trending' ||
+      sortValue == 'action' ||
+      sortValue == 'drama' ||
+      sortValue == 'adventure' ||
+      sortValue == 'crime' ||
+      sortValue == 'horror'
     "
   >
     <div class="movies" *ngIf="!searchState">
@@ -120,7 +126,13 @@
   <div
     class="sort-container"
     *ngIf="
-      sortValue == 'all' || sortValue == 'popular' || sortValue == 'action'
+      sortValue == 'all' ||
+      sortValue == 'popular' ||
+      sortValue == 'action' ||
+      sortValue == 'drama' ||
+      sortValue == 'adventure' ||
+      sortValue == 'crime' ||
+      sortValue == 'horror'
     "
   >
     <div class="movies" *ngIf="!searchState">
@@ -238,7 +250,13 @@
   <div
     class="sort-container"
     *ngIf="
-      sortValue == 'all' || sortValue == 'top-rated' || sortValue == 'action'
+      sortValue == 'all' ||
+      sortValue == 'top-rated' ||
+      sortValue == 'action' ||
+      sortValue == 'drama' ||
+      sortValue == 'adventure' ||
+      sortValue == 'crime' ||
+      sortValue == 'horror'
     "
   >
     <div class="movies top-rated" *ngIf="!searchState">

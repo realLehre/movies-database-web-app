@@ -118,7 +118,7 @@ export class MoviesService {
   ratingColor(rating: number): string {
     if (rating < 51) {
       return '#DC143C';
-    } else if (rating < 71) {
+    } else if (rating < 70) {
       return 'yellow';
     } else {
       return 'green';
