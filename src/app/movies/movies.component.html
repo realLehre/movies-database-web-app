@@ -3,12 +3,12 @@
   <div
     class="movies movies-search"
     *ngIf="
-      searchState ||
-      sortValue == 'action' ||
-      sortValue == 'drama' ||
-      sortValue == 'adventure' ||
-      sortValue == 'crime' ||
-      sortValue == 'horror'
+      (searchState && sortValue == 'all') ||
+      (searchState && sortValue == 'horror') ||
+      (searchState && sortValue == 'action') ||
+      (searchState && sortValue == 'drama') ||
+      (searchState && sortValue == 'adventure') ||
+      (searchState && sortValue == 'crime')
     "
   >
     <div class="movies-type">
