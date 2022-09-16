@@ -19,7 +19,7 @@
               <div class="fav-overlay"></div>
               <div class="fav-container" #like>
                 <i
-                  class="fa fa-star"
+                  class="fa fa-heart"
                   id="favorite"
                   [ngClass]="{ liked: movieLiked }"
                   (click)="addToLiked($event, movieId, movie)"
@@ -143,7 +143,7 @@
             <div class="fav-overlay"></div>
             <div class="fav-container" #like>
               <i
-                class="fa fa-star"
+                class="fa fa-heart"
                 id="favorite"
                 [ngClass]="{ liked: recommendedMovies[i].liked }"
                 (click)="
