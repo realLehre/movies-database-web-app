@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   Router,
   Event,
@@ -20,6 +27,7 @@ export class AppComponent implements OnInit {
   title = 'movies-database-app';
   isLoading: boolean = true;
   obs: Subscription;
+  searching: boolean = false;
 
   constructor(private router: Router, private moviesService: MoviesService) {}
 
@@ -51,6 +59,10 @@ export class AppComponent implements OnInit {
 
     this.moviesService.isFetching.subscribe((state) => {
       this.isLoading = state;
+    });
+
+    this.moviesService.searching.subscribe((state) => {
+      this.searching = state;
     });
   }
 }

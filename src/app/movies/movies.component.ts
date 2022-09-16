@@ -1083,6 +1083,10 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  closeRecents() {
+    this.moviesService.searching.next(false);
+  }
+
   ratingColor(rating: number): string {
     return this.moviesService.ratingColor(rating);
   }

@@ -17,3 +17,14 @@
     z-index: 3;
   }
 }
+
+app-recent-searches {
+  height: 0px;
+  transform: translateY(-1000px);
+  transition: all 1000ms ease-in-out;
+
+  &.searching {
+    height: 300px;
+    transform: translateY(0);
+  }
+}

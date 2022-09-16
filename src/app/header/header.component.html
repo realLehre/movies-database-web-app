@@ -13,6 +13,7 @@
           type="text"
           placeholder="Search movies"
           [formControlName]="'searchResult'"
+          (click)="check()"
         />
         <button type="submit"><mat-icon>search</mat-icon></button>
       </form>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { MovieObject, RefinedResponse } from '../shared/movie.model';
 
 @Injectable({ providedIn: 'root' })
@@ -9,7 +9,9 @@ export class MoviesService {
   search = new Subject<boolean>();
   searchState: boolean;
   searchName = new Subject<string>();
+  searchNames: string[] = [];
   moviesSearch = new Subject<RefinedResponse>();
+  searching = new Subject<boolean>();
 
   isLoading = new Subject<boolean>();
   isFetching = new Subject<boolean>();
@@ -23,6 +25,12 @@ export class MoviesService {
     } else {
       this.likedMovies = [];
     }
+
+    if (JSON.parse(localStorage.getItem('searchNames')) != null) {
+      this.searchNames = JSON.parse(localStorage.getItem('searchNames'));
+    } else {
+      this.searchNames = [];
+    }
   }
 
   searchResult(state: boolean) {
@@ -31,6 +39,14 @@ export class MoviesService {
 
   searchedMovies(movies: RefinedResponse) {
     return this.moviesSearch.next(movies);
+  }
+
+  getSearchNames() {
+    this.searchName.pipe(take(1)).subscribe((name) => {
+      this.searchNames.unshift(name);
+
+      localStorage.setItem('searchNames', JSON.stringify(this.searchNames));
+    });
   }
 
   onLike(movie: MovieObject, id: number) {

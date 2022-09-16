@@ -12,6 +12,7 @@ import { MoviesService } from '../services/movies.service';
 export class HeaderComponent implements OnInit {
   searchForm: FormGroup;
   error: boolean = false;
+  searching: boolean = false;
 
   constructor(
     private router: Router,
@@ -27,6 +28,8 @@ export class HeaderComponent implements OnInit {
 
   onSubmit() {
     const search = this.searchForm.value.searchResult.toLowerCase();
+
+    this.moviesService.getSearchNames();
 
     if (this.searchForm.invalid) {
       return null;
@@ -47,8 +50,14 @@ export class HeaderComponent implements OnInit {
       });
 
       this.router.navigate(['movies', 'search', search]);
+
+      this.moviesService.searching.next(false);
     }
 
     this.searchForm.reset();
+  }
+
+  check() {
+    this.moviesService.searching.next(true);
   }
 }

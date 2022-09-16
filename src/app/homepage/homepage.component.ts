@@ -48,4 +48,8 @@ export class HomepageComponent implements OnInit {
   onSort(sort) {
     this.moviesService.sortValue.next(sort);
   }
+
+  closeRecents() {
+    this.moviesService.searching.next(false);
+  }
 }

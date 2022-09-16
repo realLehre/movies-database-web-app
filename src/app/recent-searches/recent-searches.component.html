@@ -1,0 +1,18 @@
+<div class="recents-container">
+  <div class="recents">
+    <div class="heading-container">
+      <i class="fa fa-long-arrow-left" (click)="closeRecents()"></i>
+      <p class="heading">RECENT SEARCHES</p>
+    </div>
+
+    <div class="names">
+      <li
+        class="searchNames"
+        *ngFor="let name of searchNames; let i = index"
+        (click)="searchRecent(name)"
+      >
+        {{ name }} <i class="fa fa-angle-right"></i>
+      </li>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpService } from '../services/http.service';
+import { MoviesService } from '../services/movies.service';
+
+@Component({
+  selector: 'app-recent-searches',
+  templateUrl: './recent-searches.component.html',
+  styleUrls: ['./recent-searches.component.scss'],
+})
+export class RecentSearchesComponent implements OnInit {
+  searchNames: string[];
+
+  constructor(
+    private router: Router,
+    private httpService: HttpService,
+    private moviesService: MoviesService
+  ) {}
+
+  ngOnInit(): void {
+    this.searchNames = JSON.parse(localStorage.getItem('searchNames'));
+
+    if (JSON.parse(localStorage.getItem('searchNames')).length > 5) {
+      this.searchNames.splice(5);
+    }
+  }
+
+  searchRecent(name: string) {
+    this.httpService.searchMovies(name).subscribe({
+      next: (data) => {
+        this.moviesService.searchedMovies(data);
+
+        this.moviesService.searchName.next(name);
+      },
+      error: (err) => {
+        if (err) {
+        }
+      },
+    });
+
+    this.router.navigate(['movies', 'search', name]);
+
+    this.moviesService.searching.next(false);
+  }
+
+  closeRecents() {
+    this.moviesService.searching.next(false);
+  }
+}
