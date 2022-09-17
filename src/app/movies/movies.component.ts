@@ -78,6 +78,14 @@ export class MoviesComponent implements OnInit, AfterViewInit {
 
     const likedMoviesTest = this.moviesService.getLikedMovies();
 
+    this.searchMoviesStored = {
+      movieIds: [],
+      movieNames: [],
+      moviePosterPaths: [],
+      movieRatings: [],
+      movies: [],
+    };
+
     // Trending
     this.httpService.getTrending().subscribe({
       next: (movieData) => {
@@ -98,8 +106,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.trendingMoviesStored = JSON.parse(
           localStorage.getItem('trending')
         );
-
-        console.log(this.trendingMoviesStored);
       },
       error: (err) => {
         if (err) {
@@ -266,6 +272,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         });
 
         localStorage.setItem('Movies', JSON.stringify(movies));
+
         if (JSON.parse(localStorage.getItem('Movies')) != null) {
           this.searchMoviesStored = JSON.parse(localStorage.getItem('Movies'));
         } else {
@@ -277,6 +284,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
             movies: [],
           };
         }
+
+        console.log(this.searchMoviesStored);
       },
     });
 
@@ -291,30 +300,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     this.moviesService.sortValue.subscribe({
       next: (value) => {
         this.sortValue = value;
-
-        // const trendingMoviesStored: RefinedResponse = JSON.parse(
-        //   localStorage.getItem('trending')
-        // );
-
-        const popularMoviesStored: RefinedResponse = JSON.parse(
-          localStorage.getItem('popular')
-        );
-
-        const popularMovies_2Stored: RefinedResponse = JSON.parse(
-          localStorage.getItem('popular_2')
-        );
-
-        const topRatedMoviesStored: RefinedResponse = JSON.parse(
-          localStorage.getItem('topRated')
-        );
-
-        const topRatedMovies_2Stored: RefinedResponse = JSON.parse(
-          localStorage.getItem('topRated_2')
-        );
-
-        const searchMoviesStored: RefinedResponse = JSON.parse(
-          localStorage.getItem('Movies')
-        );
 
         const filteredTrending = [];
         const trendingPosters = [];
@@ -683,7 +668,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.trendingMoviesNames = trendingNames;
           this.trendingMoviesRating = trendingRatings;
 
-          popularMoviesStored.movies.filter((movie) => {
+          this.popularMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 80) {
                 filteredPopular.push(movie);
@@ -706,7 +691,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames = popularNames;
           this.popularMoviesRating = popularRatings;
 
-          popularMovies_2Stored.movies.filter((movie) => {
+          this.popularMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 80) {
                 filteredPopular_2.push(movie);
@@ -728,7 +713,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames_2 = popularNames_2;
           this.popularMoviesRating_2 = popularRatings_2;
 
-          topRatedMoviesStored.movies.filter((movie) => {
+          this.topRatedMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 80) {
                 filteredTopRated.push(movie);
@@ -751,7 +736,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.topRatedMoviesNames = topRatedNames;
           this.topRatedMoviesRating = topRatedRatings;
 
-          topRatedMovies_2Stored.movies.filter((movie) => {
+          this.topRatedMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 80) {
                 filteredTopRated_2.push(movie);
@@ -824,7 +809,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.trendingMoviesNames = trendingNames;
           this.trendingMoviesRating = trendingRatings;
 
-          popularMoviesStored.movies.filter((movie) => {
+          this.popularMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 12) {
                 filteredPopular.push(movie);
@@ -847,7 +832,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames = popularNames;
           this.popularMoviesRating = popularRatings;
 
-          popularMovies_2Stored.movies.filter((movie) => {
+          this.popularMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 12) {
                 filteredPopular_2.push(movie);
@@ -869,7 +854,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames_2 = popularNames_2;
           this.popularMoviesRating_2 = popularRatings_2;
 
-          topRatedMoviesStored.movies.filter((movie) => {
+          this.topRatedMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 12) {
                 filteredTopRated.push(movie);
@@ -892,7 +877,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.topRatedMoviesNames = topRatedNames;
           this.topRatedMoviesRating = topRatedRatings;
 
-          topRatedMovies_2Stored.movies.filter((movie) => {
+          this.topRatedMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 12) {
                 filteredTopRated_2.push(movie);
@@ -965,7 +950,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.trendingMoviesNames = trendingNames;
           this.trendingMoviesRating = trendingRatings;
 
-          popularMoviesStored.movies.filter((movie) => {
+          this.popularMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 27) {
                 filteredPopular.push(movie);
@@ -988,7 +973,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames = popularNames;
           this.popularMoviesRating = popularRatings;
 
-          popularMovies_2Stored.movies.filter((movie) => {
+          this.popularMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 27) {
                 filteredPopular_2.push(movie);
@@ -1010,7 +995,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames_2 = popularNames_2;
           this.popularMoviesRating_2 = popularRatings_2;
 
-          topRatedMoviesStored.movies.filter((movie) => {
+          this.topRatedMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 27) {
                 filteredTopRated.push(movie);
@@ -1033,7 +1018,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.topRatedMoviesNames = topRatedNames;
           this.topRatedMoviesRating = topRatedRatings;
 
-          topRatedMovies_2Stored.movies.filter((movie) => {
+          this.topRatedMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 27) {
                 filteredTopRated_2.push(movie);
