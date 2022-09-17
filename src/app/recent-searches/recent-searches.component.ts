@@ -64,5 +64,16 @@ export class RecentSearchesComponent implements OnInit, AfterViewChecked {
   removeSearch(index) {
     this.moviesService.removeSearchName(index);
     this.searchNames = JSON.parse(localStorage.getItem('searchNames'));
+    if (JSON.parse(localStorage.getItem('searchNames')).length == 0) {
+      this.moviesService.searching.next(false);
+    }
+  }
+
+  clearSearch() {
+    if (confirm('Clear all search?')) {
+      this.searchNames = [];
+      localStorage.setItem('searchNames', JSON.stringify([]));
+      this.moviesService.searching.next(false);
+    }
   }
 }

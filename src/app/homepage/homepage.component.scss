@@ -12,18 +12,41 @@
 .sort {
   @include flex;
 
-  & button {
-    border: none;
-    background: $main-color;
-    padding: 10px 15px;
-    color: white;
-    font-size: 15px;
-    @include transition;
-    border-radius: 5px;
-    cursor: pointer;
+  & .favorites {
+    position: relative;
 
-    &:hover {
-      background: $main-color-hover;
+    & button {
+      border: none;
+      background: $main-color;
+      padding: 10px 15px;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      @include transition;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background: $main-color-hover;
+      }
+    }
+
+    & .fav-count {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 17px;
+      font-weight: 600;
+      background: white;
+      color: black;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
     }
   }
 }

@@ -15,6 +15,10 @@
         ></span>
       </li>
     </div>
+
+    <div class="clear" (click)="clearSearch()" *ngIf="searchNames.length > 1">
+      Clear
+    </div>
   </div>
 </div>
 <div class="recents-underlay"></div>

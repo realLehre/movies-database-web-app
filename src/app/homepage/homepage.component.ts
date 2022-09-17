@@ -19,12 +19,13 @@ import { MoviesService } from '../services/movies.service';
   styleUrls: ['./homepage.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, AfterViewChecked {
   sort: string;
 
   search: boolean;
-
   searchState: boolean;
+
+  likedMoviesCount: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +44,10 @@ export class HomepageComponent implements OnInit {
     this.search = this.moviesService.searchState;
 
     this.moviesService.isLoading.next(false);
+  }
+
+  ngAfterViewChecked(): void {
+    this.likedMoviesCount = JSON.parse(localStorage.getItem('liked')).length;
   }
 
   onSort(sort) {
