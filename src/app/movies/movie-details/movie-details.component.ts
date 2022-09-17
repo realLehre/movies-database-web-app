@@ -149,8 +149,9 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
 
     if (movie['liked'] == true) {
       this.moviesService.onLike(movie, id);
-
-      this.movieLiked = movie['liked'];
+      if (movie.id == this.movieId) {
+        this.movieLiked = movie['liked'];
+      }
 
       movieContainer.classList.add('showAdd');
       posterInDetails.classList.add('showAdd');
@@ -162,7 +163,9 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     } else {
       this.moviesService.onDisLike(id);
 
-      this.movieLiked = movie['liked'];
+      if (movie.id == this.movieId) {
+        this.movieLiked = movie['liked'];
+      }
 
       movieContainer.classList.add('showRemove');
       posterInDetails.classList.add('showRemove');
