@@ -290,6 +290,7 @@
 
       & .movie-cast {
         margin-top: 40px;
+
         & .heading {
           font-size: 18px;
           font-weight: 500;
@@ -302,14 +303,12 @@
 
         & .cast {
           & ul {
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             & li {
               &:not(:last-child) {
                 margin-bottom: 10px;
-                margin-right: 25px;
+                // margin-right: 25px;
               }
               & .name {
                 font-size: 15px;
@@ -592,7 +591,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .overview-container {
     & .overview {
       @include flex;
@@ -647,6 +646,7 @@
 
         & .movie-cast {
           margin-top: 40px;
+
           & .heading {
             font-size: 18px;
           }

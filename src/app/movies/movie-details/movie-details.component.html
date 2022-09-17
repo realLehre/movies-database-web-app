@@ -95,10 +95,8 @@
                 <div class="cast">
                   <ul>
                     <li *ngFor="let cast of casts; let i = index">
-                      <div class="name" *ngIf="i < 6">{{ cast.name }}</div>
-                      <span class="character" *ngIf="i < 6">{{
-                        cast.character
-                      }}</span>
+                      <div class="name">{{ cast.name }}</div>
+                      <span class="character">{{ cast.character }}</span>
                     </li>
                   </ul>
                 </div>

@@ -84,6 +84,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.original_title = movieData.original_title;
         this.release_date = movieData.release_date;
         this.casts = movieData.casts;
+        this.casts.splice(6);
         this.homepage = movieData.homepage;
         this.overview = movieData.overview;
         this.popularity = movieData.popularity;
