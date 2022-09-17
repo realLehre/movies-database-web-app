@@ -41,7 +41,7 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.likedMoviesCount = JSON.parse(localStorage.getItem('liked')).length;
+    this.likedMoviesCount = this.moviesService.likedMovies.length;
   }
 
   onSort(sort) {

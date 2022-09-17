@@ -24,30 +24,35 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   trendingMoviesPoster: string[];
   trendingMoviesId: number[];
   trendingMoviesNames: string[];
+  trendingMoviesStored: RefinedResponse;
 
   popularMovies: Array<MovieObject>;
   popularMoviesRating: Array<number>;
   popularMoviesPoster: string[];
   popularMoviesId: number[];
   popularMoviesNames: string[];
+  popularMoviesStored: RefinedResponse;
 
   popularMovies_2: Array<MovieObject>;
   popularMoviesRating_2: Array<number>;
   popularMoviesPoster_2: string[];
   popularMoviesId_2: number[];
   popularMoviesNames_2: string[];
+  popularMovies_2Stored: RefinedResponse;
 
   topRatedMovies: Array<MovieObject>;
   topRatedMoviesRating: Array<number>;
   topRatedMoviesPoster: string[];
   topRatedMoviesId: number[];
   topRatedMoviesNames: string[];
+  topRatedMoviesStored: RefinedResponse;
 
   topRatedMovies_2: Array<MovieObject>;
   topRatedMovies_2Rating: Array<number>;
   topRatedMovies_2Poster: string[];
   topRatedMovies_2Id: number[];
   topRatedMovies_2Names: string[];
+  topRatedMovies_2Stored: RefinedResponse;
 
   searchState: boolean;
   searchName: string;
@@ -56,6 +61,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   searchMoviesPoster: string[];
   searchMoviesId: number[];
   searchMoviesNames: string[];
+  searchMoviesStored: RefinedResponse;
 
   isFetching: boolean = false;
 
@@ -88,6 +94,12 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         });
 
         localStorage.setItem('trending', JSON.stringify(movieData));
+
+        this.trendingMoviesStored = JSON.parse(
+          localStorage.getItem('trending')
+        );
+
+        console.log(this.trendingMoviesStored);
       },
       error: (err) => {
         if (err) {
@@ -114,6 +126,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         });
 
         localStorage.setItem('popular', JSON.stringify(movieData));
+
+        this.popularMoviesStored = JSON.parse(localStorage.getItem('popular'));
       },
       error: (err) => {
         if (err) {
@@ -138,6 +152,10 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         });
 
         localStorage.setItem('popular_2', JSON.stringify(movieData));
+
+        this.popularMovies_2Stored = JSON.parse(
+          localStorage.getItem('popular_2')
+        );
       },
       error: (err) => {
         if (err) {
@@ -164,6 +182,10 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         });
 
         localStorage.setItem('topRated', JSON.stringify(movieData));
+
+        this.topRatedMoviesStored = JSON.parse(
+          localStorage.getItem('topRated')
+        );
       },
       error: (err) => {
         if (err) {
@@ -192,6 +214,10 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         });
 
         localStorage.setItem('topRated_2', JSON.stringify(movieData));
+
+        this.topRatedMovies_2Stored = JSON.parse(
+          localStorage.getItem('topRated_2')
+        );
       },
       error: (err) => {
         if (err) {
@@ -240,6 +266,17 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         });
 
         localStorage.setItem('Movies', JSON.stringify(movies));
+        if (JSON.parse(localStorage.getItem('Movies')) != null) {
+          this.searchMoviesStored = JSON.parse(localStorage.getItem('Movies'));
+        } else {
+          this.searchMoviesStored = {
+            movieIds: [],
+            movieNames: [],
+            moviePosterPaths: [],
+            movieRatings: [],
+            movies: [],
+          };
+        }
       },
     });
 
@@ -255,9 +292,9 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       next: (value) => {
         this.sortValue = value;
 
-        const trendingMoviesStored: RefinedResponse = JSON.parse(
-          localStorage.getItem('trending')
-        );
+        // const trendingMoviesStored: RefinedResponse = JSON.parse(
+        //   localStorage.getItem('trending')
+        // );
 
         const popularMoviesStored: RefinedResponse = JSON.parse(
           localStorage.getItem('popular')
@@ -316,30 +353,32 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         const searchNames = [];
 
         if (value == 'action') {
-          searchMoviesStored.movies.filter((movie) => {
-            for (const key in movie.genre_ids) {
-              if (movie.genre_ids[key] == 28) {
-                filteredSearch.push(movie);
+          if (JSON.parse(localStorage.getItem('Movies')) != null) {
+            this.searchMoviesStored.movies.filter((movie) => {
+              for (const key in movie.genre_ids) {
+                if (movie.genre_ids[key] == 28) {
+                  filteredSearch.push(movie);
 
-                searchPosters.push(
-                  'https://image.tmdb.org/t/p/original' + movie.poster_path
-                );
+                  searchPosters.push(
+                    'https://image.tmdb.org/t/p/original' + movie.poster_path
+                  );
 
-                searchIds.push(movie.id);
+                  searchIds.push(movie.id);
 
-                searchRatings.push(Math.floor(movie.vote_average * 10));
+                  searchRatings.push(Math.floor(movie.vote_average * 10));
 
-                searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                  searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                }
               }
-            }
-          });
-          this.searchMovies = filteredSearch;
-          this.searchMoviesPoster = searchPosters;
-          this.searchMoviesId = searchIds;
-          this.searchMoviesNames = searchNames;
-          this.searchMoviesRating = searchRatings;
+            });
+            this.searchMovies = filteredSearch;
+            this.searchMoviesPoster = searchPosters;
+            this.searchMoviesId = searchIds;
+            this.searchMoviesNames = searchNames;
+            this.searchMoviesRating = searchRatings;
+          }
 
-          trendingMoviesStored.movies.filter((movie) => {
+          this.trendingMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 28) {
                 filteredTrending.push(movie);
@@ -362,7 +401,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.trendingMoviesNames = trendingNames;
           this.trendingMoviesRating = trendingRatings;
 
-          popularMoviesStored.movies.filter((movie) => {
+          this.popularMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 28) {
                 filteredPopular.push(movie);
@@ -385,7 +424,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames = popularNames;
           this.popularMoviesRating = popularRatings;
 
-          popularMovies_2Stored.movies.filter((movie) => {
+          this.popularMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 28) {
                 filteredPopular_2.push(movie);
@@ -407,7 +446,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames_2 = popularNames_2;
           this.popularMoviesRating_2 = popularRatings_2;
 
-          topRatedMoviesStored.movies.filter((movie) => {
+          this.topRatedMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 28) {
                 filteredTopRated.push(movie);
@@ -430,7 +469,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.topRatedMoviesNames = topRatedNames;
           this.topRatedMoviesRating = topRatedRatings;
 
-          topRatedMovies_2Stored.movies.filter((movie) => {
+          this.topRatedMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 28) {
                 filteredTopRated_2.push(movie);
@@ -455,30 +494,32 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         }
 
         if (value == 'drama') {
-          searchMoviesStored.movies.filter((movie) => {
-            for (const key in movie.genre_ids) {
-              if (movie.genre_ids[key] == 18) {
-                filteredSearch.push(movie);
+          if (JSON.parse(localStorage.getItem('Movies')) != null) {
+            this.searchMoviesStored.movies.filter((movie) => {
+              for (const key in movie.genre_ids) {
+                if (movie.genre_ids[key] == 18) {
+                  filteredSearch.push(movie);
 
-                searchPosters.push(
-                  'https://image.tmdb.org/t/p/original' + movie.poster_path
-                );
+                  searchPosters.push(
+                    'https://image.tmdb.org/t/p/original' + movie.poster_path
+                  );
 
-                searchIds.push(movie.id);
+                  searchIds.push(movie.id);
 
-                searchRatings.push(Math.floor(movie.vote_average * 10));
+                  searchRatings.push(Math.floor(movie.vote_average * 10));
 
-                searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                  searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                }
               }
-            }
-          });
-          this.searchMovies = filteredSearch;
-          this.searchMoviesPoster = searchPosters;
-          this.searchMoviesId = searchIds;
-          this.searchMoviesNames = searchNames;
-          this.searchMoviesRating = searchRatings;
+            });
+            this.searchMovies = filteredSearch;
+            this.searchMoviesPoster = searchPosters;
+            this.searchMoviesId = searchIds;
+            this.searchMoviesNames = searchNames;
+            this.searchMoviesRating = searchRatings;
+          }
 
-          trendingMoviesStored.movies.filter((movie) => {
+          this.trendingMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 18) {
                 filteredTrending.push(movie);
@@ -501,7 +542,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.trendingMoviesNames = trendingNames;
           this.trendingMoviesRating = trendingRatings;
 
-          popularMoviesStored.movies.filter((movie) => {
+          this.popularMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 18) {
                 filteredPopular.push(movie);
@@ -524,7 +565,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames = popularNames;
           this.popularMoviesRating = popularRatings;
 
-          popularMovies_2Stored.movies.filter((movie) => {
+          this.popularMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 18) {
                 filteredPopular_2.push(movie);
@@ -546,7 +587,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.popularMoviesNames_2 = popularNames_2;
           this.popularMoviesRating_2 = popularRatings_2;
 
-          topRatedMoviesStored.movies.filter((movie) => {
+          this.topRatedMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 18) {
                 filteredTopRated.push(movie);
@@ -569,7 +610,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           this.topRatedMoviesNames = topRatedNames;
           this.topRatedMoviesRating = topRatedRatings;
 
-          topRatedMovies_2Stored.movies.filter((movie) => {
+          this.topRatedMovies_2Stored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 18) {
                 filteredTopRated_2.push(movie);
@@ -594,30 +635,32 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         }
 
         if (value == 'crime') {
-          searchMoviesStored.movies.filter((movie) => {
-            for (const key in movie.genre_ids) {
-              if (movie.genre_ids[key] == 80) {
-                filteredSearch.push(movie);
+          if (JSON.parse(localStorage.getItem('Movies')) != null) {
+            this.searchMoviesStored.movies.filter((movie) => {
+              for (const key in movie.genre_ids) {
+                if (movie.genre_ids[key] == 80) {
+                  filteredSearch.push(movie);
 
-                searchPosters.push(
-                  'https://image.tmdb.org/t/p/original' + movie.poster_path
-                );
+                  searchPosters.push(
+                    'https://image.tmdb.org/t/p/original' + movie.poster_path
+                  );
 
-                searchIds.push(movie.id);
+                  searchIds.push(movie.id);
 
-                searchRatings.push(Math.floor(movie.vote_average * 10));
+                  searchRatings.push(Math.floor(movie.vote_average * 10));
 
-                searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                  searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                }
               }
-            }
-          });
-          this.searchMovies = filteredSearch;
-          this.searchMoviesPoster = searchPosters;
-          this.searchMoviesId = searchIds;
-          this.searchMoviesNames = searchNames;
-          this.searchMoviesRating = searchRatings;
+            });
+            this.searchMovies = filteredSearch;
+            this.searchMoviesPoster = searchPosters;
+            this.searchMoviesId = searchIds;
+            this.searchMoviesNames = searchNames;
+            this.searchMoviesRating = searchRatings;
+          }
 
-          trendingMoviesStored.movies.filter((movie) => {
+          this.trendingMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 80) {
                 filteredTrending.push(movie);
@@ -733,30 +776,32 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         }
 
         if (value == 'adventure') {
-          searchMoviesStored.movies.filter((movie) => {
-            for (const key in movie.genre_ids) {
-              if (movie.genre_ids[key] == 12) {
-                filteredSearch.push(movie);
+          if (JSON.parse(localStorage.getItem('Movies')) != null) {
+            this.searchMoviesStored.movies.filter((movie) => {
+              for (const key in movie.genre_ids) {
+                if (movie.genre_ids[key] == 12) {
+                  filteredSearch.push(movie);
 
-                searchPosters.push(
-                  'https://image.tmdb.org/t/p/original' + movie.poster_path
-                );
+                  searchPosters.push(
+                    'https://image.tmdb.org/t/p/original' + movie.poster_path
+                  );
 
-                searchIds.push(movie.id);
+                  searchIds.push(movie.id);
 
-                searchRatings.push(Math.floor(movie.vote_average * 10));
+                  searchRatings.push(Math.floor(movie.vote_average * 10));
 
-                searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                  searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                }
               }
-            }
-          });
-          this.searchMovies = filteredSearch;
-          this.searchMoviesPoster = searchPosters;
-          this.searchMoviesId = searchIds;
-          this.searchMoviesNames = searchNames;
-          this.searchMoviesRating = searchRatings;
+            });
+            this.searchMovies = filteredSearch;
+            this.searchMoviesPoster = searchPosters;
+            this.searchMoviesId = searchIds;
+            this.searchMoviesNames = searchNames;
+            this.searchMoviesRating = searchRatings;
+          }
 
-          trendingMoviesStored.movies.filter((movie) => {
+          this.trendingMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 12) {
                 filteredTrending.push(movie);
@@ -872,30 +917,32 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         }
 
         if (value == 'horror') {
-          searchMoviesStored.movies.filter((movie) => {
-            for (const key in movie.genre_ids) {
-              if (movie.genre_ids[key] == 27) {
-                filteredSearch.push(movie);
+          if (JSON.parse(localStorage.getItem('Movies')) != null) {
+            this.searchMoviesStored.movies.filter((movie) => {
+              for (const key in movie.genre_ids) {
+                if (movie.genre_ids[key] == 27) {
+                  filteredSearch.push(movie);
 
-                searchPosters.push(
-                  'https://image.tmdb.org/t/p/original' + movie.poster_path
-                );
+                  searchPosters.push(
+                    'https://image.tmdb.org/t/p/original' + movie.poster_path
+                  );
 
-                searchIds.push(movie.id);
+                  searchIds.push(movie.id);
 
-                searchRatings.push(Math.floor(movie.vote_average * 10));
+                  searchRatings.push(Math.floor(movie.vote_average * 10));
 
-                searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                  searchNames.push(movie.original_title.replace(/\s+/g, ''));
+                }
               }
-            }
-          });
-          this.searchMovies = filteredSearch;
-          this.searchMoviesPoster = searchPosters;
-          this.searchMoviesId = searchIds;
-          this.searchMoviesNames = searchNames;
-          this.searchMoviesRating = searchRatings;
+            });
+            this.searchMovies = filteredSearch;
+            this.searchMoviesPoster = searchPosters;
+            this.searchMoviesId = searchIds;
+            this.searchMoviesNames = searchNames;
+            this.searchMoviesRating = searchRatings;
+          }
 
-          trendingMoviesStored.movies.filter((movie) => {
+          this.trendingMoviesStored.movies.filter((movie) => {
             for (const key in movie.genre_ids) {
               if (movie.genre_ids[key] == 27) {
                 filteredTrending.push(movie);
@@ -1017,41 +1064,46 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           value != 'adventure' &&
           value != 'horror'
         ) {
-          this.searchMovies = searchMoviesStored.movies;
-          this.searchMoviesPoster = searchMoviesStored.moviePosterPaths;
-          this.searchMoviesId = searchMoviesStored.movieIds;
-          this.searchMoviesNames = searchMoviesStored.movieNames;
-          this.searchMoviesRating = searchMoviesStored.movieRatings;
+          this.searchMovies = this.searchMoviesStored.movies;
+          this.searchMoviesPoster = this.searchMoviesStored.moviePosterPaths;
+          this.searchMoviesId = this.searchMoviesStored.movieIds;
+          this.searchMoviesNames = this.searchMoviesStored.movieNames;
+          this.searchMoviesRating = this.searchMoviesStored.movieRatings;
 
-          this.trendingMovies = trendingMoviesStored.movies;
-          this.trendingMoviesPoster = trendingMoviesStored.moviePosterPaths;
-          this.trendingMoviesId = trendingMoviesStored.movieIds;
-          this.trendingMoviesNames = trendingMoviesStored.movieNames;
-          this.trendingMoviesRating = trendingMoviesStored.movieRatings;
+          this.trendingMovies = this.trendingMoviesStored.movies;
+          this.trendingMoviesPoster =
+            this.trendingMoviesStored.moviePosterPaths;
+          this.trendingMoviesId = this.trendingMoviesStored.movieIds;
+          this.trendingMoviesNames = this.trendingMoviesStored.movieNames;
+          this.trendingMoviesRating = this.trendingMoviesStored.movieRatings;
 
-          this.popularMovies = popularMoviesStored.movies;
-          this.popularMoviesPoster = popularMoviesStored.moviePosterPaths;
-          this.popularMoviesId = popularMoviesStored.movieIds;
-          this.popularMoviesNames = popularMoviesStored.movieNames;
-          this.popularMoviesRating = popularMoviesStored.movieRatings;
+          this.popularMovies = this.popularMoviesStored.movies;
+          this.popularMoviesPoster = this.popularMoviesStored.moviePosterPaths;
+          this.popularMoviesId = this.popularMoviesStored.movieIds;
+          this.popularMoviesNames = this.popularMoviesStored.movieNames;
+          this.popularMoviesRating = this.popularMoviesStored.movieRatings;
 
-          this.popularMovies_2 = popularMovies_2Stored.movies;
-          this.popularMoviesPoster_2 = popularMovies_2Stored.moviePosterPaths;
-          this.popularMoviesId_2 = popularMovies_2Stored.movieIds;
-          this.popularMoviesNames_2 = popularMovies_2Stored.movieNames;
-          this.popularMoviesRating_2 = popularMovies_2Stored.movieRatings;
+          this.popularMovies_2 = this.popularMovies_2Stored.movies;
+          this.popularMoviesPoster_2 =
+            this.popularMovies_2Stored.moviePosterPaths;
+          this.popularMoviesId_2 = this.popularMovies_2Stored.movieIds;
+          this.popularMoviesNames_2 = this.popularMovies_2Stored.movieNames;
+          this.popularMoviesRating_2 = this.popularMovies_2Stored.movieRatings;
 
-          this.topRatedMovies = topRatedMoviesStored.movies;
-          this.topRatedMoviesPoster = topRatedMoviesStored.moviePosterPaths;
-          this.topRatedMoviesId = topRatedMoviesStored.movieIds;
-          this.topRatedMoviesNames = topRatedMoviesStored.movieNames;
-          this.topRatedMoviesRating = topRatedMoviesStored.movieRatings;
+          this.topRatedMovies = this.topRatedMoviesStored.movies;
+          this.topRatedMoviesPoster =
+            this.topRatedMoviesStored.moviePosterPaths;
+          this.topRatedMoviesId = this.topRatedMoviesStored.movieIds;
+          this.topRatedMoviesNames = this.topRatedMoviesStored.movieNames;
+          this.topRatedMoviesRating = this.topRatedMoviesStored.movieRatings;
 
-          this.topRatedMovies_2 = topRatedMovies_2Stored.movies;
-          this.topRatedMovies_2Poster = topRatedMovies_2Stored.moviePosterPaths;
-          this.topRatedMovies_2Id = topRatedMovies_2Stored.movieIds;
-          this.topRatedMovies_2Names = topRatedMovies_2Stored.movieNames;
-          this.topRatedMovies_2Rating = topRatedMovies_2Stored.movieRatings;
+          this.topRatedMovies_2 = this.topRatedMovies_2Stored.movies;
+          this.topRatedMovies_2Poster =
+            this.topRatedMovies_2Stored.moviePosterPaths;
+          this.topRatedMovies_2Id = this.topRatedMovies_2Stored.movieIds;
+          this.topRatedMovies_2Names = this.topRatedMovies_2Stored.movieNames;
+          this.topRatedMovies_2Rating =
+            this.topRatedMovies_2Stored.movieRatings;
         }
       },
     });
