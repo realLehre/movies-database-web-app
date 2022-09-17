@@ -51,6 +51,20 @@
   }
 }
 
+.attribution {
+  margin-top: 30px;
+  width: 300px;
+  margin-inline: auto;
+
+  & .text {
+    font-size: 18px;
+  }
+
+  & img {
+    width: 100%;
+  }
+}
+
 mat-form-field {
   width: 50%;
 }
@@ -123,5 +137,15 @@ mat-label {
 
   mat-form-field {
     width: 100%;
+  }
+
+  .attribution {
+    margin-top: 30px;
+    width: 200px;
+    margin-inline: auto;
+
+    & .text {
+      font-size: 16px;
+    }
   }
 }
