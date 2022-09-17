@@ -60,4 +60,9 @@ export class RecentSearchesComponent implements OnInit, AfterViewChecked {
   closeRecents() {
     this.moviesService.searching.next(false);
   }
+
+  removeSearch(index) {
+    this.moviesService.removeSearchName(index);
+    this.searchNames = JSON.parse(localStorage.getItem('searchNames'));
+  }
 }

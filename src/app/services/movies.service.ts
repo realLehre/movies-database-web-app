@@ -50,6 +50,11 @@ export class MoviesService {
     });
   }
 
+  removeSearchName(index) {
+    this.searchNames.splice(index, 1);
+    localStorage.setItem('searchNames', JSON.stringify(this.searchNames));
+  }
+
   onLike(movie: MovieObject, id: number) {
     if (this.likedMovies != null) {
       if (this.likedMovies.some((item) => item.id == id)) {

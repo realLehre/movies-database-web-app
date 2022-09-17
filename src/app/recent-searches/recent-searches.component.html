@@ -6,13 +6,15 @@
     </div>
 
     <div class="names">
-      <li
-        class="searchNames"
-        *ngFor="let name of searchNames; let i = index"
-        (click)="searchRecent(name)"
-      >
-        {{ name }} <i class="fa fa-angle-right"></i>
+      <li class="searchNames" *ngFor="let name of searchNames; let i = index">
+        <span class="searchName" (click)="searchRecent(name)"
+          ><span><i class="fa fa-search"></i></span> {{ name }}</span
+        >
+        <span class="remove" (click)="removeSearch(i)"
+          ><i class="fa fa-times"></i
+        ></span>
       </li>
     </div>
   </div>
 </div>
+<div class="recents-underlay"></div>
