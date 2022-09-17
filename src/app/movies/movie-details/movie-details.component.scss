@@ -305,6 +305,7 @@
           & ul {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
             & li {
               &:not(:last-child) {
                 margin-bottom: 10px;
@@ -534,7 +535,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .movies-container {
     &::after {
       width: 20px;
