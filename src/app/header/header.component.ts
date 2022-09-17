@@ -64,4 +64,8 @@ export class HeaderComponent implements OnInit {
       this.moviesService.searching.next(true);
     }
   }
+
+  closeRecents() {
+    this.moviesService.searching.next(false);
+  }
 }
