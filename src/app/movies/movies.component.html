@@ -12,7 +12,8 @@
     "
   >
     <div class="movies-type">
-      Search results and similar movies for {{ searchName }}
+      Search results and similar movies for
+      <span class="searchName">{{ searchName }}</span>
     </div>
 
     <div class="movies-class trending">
@@ -31,8 +32,8 @@
           [routerLink]="['/movies', searchMoviesId[i], searchMoviesNames[i]]"
           (click)="closeRecents()"
         >
-          <div class="liked-alert add">Movie added to favorites</div>
-          <div class="liked-alert remove">Movie removed from favorites</div>
+          <div class="liked-alert add">Added to favorites</div>
+          <div class="liked-alert remove">Removed from favorites</div>
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
@@ -101,8 +102,8 @@
             ]"
             (click)="closeRecents()"
           >
-            <div class="liked-alert add">Movie added to favorites</div>
-            <div class="liked-alert remove">Movie removed from favorites</div>
+            <div class="liked-alert add">Added to favorites</div>
+            <div class="liked-alert remove">Removed from favorites</div>
 
             <div class="movie-rating">
               <circle-progress
@@ -172,8 +173,8 @@
             ]"
             (click)="closeRecents()"
           >
-            <div class="liked-alert add">Movie added to favorites</div>
-            <div class="liked-alert remove">Movie removed from favorites</div>
+            <div class="liked-alert add">Added to favorites</div>
+            <div class="liked-alert remove">Removed from favorites</div>
 
             <div class="movie-rating">
               <circle-progress
@@ -227,8 +228,8 @@
             ]"
             (click)="closeRecents()"
           >
-            <div class="liked-alert add">Movie added to favorites</div>
-            <div class="liked-alert remove">Movie removed from favorites</div>
+            <div class="liked-alert add">Added to favorites</div>
+            <div class="liked-alert remove">Removed from favorites</div>
 
             <div class="movie-rating">
               <circle-progress
@@ -298,8 +299,8 @@
             ]"
             (click)="closeRecents()"
           >
-            <div class="liked-alert add">Movie added to favorites</div>
-            <div class="liked-alert remove">Movie removed from favorites</div>
+            <div class="liked-alert add">Added to favorites</div>
+            <div class="liked-alert remove">Removed from favorites</div>
 
             <div class="movie-rating">
               <circle-progress
@@ -353,8 +354,8 @@
             ]"
             (click)="closeRecents()"
           >
-            <div class="liked-alert add">Movie added to favorites</div>
-            <div class="liked-alert remove">Movie removed from favorites</div>
+            <div class="liked-alert add">Added to favorites</div>
+            <div class="liked-alert remove">Removed from favorites</div>
 
             <div class="movie-rating">
               <circle-progress

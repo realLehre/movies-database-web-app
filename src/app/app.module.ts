@@ -19,6 +19,7 @@ import { FavoriteMoviesComponent } from './movies/favorite-movies/favorite-movie
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ImagePreloader } from './shared/image-preloader.directive';
 import { RecentSearchesComponent } from './recent-searches/recent-searches.component';
+import { LazyLoadImagesDirective } from './shared/lazy-loading.directive';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RecentSearchesComponent } from './recent-searches/recent-searches.compo
     PageNotFoundComponent,
     ImagePreloader,
     RecentSearchesComponent,
+    LazyLoadImagesDirective,
   ],
   imports: [
     BrowserModule,

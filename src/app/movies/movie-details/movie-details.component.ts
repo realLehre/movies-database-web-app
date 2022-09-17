@@ -1,8 +1,6 @@
 import {
-  AfterContentChecked,
   AfterViewChecked,
   Component,
-  DoCheck,
   ElementRef,
   OnInit,
   ViewChild,

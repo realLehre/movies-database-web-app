@@ -5,7 +5,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 
 import { MoviesService } from '../services/movies.service';

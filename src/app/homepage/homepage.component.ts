@@ -1,16 +1,11 @@
 import {
-  AfterContentChecked,
   AfterViewChecked,
   Component,
-  DoCheck,
-  ElementRef,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { HttpService } from '../services/http.service';
 import { MoviesService } from '../services/movies.service';
 
 @Component({
@@ -29,8 +24,7 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private route: ActivatedRoute,
-    private moviesService: MoviesService,
-    private httpService: HttpService
+    private moviesService: MoviesService
   ) {}
 
   ngOnInit(): void {

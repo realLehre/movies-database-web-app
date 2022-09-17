@@ -1,11 +1,4 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Router,
   Event,

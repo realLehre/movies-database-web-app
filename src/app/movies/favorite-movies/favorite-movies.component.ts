@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { HttpService } from 'src/app/services/http.service';
+import { Component, OnInit } from '@angular/core';
 import { MoviesService } from 'src/app/services/movies.service';
 import { MovieObject } from 'src/app/shared/movie.model';
 
@@ -8,7 +7,7 @@ import { MovieObject } from 'src/app/shared/movie.model';
   templateUrl: './favorite-movies.component.html',
   styleUrls: ['./favorite-movies.component.scss'],
 })
-export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
+export class FavoriteMoviesComponent implements OnInit {
   likedState: boolean;
   likedName: string;
   likedMovies: Array<MovieObject>;
@@ -41,8 +40,6 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
       });
     }
   }
-
-  ngAfterViewInit(): void {}
 
   removeFromLiked(id) {
     this.moviesService.onDisLike(id);
