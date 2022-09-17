@@ -30,6 +30,7 @@ export class MoviesService {
       this.searchNames = JSON.parse(localStorage.getItem('searchNames'));
     } else {
       this.searchNames = [];
+      localStorage.setItem('searchNames', JSON.stringify(this.searchNames));
     }
   }
 

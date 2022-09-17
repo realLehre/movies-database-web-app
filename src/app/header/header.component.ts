@@ -58,6 +58,10 @@ export class HeaderComponent implements OnInit {
   }
 
   check() {
-    this.moviesService.searching.next(true);
+    if (JSON.parse(localStorage.getItem('searchNames')).length == 0) {
+      this.moviesService.searching.next(false);
+    } else {
+      this.moviesService.searching.next(true);
+    }
   }
 }

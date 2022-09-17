@@ -1,5 +1,5 @@
-<div class="recents-container">
-  <div class="recents">
+<div class="recents-container" [ngStyle]="{ height: height }">
+  <div class="recents" #recents>
     <div class="heading-container">
       <i class="fa fa-long-arrow-left" (click)="closeRecents()"></i>
       <p class="heading">RECENT SEARCHES</p>

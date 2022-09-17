@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 import { MoviesService } from '../services/movies.service';
@@ -8,8 +14,12 @@ import { MoviesService } from '../services/movies.service';
   templateUrl: './recent-searches.component.html',
   styleUrls: ['./recent-searches.component.scss'],
 })
-export class RecentSearchesComponent implements OnInit {
-  searchNames: string[];
+export class RecentSearchesComponent implements OnInit, AfterViewChecked {
+  searchNames: string[] = [];
+  height;
+
+  @ViewChild('recents', { static: false })
+  recents: ElementRef;
 
   constructor(
     private router: Router,
@@ -23,6 +33,10 @@ export class RecentSearchesComponent implements OnInit {
     if (JSON.parse(localStorage.getItem('searchNames')).length > 5) {
       this.searchNames.splice(5);
     }
+  }
+
+  ngAfterViewChecked(): void {
+    this.height = this.recents.nativeElement.offsetHeight;
   }
 
   searchRecent(name: string) {

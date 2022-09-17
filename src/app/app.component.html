@@ -10,7 +10,4 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
-<app-recent-searches
-  *ngIf="searching"
-  [ngClass]="{ searching: searching }"
-></app-recent-searches>
+<app-recent-searches *ngIf="searching"></app-recent-searches>
