@@ -183,7 +183,11 @@
                   [backgroundPadding]="2"
                 ></circle-progress>
               </div>
-              <img [img-preloader]="recommendedMoviesPoster[i]" alt="" />
+              <img
+                [img-preloader]="recommendedMoviesPoster[i]"
+                alt=""
+                loading="lazy"
+              />
             </div>
             <div class="movie-info">
               <div class="movie-title-date">
