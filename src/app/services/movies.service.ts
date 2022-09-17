@@ -44,6 +44,9 @@ export class MoviesService {
 
   getSearchNames() {
     this.searchName.pipe(take(1)).subscribe((name) => {
+      if (JSON.parse(localStorage.getItem('searchNames')).includes(name)) {
+        return;
+      }
       this.searchNames.unshift(name);
 
       localStorage.setItem('searchNames', JSON.stringify(this.searchNames));
