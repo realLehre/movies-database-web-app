@@ -16,6 +16,8 @@ export class FavoriteMoviesComponent implements OnInit {
   likedMoviesId: number[];
   likedMoviesName: string[];
 
+  movieRatingColor;
+
   constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
@@ -56,9 +58,5 @@ export class FavoriteMoviesComponent implements OnInit {
       this.likedMovies = [];
       localStorage.setItem('liked', JSON.stringify([]));
     }
-  }
-
-  ratingColor(rating: number): string {
-    return this.moviesService.ratingColor(rating);
   }
 }

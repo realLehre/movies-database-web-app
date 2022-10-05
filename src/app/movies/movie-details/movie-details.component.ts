@@ -55,6 +55,8 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   recommendedMoviesNames: string[];
   recommendedMoviesLength;
 
+  movieRatingColor;
+
   constructor(
     private route: ActivatedRoute,
     private httpService: HttpService,
@@ -176,9 +178,5 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         posterInDetails.classList.remove('showRemove');
       }, 650);
     }
-  }
-
-  ratingColor(rating: number): string {
-    return this.moviesService.ratingColor(rating);
   }
 }

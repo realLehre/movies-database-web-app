@@ -45,7 +45,7 @@
                 <div class="movie-date">
                   {{ release_date | date }}
                   <span class="movie-runtime">
-                    {{ runtime }}
+                    {{ runtime | runtime: runtime }}
                   </span>
                 </div>
                 <div class="movie-genre">
@@ -62,10 +62,10 @@
                   [radius]="40"
                   [outerStrokeWidth]="10"
                   [innerStrokeWidth]="2"
-                  [outerStrokeColor]="ratingColor(vote_average)"
+                  [outerStrokeColor]="movieRatingColor | rating: vote_average"
                   [innerStrokeColor]="'#C7E596'"
                   [animation]="true"
-                  [animationDuration]="1000"
+                  [animationDuration]="0"
                   titleFontSize="30"
                   titleFontWeight="900"
                   unitsFontWeight="500"
@@ -171,10 +171,12 @@
                   [radius]="18"
                   [outerStrokeWidth]="3"
                   [innerStrokeWidth]="4"
-                  [outerStrokeColor]="ratingColor(recommendedMoviesRating[i])"
+                  [outerStrokeColor]="
+                    movieRatingColor | rating: recommendedMoviesRating[i]
+                  "
                   [innerStrokeColor]="'#C7E596'"
                   [animation]="true"
-                  [animationDuration]="300"
+                  [animationDuration]="0"
                   titleFontSize="13"
                   titleFontWeight="900"
                   unitsFontWeight="500"

@@ -20,6 +20,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ImagePreloader } from './shared/image-preloader.directive';
 import { RecentSearchesComponent } from './recent-searches/recent-searches.component';
 import { LazyLoadImagesDirective } from './shared/lazy-loading.directive';
+import { RatingColorPipe } from './shared/rating-color.pipe';
+import { RuntimePipe } from './shared/runtime.pipe';
+import { MovieTypeComponent } from './movies/movie-type/movie-type.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { LazyLoadImagesDirective } from './shared/lazy-loading.directive';
     ImagePreloader,
     RecentSearchesComponent,
     LazyLoadImagesDirective,
+    RatingColorPipe,
+    RuntimePipe,
+    MovieTypeComponent,
   ],
   imports: [
     BrowserModule,

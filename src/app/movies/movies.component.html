@@ -41,10 +41,10 @@
               [radius]="18"
               [outerStrokeWidth]="3"
               [innerStrokeWidth]="4"
-              [outerStrokeColor]="ratingColor(searchMoviesRating[i])"
+              [outerStrokeColor]="movieRatingColor | rating: movieRatingColor"
               [innerStrokeColor]="'#C7E596'"
               [animation]="true"
-              [animationDuration]="100"
+              [animationDuration]="0"
               titleFontSize="13"
               titleFontWeight="900"
               unitsFontWeight="500"
@@ -112,10 +112,12 @@
                 [radius]="18"
                 [outerStrokeWidth]="3"
                 [innerStrokeWidth]="4"
-                [outerStrokeColor]="ratingColor(trendingMoviesRating[i])"
+                [outerStrokeColor]="
+                  movieRatingColor | rating: trendingMoviesRating[i]
+                "
                 [innerStrokeColor]="'#C7E596'"
                 [animation]="true"
-                [animationDuration]="100"
+                [animationDuration]="0"
                 titleFontSize="13"
                 titleFontWeight="900"
                 unitsFontWeight="500"
@@ -132,6 +134,27 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="sort-container"
+    *ngIf="
+      sortValue == 'all' ||
+      sortValue == 'trending' ||
+      sortValue == 'action' ||
+      sortValue == 'drama' ||
+      sortValue == 'adventure' ||
+      sortValue == 'crime' ||
+      sortValue == 'horror'
+    "
+  >
+    <div class="movies" *ngIf="!searchState">
+      <div class="movies-type">Trending</div>
+
+      <div class="movies-class trending">
+        <app-movie-type [movieType]="'trending'"></app-movie-type>
       </div>
     </div>
   </div>
@@ -183,10 +206,12 @@
                 [radius]="18"
                 [outerStrokeWidth]="3"
                 [innerStrokeWidth]="4"
-                [outerStrokeColor]="ratingColor(popularMoviesRating[i])"
+                [outerStrokeColor]="
+                  movieRatingColor | rating: popularMoviesRating[i]
+                "
                 [innerStrokeColor]="'#C7E596'"
                 [animation]="true"
-                [animationDuration]="100"
+                [animationDuration]="0"
                 titleFontSize="13"
                 titleFontWeight="900"
                 unitsFontWeight="500"
@@ -238,10 +263,12 @@
                 [radius]="18"
                 [outerStrokeWidth]="3"
                 [innerStrokeWidth]="4"
-                [outerStrokeColor]="ratingColor(popularMoviesRating_2[i])"
+                [outerStrokeColor]="
+                  movieRatingColor | rating: popularMoviesRating_2[i]
+                "
                 [innerStrokeColor]="'#C7E596'"
                 [animation]="true"
-                [animationDuration]="100"
+                [animationDuration]="0"
                 titleFontSize="13"
                 titleFontWeight="900"
                 unitsFontWeight="500"
@@ -309,10 +336,12 @@
                 [radius]="18"
                 [outerStrokeWidth]="3"
                 [innerStrokeWidth]="4"
-                [outerStrokeColor]="ratingColor(topRatedMoviesRating[i])"
+                [outerStrokeColor]="
+                  movieRatingColor | rating: topRatedMoviesRating[i]
+                "
                 [innerStrokeColor]="'#C7E596'"
                 [animation]="true"
-                [animationDuration]="100"
+                [animationDuration]="0"
                 titleFontSize="13"
                 titleFontWeight="900"
                 unitsFontWeight="500"
@@ -364,10 +393,12 @@
                 [radius]="18"
                 [outerStrokeWidth]="3"
                 [innerStrokeWidth]="4"
-                [outerStrokeColor]="ratingColor(topRatedMovies_2Rating[i])"
+                [outerStrokeColor]="
+                  movieRatingColor | rating: topRatedMovies_2Rating[i]
+                "
                 [innerStrokeColor]="'#C7E596'"
                 [animation]="true"
-                [animationDuration]="100"
+                [animationDuration]="0"
                 titleFontSize="13"
                 titleFontWeight="900"
                 unitsFontWeight="500"

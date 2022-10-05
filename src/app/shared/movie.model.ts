@@ -19,6 +19,7 @@ export interface RefinedResponse {
   movieIds: number[];
   movieRatings: number[];
   movieNames?: string[];
+  movieType?: string;
 }
 
 export interface MovieObject {

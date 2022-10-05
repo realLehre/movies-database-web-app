@@ -147,11 +147,7 @@ export class HttpService {
           const liked: boolean = false;
 
           let runtime: any = movieData.runtime;
-          if (runtime > 60) {
-            runtime = this.formatTime(runtime);
-          } else {
-            runtime = runtime + 'm';
-          }
+
           const voteCount: number = movieData.vote_count;
 
           return {
@@ -244,14 +240,5 @@ export class HttpService {
     return throwError(() => {
       return new Error(error);
     });
-  }
-
-  formatTime(time) {
-    var num = time;
-    var hours = num / 60;
-    var rhours = Math.floor(hours);
-    var minutes = (hours - rhours) * 60;
-    var rminutes = Math.round(minutes);
-    return rhours + 'hr ' + rminutes + 'm';
   }
 }

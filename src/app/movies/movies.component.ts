@@ -4,6 +4,8 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { HttpService } from '../services/http.service';
 
@@ -18,6 +20,8 @@ import { MovieObject, RefinedResponse } from '../shared/movie.model';
 export class MoviesComponent implements OnInit, AfterViewInit {
   sortValue: string = 'all';
   error: boolean = false;
+
+  trendingMoviesResponse: RefinedResponse;
 
   trendingMovies: Array<MovieObject>;
   trendingMoviesRating: Array<number>;
@@ -65,6 +69,9 @@ export class MoviesComponent implements OnInit, AfterViewInit {
 
   isFetching: boolean = false;
 
+  movieRatingColor;
+
+  @Output() moviesTest = new EventEmitter<RefinedResponse>();
   @ViewChild('like', { static: false }) likedEl: ElementRef<HTMLDivElement>;
 
   constructor(
@@ -1121,9 +1128,5 @@ export class MoviesComponent implements OnInit, AfterViewInit {
 
   closeRecents() {
     this.moviesService.searching.next(false);
-  }
-
-  ratingColor(rating: number): string {
-    return this.moviesService.ratingColor(rating);
   }
 }
