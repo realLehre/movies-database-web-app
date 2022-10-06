@@ -16,6 +16,8 @@ export class MoviesService {
   isLoading = new Subject<boolean>();
   isFetching = new Subject<boolean>();
 
+  errorOcurred = new Subject<boolean>();
+
   likedMovies: MovieObject[] = [];
   likedMoviesObs = new Subject<MovieObject[]>();
 

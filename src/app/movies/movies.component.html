@@ -13,128 +13,11 @@
   >
     <div class="movies-type">
       Search results and similar movies for
-      <span class="searchName">{{ searchName }}</span>
+      <span class="searchName">'{{ searchName }}'</span>
     </div>
 
     <div class="movies-class trending">
-      <div class="movie" *ngFor="let movie of searchMovies; let i = index">
-        <div class="fav-overlay"></div>
-        <div class="fav-container" #like>
-          <i
-            class="fa fa-heart"
-            id="favorite"
-            [ngClass]="{ liked: searchMovies[i].liked }"
-            (click)="addToLiked($event, searchMovies[i].id, searchMovies[i])"
-          ></i>
-        </div>
-        <div
-          class="movie-img"
-          [routerLink]="['/movies', searchMoviesId[i], searchMoviesNames[i]]"
-          (click)="closeRecents()"
-        >
-          <div class="liked-alert add">Added to favorites</div>
-          <div class="liked-alert remove">Removed from favorites</div>
-          <div class="movie-rating">
-            <circle-progress
-              backgroundColor="black"
-              [percent]="searchMoviesRating[i]"
-              [radius]="18"
-              [outerStrokeWidth]="3"
-              [innerStrokeWidth]="4"
-              [outerStrokeColor]="movieRatingColor | rating: movieRatingColor"
-              [innerStrokeColor]="'#C7E596'"
-              [animation]="true"
-              [animationDuration]="0"
-              titleFontSize="13"
-              titleFontWeight="900"
-              unitsFontWeight="500"
-              [backgroundPadding]="2"
-            ></circle-progress>
-          </div>
-          <img [img-preloader]="searchMoviesPoster[i]" alt="" />
-        </div>
-        <div class="movie-info">
-          <div class="movie-title-date">
-            <div class="movie-name">{{ movie.title }}</div>
-
-            <div class="movie-date">{{ movie.release_date | date }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="sort-container"
-    *ngIf="
-      sortValue == 'all' ||
-      sortValue == 'trending' ||
-      sortValue == 'action' ||
-      sortValue == 'drama' ||
-      sortValue == 'adventure' ||
-      sortValue == 'crime' ||
-      sortValue == 'horror'
-    "
-  >
-    <div class="movies" *ngIf="!searchState">
-      <div class="movies-type">Trending</div>
-
-      <div class="movies-class trending">
-        <div class="movie" *ngFor="let movie of trendingMovies; let i = index">
-          <div class="fav-overlay"></div>
-          <div class="fav-container" #like>
-            <i
-              class="fa fa-heart"
-              id="favorite"
-              [ngClass]="{ liked: trendingMovies[i].liked }"
-              (click)="
-                addToLiked($event, trendingMovies[i].id, trendingMovies[i])
-              "
-            ></i>
-          </div>
-
-          <div
-            class="movie-img"
-            [routerLink]="[
-              '/movies',
-              trendingMoviesId[i],
-              trendingMoviesNames[i]
-            ]"
-            (click)="closeRecents()"
-          >
-            <div class="liked-alert add">Added to favorites</div>
-            <div class="liked-alert remove">Removed from favorites</div>
-
-            <div class="movie-rating">
-              <circle-progress
-                backgroundColor="black"
-                [percent]="trendingMoviesRating[i]"
-                [radius]="18"
-                [outerStrokeWidth]="3"
-                [innerStrokeWidth]="4"
-                [outerStrokeColor]="
-                  movieRatingColor | rating: trendingMoviesRating[i]
-                "
-                [innerStrokeColor]="'#C7E596'"
-                [animation]="true"
-                [animationDuration]="0"
-                titleFontSize="13"
-                titleFontWeight="900"
-                unitsFontWeight="500"
-                [backgroundPadding]="2"
-              ></circle-progress>
-            </div>
-            <img [img-preloader]="trendingMoviesPoster[i]" alt="" />
-          </div>
-          <div class="movie-info">
-            <div class="movie-title-date">
-              <div class="movie-name">{{ movie.title }}</div>
-
-              <div class="movie-date">{{ movie.release_date | date }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-movie-type [movieType]="'searchedMovies'"></app-movie-type>
     </div>
   </div>
 
@@ -175,116 +58,11 @@
       <div class="movies-type popular">Currently Popular</div>
 
       <div class="movies-class popular">
-        <div class="movie" *ngFor="let movie of popularMovies; let i = index">
-          <div class="fav-overlay"></div>
-          <div class="fav-container" #like>
-            <i
-              class="fa fa-heart"
-              id="favorite"
-              [ngClass]="{ liked: popularMovies[i].liked }"
-              (click)="
-                addToLiked($event, popularMovies[i].id, popularMovies[i])
-              "
-            ></i>
-          </div>
-          <div
-            class="movie-img"
-            [routerLink]="[
-              '/movies',
-              popularMoviesId[i],
-              popularMoviesNames[i]
-            ]"
-            (click)="closeRecents()"
-          >
-            <div class="liked-alert add">Added to favorites</div>
-            <div class="liked-alert remove">Removed from favorites</div>
-
-            <div class="movie-rating">
-              <circle-progress
-                backgroundColor="black"
-                [percent]="popularMoviesRating[i]"
-                [radius]="18"
-                [outerStrokeWidth]="3"
-                [innerStrokeWidth]="4"
-                [outerStrokeColor]="
-                  movieRatingColor | rating: popularMoviesRating[i]
-                "
-                [innerStrokeColor]="'#C7E596'"
-                [animation]="true"
-                [animationDuration]="0"
-                titleFontSize="13"
-                titleFontWeight="900"
-                unitsFontWeight="500"
-                [backgroundPadding]="2"
-              ></circle-progress>
-            </div>
-            <img [img-preloader]="popularMoviesPoster[i]" alt="" />
-          </div>
-          <div class="movie-info">
-            <div class="movie-title-date">
-              <div class="movie-name">{{ movie.title }}</div>
-
-              <div class="movie-date">{{ movie.release_date | date }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="movie popular_2"
-          *ngFor="let movie of popularMovies_2; let i = index"
-        >
-          <div class="fav-overlay"></div>
-          <div class="fav-container" #like>
-            <i
-              class="fa fa-heart"
-              id="favorite"
-              [ngClass]="{ liked: popularMovies_2[i].liked }"
-              (click)="
-                addToLiked($event, popularMovies_2[i].id, popularMovies_2[i])
-              "
-            ></i>
-          </div>
-          <div
-            class="movie-img"
-            [routerLink]="[
-              '/movies',
-              popularMoviesId_2[i],
-              popularMoviesNames_2[i]
-            ]"
-            (click)="closeRecents()"
-          >
-            <div class="liked-alert add">Added to favorites</div>
-            <div class="liked-alert remove">Removed from favorites</div>
-
-            <div class="movie-rating">
-              <circle-progress
-                backgroundColor="black"
-                [percent]="popularMoviesRating_2[i]"
-                [radius]="18"
-                [outerStrokeWidth]="3"
-                [innerStrokeWidth]="4"
-                [outerStrokeColor]="
-                  movieRatingColor | rating: popularMoviesRating_2[i]
-                "
-                [innerStrokeColor]="'#C7E596'"
-                [animation]="true"
-                [animationDuration]="0"
-                titleFontSize="13"
-                titleFontWeight="900"
-                unitsFontWeight="500"
-                [backgroundPadding]="2"
-              ></circle-progress>
-            </div>
-            <img [img-preloader]="popularMoviesPoster_2[i]" alt="" />
-          </div>
-          <div class="movie-info">
-            <div class="movie-title-date">
-              <div class="movie-name">{{ movie.title }}</div>
-
-              <div class="movie-date">{{ movie.release_date | date }}</div>
-            </div>
-          </div>
-        </div>
+        <app-movie-type [movieType]="'popular'"></app-movie-type>
+        <app-movie-type
+          [movieType]="'popular_2'"
+          class="second"
+        ></app-movie-type>
       </div>
     </div>
   </div>
@@ -301,120 +79,15 @@
       sortValue == 'horror'
     "
   >
-    <div class="movies top-rated" *ngIf="!searchState">
+    <div class="movies top-rated top-rated-test" *ngIf="!searchState">
       <div class="movies-type">Top Rated</div>
 
       <div class="movies-class top-rated">
-        <div class="movie" *ngFor="let movie of topRatedMovies; let i = index">
-          <div class="fav-overlay"></div>
-          <div class="fav-container" #like>
-            <i
-              class="fa fa-heart"
-              id="favorite"
-              [ngClass]="{ liked: topRatedMovies[i].liked }"
-              (click)="
-                addToLiked($event, topRatedMovies[i].id, topRatedMovies[i])
-              "
-            ></i>
-          </div>
-          <div
-            class="movie-img"
-            [routerLink]="[
-              '/movies',
-              topRatedMoviesId[i],
-              topRatedMoviesNames[i]
-            ]"
-            (click)="closeRecents()"
-          >
-            <div class="liked-alert add">Added to favorites</div>
-            <div class="liked-alert remove">Removed from favorites</div>
-
-            <div class="movie-rating">
-              <circle-progress
-                backgroundColor="black"
-                [percent]="topRatedMoviesRating[i]"
-                [radius]="18"
-                [outerStrokeWidth]="3"
-                [innerStrokeWidth]="4"
-                [outerStrokeColor]="
-                  movieRatingColor | rating: topRatedMoviesRating[i]
-                "
-                [innerStrokeColor]="'#C7E596'"
-                [animation]="true"
-                [animationDuration]="0"
-                titleFontSize="13"
-                titleFontWeight="900"
-                unitsFontWeight="500"
-                [backgroundPadding]="2"
-              ></circle-progress>
-            </div>
-            <img [img-preloader]="topRatedMoviesPoster[i]" alt="" />
-          </div>
-          <div class="movie-info">
-            <div class="movie-title-date">
-              <div class="movie-name">{{ movie.title }}</div>
-
-              <div class="movie-date">{{ movie.release_date | date }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="movie"
-          *ngFor="let movie of topRatedMovies_2; let i = index"
-        >
-          <div class="fav-overlay"></div>
-          <div class="fav-container" #like>
-            <i
-              class="fa fa-heart"
-              id="favorite"
-              [ngClass]="{ liked: topRatedMovies_2[i].liked }"
-              (click)="
-                addToLiked($event, topRatedMovies_2[i].id, topRatedMovies_2[i])
-              "
-            ></i>
-          </div>
-          <div
-            class="movie-img"
-            [routerLink]="[
-              '/movies',
-              topRatedMovies_2Id[i],
-              topRatedMovies_2Names[i]
-            ]"
-            (click)="closeRecents()"
-          >
-            <div class="liked-alert add">Added to favorites</div>
-            <div class="liked-alert remove">Removed from favorites</div>
-
-            <div class="movie-rating">
-              <circle-progress
-                backgroundColor="black"
-                [percent]="topRatedMovies_2Rating[i]"
-                [radius]="18"
-                [outerStrokeWidth]="3"
-                [innerStrokeWidth]="4"
-                [outerStrokeColor]="
-                  movieRatingColor | rating: topRatedMovies_2Rating[i]
-                "
-                [innerStrokeColor]="'#C7E596'"
-                [animation]="true"
-                [animationDuration]="0"
-                titleFontSize="13"
-                titleFontWeight="900"
-                unitsFontWeight="500"
-                [backgroundPadding]="2"
-              ></circle-progress>
-            </div>
-            <img [img-preloader]="topRatedMovies_2Poster[i]" alt="" />
-          </div>
-          <div class="movie-info">
-            <div class="movie-title-date">
-              <div class="movie-name">{{ movie.title }}</div>
-
-              <div class="movie-date">{{ movie.release_date | date }}</div>
-            </div>
-          </div>
-        </div>
+        <app-movie-type [movieType]="'top-rated'"></app-movie-type>
+        <app-movie-type
+          [movieType]="'top-rated_2'"
+          class="second"
+        ></app-movie-type>
       </div>
     </div>
   </div>

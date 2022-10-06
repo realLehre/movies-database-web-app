@@ -22,9 +22,9 @@
     }
   }
 
-  &.popular_2 {
-    display: inline;
-  }
+  //   &.popular_2 {
+  //     display: inline;
+  //   }
 
   &:not(:last-child) {
     margin-right: 20px;
@@ -138,6 +138,73 @@
         font-size: 15px;
         color: $dark-white;
       }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .movies-container {
+    &::after {
+      width: 20px;
+      filter: blur(30px);
+    }
+  }
+
+  .liked-alert {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    font-size: 12px;
+
+    padding: 5px 10px;
+  }
+
+  .movies {
+    margin-bottom: 50px;
+  }
+
+  .movie {
+    width: 170px;
+
+    &:hover {
+      & .movie-img {
+        &::after {
+          height: 245px;
+          display: none;
+        }
+      }
+    }
+
+    &-img {
+      height: 245px;
+
+      & img {
+        width: 170px;
+        height: 245px;
+      }
+    }
+
+    &-info {
+      & .movie-title-date {
+        & .movie-name {
+          font-size: 15px;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+          line-height: 1.1;
+        }
+
+        & .movie-date {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  .movies-search {
+    position: relative;
+
+    & .movie-rating {
+      left: 0;
     }
   }
 }
