@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="header">
+  <div class="header" #width>
     <app-header></app-header>
   </div>
 
@@ -10,6 +10,14 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
+<div class="search-container">
+  <app-search-result
+    *ngIf="searchKeyword && !searchResultClicked"
+  ></app-search-result>
+</div>
+
 <div class="recent-search-root">
-  <app-recent-searches *ngIf="searching"></app-recent-searches>
+  <app-recent-searches
+    *ngIf="searching && !searchKeyword"
+  ></app-recent-searches>
 </div>

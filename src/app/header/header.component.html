@@ -15,6 +15,7 @@
           placeholder="Search movies"
           [formControlName]="'searchResult'"
           (click)="check()"
+          (keyup)="getKeyword()"
         />
         <button type="submit"><mat-icon>search</mat-icon></button>
       </form>

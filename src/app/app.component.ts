@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewChecked,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import {
   Router,
   Event,
@@ -6,6 +12,7 @@ import {
   NavigationEnd,
   NavigationCancel,
   NavigationError,
+  ActivatedRoute,
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -16,13 +23,22 @@ import { MoviesService } from './services/movies.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewChecked {
   title = 'movies-database-app';
   isLoading: boolean = true;
   obs: Subscription;
   searching: boolean = false;
+  searchKeyword: boolean = false;
+  searchResultClicked: boolean = false;
 
-  constructor(private router: Router, private moviesService: MoviesService) {}
+  @ViewChild('width', { static: false })
+  width: ElementRef;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private moviesService: MoviesService
+  ) {}
 
   ngOnInit() {
     this.router.events.subscribe((event: Event) => {
@@ -57,5 +73,21 @@ export class AppComponent implements OnInit {
     this.moviesService.searching.subscribe((state) => {
       this.searching = state;
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.moviesService.searchKeyword.subscribe({
+      next: (result) => {
+        this.searchKeyword = result;
+      },
+    });
+
+    this.moviesService.clearSearch.subscribe({
+      next: (value) => {
+        this.searchResultClicked = value;
+      },
+    });
+
+    this.moviesService.pageWidth.next(this.width.nativeElement.offsetWidth);
   }
 }

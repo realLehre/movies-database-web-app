@@ -23,6 +23,8 @@ import { LazyLoadImagesDirective } from './shared/lazy-loading.directive';
 import { RatingColorPipe } from './shared/rating-color.pipe';
 import { RuntimePipe } from './shared/runtime.pipe';
 import { MovieTypeComponent } from './movies/movie-type/movie-type.component';
+import { SearchResultComponent } from './search-result/search-result.component';
+import { ShortenTextPipe } from './shared/shorten-text.pipe';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { MovieTypeComponent } from './movies/movie-type/movie-type.component';
     RatingColorPipe,
     RuntimePipe,
     MovieTypeComponent,
+    SearchResultComponent,
+    ShortenTextPipe,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,24 @@
+<div class="search-container">
+  <div class="main-search">
+    <ng-container *ngFor="let movie of movies; let i = index">
+      <div
+        class="search-result-movie"
+        *ngIf="i < 5"
+        [routerLink]="['/movies', moviesId[i], moviesNames[i]]"
+        (click)="closeSearchResult()"
+      >
+        <div class="movie-img">
+          <img [src]="moviesPoster[i]" alt="" />
+        </div>
+
+        <div class="movie-content">
+          <div class="movie-title">{{ movie.title }}</div>
+          <div class="movie-overview" #textHeight>
+            {{ movie.overview | shortenText: movie.overview:pageWidth }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div class="search-underlay"></div>

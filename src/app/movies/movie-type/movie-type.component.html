@@ -35,7 +35,7 @@
           [backgroundPadding]="2"
         ></circle-progress>
       </div>
-      <img [img-preloader]="moviesPoster[i]" alt="" />
+      <img [img-preloader]="moviesPoster[i]" alt="" *ngIf="moviesPoster[i]" />
     </div>
     <div class="movie-info">
       <div class="movie-title-date">

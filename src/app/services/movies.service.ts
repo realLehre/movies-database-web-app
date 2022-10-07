@@ -13,6 +13,10 @@ export class MoviesService {
   moviesSearch = new Subject<RefinedResponse>();
   searching = new Subject<boolean>();
 
+  searchResults = new Subject<RefinedResponse>();
+  searchKeyword = new Subject<boolean>();
+  clearSearch = new Subject<boolean>();
+
   isLoading = new Subject<boolean>();
   isFetching = new Subject<boolean>();
 
@@ -20,6 +24,8 @@ export class MoviesService {
 
   likedMovies: MovieObject[] = [];
   likedMoviesObs = new Subject<MovieObject[]>();
+
+  pageWidth = new Subject<number>();
 
   constructor() {
     if (JSON.parse(localStorage.getItem('liked')) != null) {
