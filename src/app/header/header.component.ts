@@ -84,6 +84,8 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       this.router.navigate(['movies', 'search', search]);
 
       this.moviesService.searching.next(false);
+
+      this.moviesService.searchKeyword.next(false);
     }
 
     this.searchForm.reset();
