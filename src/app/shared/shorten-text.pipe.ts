@@ -7,11 +7,11 @@ export class ShortenTextPipe implements PipeTransform {
   transform(value: unknown, overview: string, pageWidth: number): unknown {
     let newOverview;
 
-    if (overview.length <= 200 && pageWidth > 420) {
+    if (overview.length <= 200 && pageWidth > 10) {
       return value;
     }
 
-    if (pageWidth < 420) {
+    if (pageWidth < 10) {
       newOverview = overview.substring(0, 60) + '...';
     } else {
       newOverview = overview.substring(0, 200) + '...';
