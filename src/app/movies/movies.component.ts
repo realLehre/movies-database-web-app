@@ -27,6 +27,8 @@ export class MoviesComponent implements OnInit, DoCheck {
       this.error = error;
     });
 
+    this.moviesService.sortValue.subscribe((value) => (this.sortValue = value));
+
     this.searchState = this.moviesService.searchState;
   }
 

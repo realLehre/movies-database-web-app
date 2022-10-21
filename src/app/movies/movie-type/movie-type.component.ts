@@ -46,6 +46,9 @@ export class MovieTypeComponent implements OnInit {
             this.moviesId = movieData.movieIds;
             this.moviesNames = movieData.movieNames;
 
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
+
             this.movies.forEach((movie) => {
               if (likedMoviesTest.some((item) => item.id == movie.id)) {
                 movie['liked'] = true;
@@ -75,6 +78,9 @@ export class MovieTypeComponent implements OnInit {
             this.moviesPoster = movieData.moviePosterPaths;
             this.moviesId = movieData.movieIds;
             this.moviesNames = movieData.movieNames;
+
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
 
             this.movies.forEach((movie) => {
               if (likedMoviesTest.some((item) => item.id == movie.id)) {
@@ -106,6 +112,9 @@ export class MovieTypeComponent implements OnInit {
             this.moviesId = movieData.movieIds;
             this.moviesNames = movieData.movieNames;
 
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
+
             this.movies.forEach((movie) => {
               if (likedMoviesTest.some((item) => item.id == movie.id)) {
                 movie['liked'] = true;
@@ -135,6 +144,9 @@ export class MovieTypeComponent implements OnInit {
             this.moviesPoster = movieData.moviePosterPaths;
             this.moviesId = movieData.movieIds;
             this.moviesNames = movieData.movieNames;
+
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
 
             this.movies.forEach((movie) => {
               if (likedMoviesTest.some((item) => item.id == movie.id)) {
@@ -389,26 +401,33 @@ export class MovieTypeComponent implements OnInit {
             this.moviesNames = moviesNames;
             this.moviesRating = moviesRatings;
             break;
+
+          default:
+            this.movies = this.moviesStored.movies;
+            this.moviesPoster = this.moviesStored.moviePosterPaths;
+            this.moviesId = this.moviesStored.movieIds;
+            this.moviesNames = this.moviesStored.movieNames;
+            this.moviesRating = this.moviesStored.movieRatings;
         }
 
-        if (
-          value != 'action' &&
-          value != 'drama' &&
-          value != 'crime' &&
-          value != 'adventure' &&
-          value != 'horror'
-        ) {
-          this.movies = this.moviesStored.movies;
-          this.moviesPoster = this.moviesStored.moviePosterPaths;
-          this.moviesId = this.moviesStored.movieIds;
-          this.moviesNames = this.moviesStored.movieNames;
-          this.moviesRating = this.moviesStored.movieRatings;
-        }
+        // if (
+        //   value != 'action' &&
+        //   value != 'drama' &&
+        //   value != 'crime' &&
+        //   value != 'adventure' &&
+        //   value != 'horror'
+        // ) {
+        //   this.movies = this.moviesStored.movies;
+        //   this.moviesPoster = this.moviesStored.moviePosterPaths;
+        //   this.moviesId = this.moviesStored.movieIds;
+        //   this.moviesNames = this.moviesStored.movieNames;
+        //   this.moviesRating = this.moviesStored.movieRatings;
+        // }
       },
     });
   }
 
-  addToLiked(e, id, movie) {
+  addOrRemoveLiked(e, id, movie) {
     movie['liked'] = !movie['liked'];
 
     const movieContainer = e.target.parentElement.parentElement;

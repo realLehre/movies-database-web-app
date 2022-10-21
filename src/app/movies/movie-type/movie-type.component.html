@@ -6,7 +6,7 @@
         class="fa fa-heart"
         id="favorite"
         [ngClass]="{ liked: movies[i].liked }"
-        (click)="addToLiked($event, movies[i].id, movies[i])"
+        (click)="addOrRemoveLiked($event, movies[i].id, movies[i])"
       ></i>
     </div>
 

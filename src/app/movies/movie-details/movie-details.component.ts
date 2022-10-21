@@ -144,7 +144,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  addToLiked(e, id, movie) {
+  addOrRemoveLiked(e, id, movie) {
     movie['liked'] = !movie['liked'];
 
     const movieContainer = e.target.parentElement.parentElement;

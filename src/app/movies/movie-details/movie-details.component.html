@@ -22,7 +22,7 @@
                   class="fa fa-heart"
                   id="favorite"
                   [ngClass]="{ liked: movieLiked }"
-                  (click)="addToLiked($event, movieId, movie)"
+                  (click)="addOrRemoveLiked($event, movieId, movie)"
                 ></i>
               </div>
 
@@ -145,7 +145,7 @@
                 id="favorite"
                 [ngClass]="{ liked: recommendedMovies[i].liked }"
                 (click)="
-                  addToLiked(
+                  addOrRemoveLiked(
                     $event,
                     recommendedMovies[i].id,
                     recommendedMovies[i]

@@ -37,7 +37,7 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
 
     this.search = this.moviesService.searchState;
 
-    this.moviesService.isLoading.next(false);
+    // this.moviesService.isLoading.next(false);
   }
 
   ngAfterViewChecked(): void {
