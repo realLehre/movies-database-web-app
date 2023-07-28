@@ -1,0 +1,125 @@
+@import "config";
+
+.sign-in-container {
+  font-family: "Nunito", sans-serif;
+  width: 90%;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.sign-in-heading {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.sign-in-form {
+  width: 40%;
+  margin-inline: auto;
+
+  & .form-group {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+    & input {
+      width: 100%;
+      padding: 15px 10px;
+      border-radius: 2px;
+      border: none;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  & .sign-in-btn {
+    width: 100%;
+    position: relative;
+    padding: 15px 0;
+    border-radius: 2px;
+    border: none;
+    color: white;
+    background: $main-color;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+
+    &:hover {
+      background: rgba($main-color, 0.8);
+    }
+  }
+}
+
+.or {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sign-in-google {
+  width: 40%;
+  margin-inline: auto;
+
+  & button {
+    width: 100%;
+    position: relative;
+    padding: 15px 0;
+    border-radius: 2px;
+    border: none;
+    background: #4285f4;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+
+    &:hover {
+      background: rgba(#4285f4, 0.8);
+    }
+
+    & img {
+      position: absolute;
+      width: 50px;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+    }
+  }
+}
+
+.have-account {
+  width: 40%;
+  margin-inline: auto;
+  margin-top: 20px;
+  text-align: left;
+  & a {
+    color: white;
+    font-size: 1rem;
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 850px) {
+  .sign-in-form,
+  .sign-in-google,
+  .sign-in-btn,
+  .have-account {
+    width: 60%;
+  }
+}
+
+@media (max-width: 530px) {
+  .sign-in-form,
+  .sign-in-google,
+  .sign-in-btn,
+  .have-account {
+    width: 90%;
+  }
+}

@@ -45,9 +45,7 @@ export class SearchResultComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  ngAfterViewChecked(): void {
-    console.log(this.textHeight.nativeElement.offsetHeight);
-  }
+  ngAfterViewChecked(): void {}
 
   closeSearchResult() {
     this.moviesService.clearSearch.next(true);

@@ -1,0 +1,27 @@
+<div class="sign-in-container">
+  <p class="sign-in-heading">Sign up</p>
+  <form class="sign-in-form">
+    <div class="form-group">
+      <input type="email" placeholder="Email" />
+    </div>
+    <div class="form-group">
+      <input type="password" placeholder="Password" />
+    </div>
+    <button class="sign-in-btn" type="submit">Sign up</button>
+  </form>
+
+  <br />
+
+  <p class="or">OR</p>
+
+  <div class="sign-in-google">
+    <button>
+      <img src="../../../assets/images/google logo.png" alt="" />
+      <span>Continue with Google </span>
+    </button>
+  </div>
+
+  <div class="have-account">
+    <a [routerLink]="['/', 'sign-in']">Have an account?</a>
+  </div>
+</div>

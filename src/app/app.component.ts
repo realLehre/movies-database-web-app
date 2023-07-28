@@ -12,7 +12,6 @@ import {
   NavigationEnd,
   NavigationCancel,
   NavigationError,
-  ActivatedRoute,
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -34,11 +33,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   @ViewChild('width', { static: false })
   width: ElementRef;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private moviesService: MoviesService
-  ) {}
+  constructor(private router: Router, private moviesService: MoviesService) {}
 
   ngOnInit() {
     this.router.events.subscribe((event: Event) => {

@@ -8,7 +8,7 @@
     >
       MVDB
     </div>
-    <div class="search">
+    <div class="header-utils">
       <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
         <input
           type="text"
@@ -19,6 +19,9 @@
         />
         <button type="submit"><mat-icon>search</mat-icon></button>
       </form>
+      <div class="auth">
+        <a class="sign-in" [routerLink]="['/', 'sign-in']">Sign In</a>
+      </div>
     </div>
   </div>
 </section>
