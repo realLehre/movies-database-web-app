@@ -101,6 +101,10 @@
         z-index: 25;
         color: white;
         text-decoration: none;
+
+        & i {
+          margin-left: 5px;
+        }
       }
 
       &:hover {
