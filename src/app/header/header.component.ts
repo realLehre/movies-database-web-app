@@ -9,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 import { MoviesService } from '../services/movies.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -19,22 +20,44 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   searchForm: FormGroup;
   error: boolean = false;
   searching: boolean = false;
+  userName!: string;
+  isUser: boolean = false;
+  isShowInput: boolean = false;
 
   keyword: string;
 
   constructor(
     private router: Router,
     private httpService: HttpService,
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
       searchResult: new FormControl('', Validators.required),
     });
+
+    this.authService.user.subscribe((user) => {
+      if (user) {
+        this.userName = user.displayName;
+        this.isUser = true;
+      }
+      console.log(user);
+    });
   }
 
   ngAfterViewChecked(): void {
+    this.userName = localStorage.getItem('username')
+      ? localStorage.getItem('username')
+      : '';
+
+    if (this.userName == '') {
+      this.isUser = false;
+    } else {
+      this.isUser = true;
+    }
+
     this.moviesService.clearSearch.subscribe({
       next: (value) => {
         if (value) {
@@ -42,6 +65,10 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
         }
       },
     });
+  }
+
+  onSignOut() {
+    this.authService.signOut();
   }
 
   getKeyword() {
@@ -60,6 +87,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
   onSubmit() {
     const search = this.searchForm.value.searchResult.toLowerCase();
+    console.log(search);
 
     this.moviesService.getSearchNames();
 
@@ -112,5 +140,9 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     this.moviesService.searching.next(false);
     this.moviesService.searchKeyword.next(false);
     this.searchForm.reset();
+  }
+
+  showInput() {
+    this.isShowInput = true;
   }
 }

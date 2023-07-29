@@ -1,4 +1,18 @@
 <section class="header-container">
+  <div class="mobile-form-container" [ngClass]="{ open: isShowInput }">
+    <form class="mobile-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <input
+        type="text"
+        placeholder="Search movies"
+        [formControlName]="'searchResult'"
+        (click)="check()"
+        (keyup)="getKeyword()"
+      />
+    </form>
+    <div class="close" (click)="isShowInput = false">
+      <i class="fa fa-times"></i>
+    </div>
+  </div>
   <div class="header">
     <div
       class="logo"
@@ -17,11 +31,27 @@
           (click)="check()"
           (keyup)="getKeyword()"
         />
-        <button type="submit"><mat-icon>search</mat-icon></button>
+        <button type="submit" (click)="showInput()">
+          <mat-icon>search</mat-icon>
+        </button>
       </form>
       <div class="auth">
-        <a class="sign-in" [routerLink]="['/', 'sign-in']">Sign In</a>
+        <a class="sign-in" [routerLink]="['/', 'sign-in']" *ngIf="!isUser"
+          >Sign In</a
+        >
+        <a class="sign-in" *ngIf="isUser" [matMenuTriggerFor]="menu"
+          >{{ userName }} <i class="fa fa-caret-down"></i>
+        </a>
       </div>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['/movies', 'watchlist']">
+          <span>Your watchlist</span>
+        </button>
+        <button mat-menu-item (click)="onSignOut()">
+          <span>Sign out</span>
+        </button>
+      </mat-menu>
     </div>
   </div>
 </section>

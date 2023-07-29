@@ -7,7 +7,7 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: 'movies/favorites', component: FavoriteMoviesComponent },
+  { path: 'movies/watchlist', component: FavoriteMoviesComponent },
   {
     path: 'movies',
     component: HomepageComponent,

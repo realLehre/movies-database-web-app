@@ -1,21 +1,23 @@
 @import "config";
 
-.sign-in-container {
+.sign-up-container {
   font-family: "Nunito", sans-serif;
   width: 90%;
   margin-inline: auto;
   text-align: center;
 }
 
-.sign-in-heading {
+.sign-up-main {
+  width: 420px;
+  margin-inline: auto;
+}
+
+.sign-up-heading {
   font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
-.sign-in-form {
-  width: 40%;
-  margin-inline: auto;
-
+.sign-up-form {
   & .form-group {
     &:not(:last-child) {
       margin-bottom: 10px;
@@ -34,10 +36,18 @@
       &::placeholder {
         font-size: 1rem;
       }
+
+      &.input-error {
+        border: 2px solid $main-color;
+
+        &::placeholder {
+          color: $main-color;
+        }
+      }
     }
   }
 
-  & .sign-in-btn {
+  & .sign-up-btn {
     width: 100%;
     position: relative;
     padding: 15px 0;
@@ -56,15 +66,38 @@
   }
 }
 
+.form-group.password,
+.form-group.confirm-password {
+  position: relative;
+
+  & .eye {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    & i {
+      color: black;
+      font-size: 1rem;
+    }
+  }
+}
+
+.error {
+  text-align: left;
+  font-weight: 0.8rem;
+  line-height: 1.1;
+  margin-top: -6px;
+  color: $main-color;
+}
+
 .or {
   font-size: 1rem;
   font-weight: 600;
 }
 
-.sign-in-google {
-  width: 40%;
-  margin-inline: auto;
-
+.sign-up-google {
   & button {
     width: 100%;
     position: relative;
@@ -95,8 +128,6 @@
 }
 
 .have-account {
-  width: 40%;
-  margin-inline: auto;
   margin-top: 20px;
   text-align: left;
   & a {
@@ -106,20 +137,8 @@
   }
 }
 
-@media (max-width: 850px) {
-  .sign-in-form,
-  .sign-in-google,
-  .sign-in-btn,
-  .have-account {
-    width: 60%;
-  }
-}
-
 @media (max-width: 530px) {
-  .sign-in-form,
-  .sign-in-google,
-  .sign-in-btn,
-  .have-account {
+  .sign-up-main {
     width: 90%;
   }
 }

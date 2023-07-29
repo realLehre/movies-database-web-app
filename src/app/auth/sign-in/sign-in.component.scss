@@ -7,15 +7,17 @@
   text-align: center;
 }
 
+.sign-in-main {
+  width: 420px;
+  margin-inline: auto;
+}
+
 .sign-in-heading {
   font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
 .sign-in-form {
-  width: 40%;
-  margin-inline: auto;
-
   & .form-group {
     &:not(:last-child) {
       margin-bottom: 10px;
@@ -56,15 +58,22 @@
   }
 }
 
+.forgot {
+  margin: 20px 0;
+  text-align: left;
+
+  & a {
+    cursor: pointer;
+    font-size: 1rem;
+  }
+}
+
 .or {
   font-size: 1rem;
   font-weight: 600;
 }
 
 .sign-in-google {
-  width: 40%;
-  margin-inline: auto;
-
   & button {
     width: 100%;
     position: relative;
@@ -95,8 +104,6 @@
 }
 
 .have-account {
-  width: 40%;
-  margin-inline: auto;
   margin-top: 20px;
   text-align: left;
   & a {
@@ -106,20 +113,8 @@
   }
 }
 
-@media (max-width: 850px) {
-  .sign-in-form,
-  .sign-in-google,
-  .sign-in-btn,
-  .have-account {
-    width: 60%;
-  }
-}
-
 @media (max-width: 530px) {
-  .sign-in-form,
-  .sign-in-google,
-  .sign-in-btn,
-  .have-account {
+  .sign-in-main {
     width: 90%;
   }
 }
