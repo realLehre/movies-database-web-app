@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { HttpService } from 'src/app/services/http.service';
 import { MoviesService } from 'src/app/services/movies.service';
 import { MovieObject, RefinedResponse } from 'src/app/shared/movie.model';
@@ -28,7 +30,9 @@ export class MovieTypeComponent implements OnInit {
 
   constructor(
     private moviesService: MoviesService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -428,25 +432,29 @@ export class MovieTypeComponent implements OnInit {
   }
 
   addOrRemoveLiked(e, id, movie) {
-    movie['liked'] = !movie['liked'];
+    if (this.authService.isLoggedIn) {
+      movie['liked'] = !movie['liked'];
 
-    const movieContainer = e.target.parentElement.parentElement;
+      const movieContainer = e.target.parentElement.parentElement;
 
-    if (movie['liked'] == true) {
-      this.moviesService.onLike(movie, id);
+      if (movie['liked'] == true) {
+        this.moviesService.onLike(movie, id);
 
-      movieContainer.classList.add('showAdd');
+        movieContainer.classList.add('showAdd');
 
-      setTimeout(() => {
-        movieContainer.classList.remove('showAdd');
-      }, 650);
+        setTimeout(() => {
+          movieContainer.classList.remove('showAdd');
+        }, 650);
+      } else {
+        this.moviesService.onDisLike(id);
+
+        movieContainer.classList.add('showRemove');
+        setTimeout(() => {
+          movieContainer.classList.remove('showRemove');
+        }, 650);
+      }
     } else {
-      this.moviesService.onDisLike(id);
-
-      movieContainer.classList.add('showRemove');
-      setTimeout(() => {
-        movieContainer.classList.remove('showRemove');
-      }, 650);
+      this.router.navigate(['/', 'sign-in']);
     }
   }
 

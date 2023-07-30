@@ -5,12 +5,17 @@ import { FavoriteMoviesComponent } from './favorite-movies/favorite-movies.compo
 import { HomepageComponent } from '../homepage/homepage.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
-  { path: 'movies/watchlist', component: FavoriteMoviesComponent },
   {
     path: 'movies',
     component: HomepageComponent,
+  },
+  {
+    path: 'movies/watchlist',
+    component: FavoriteMoviesComponent,
+    canActivate: [AuthGuard],
   },
 
   { path: 'movies/search/:movie-name', component: HomepageComponent },

@@ -7,6 +7,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 
 import { MoviesService } from '../services/movies.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-homepage',
@@ -16,15 +17,15 @@ import { MoviesService } from '../services/movies.service';
 })
 export class HomepageComponent implements OnInit, AfterViewChecked {
   sort: string;
-
   search: boolean;
   searchState: boolean;
-
   likedMoviesCount: number;
+  isLoggedIn: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +38,7 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
 
     this.search = this.moviesService.searchState;
 
-    // this.moviesService.isLoading.next(false);
+    this.isLoggedIn = this.authService.isLoggedIn;
   }
 
   ngAfterViewChecked(): void {

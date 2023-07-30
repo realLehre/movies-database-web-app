@@ -37,14 +37,6 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     this.searchForm = new FormGroup({
       searchResult: new FormControl('', Validators.required),
     });
-
-    this.authService.user.subscribe((user) => {
-      if (user) {
-        this.userName = user.displayName;
-        this.isUser = true;
-      }
-      console.log(user);
-    });
   }
 
   ngAfterViewChecked(): void {
@@ -52,11 +44,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       ? localStorage.getItem('username')
       : '';
 
-    if (this.userName == '') {
-      this.isUser = false;
-    } else {
-      this.isUser = true;
-    }
+    this.isUser = this.authService.isLoggedIn;
 
     this.moviesService.clearSearch.subscribe({
       next: (value) => {
@@ -87,7 +75,6 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
   onSubmit() {
     const search = this.searchForm.value.searchResult.toLowerCase();
-    console.log(search);
 
     this.moviesService.getSearchNames();
 
@@ -115,6 +102,8 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
       this.moviesService.searchKeyword.next(false);
     }
+
+    this.isShowInput = false;
 
     this.searchForm.reset();
   }

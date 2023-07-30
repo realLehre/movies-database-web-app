@@ -8,19 +8,22 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user = new Subject<{ displayName: string }>();
   isUser = new Subject<boolean>();
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(
+    private auth: Auth,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   signUp(name: string, email: string, password: string) {
     return createUserWithEmailAndPassword(this.auth, email, password).then(
       (res) => {
-        console.log(res);
         this.isUser.next(true);
 
         const currentUser = this.auth.currentUser;
@@ -66,6 +69,18 @@ export class AuthService {
       this.isUser.next(false);
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
+      this.route.url.subscribe((data) => {
+        // if (data[1].path == 'watchlist') {
+        //   this.router.navigate(['/']);
+        // }
+        console.log(data);
+      });
     });
+  }
+
+  get isLoggedIn() {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    return user != null ? true : false;
   }
 }
