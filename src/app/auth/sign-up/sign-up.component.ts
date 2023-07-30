@@ -18,6 +18,8 @@ export class SignUpComponent implements OnInit, AfterViewChecked {
   show: boolean = false;
   showConfirm: boolean = false;
   passwordMatch: boolean = false;
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
   constructor(private authService: AuthService) {}
 
@@ -41,6 +43,17 @@ export class SignUpComponent implements OnInit, AfterViewChecked {
         ])
       ),
       confirmPassword: new FormControl(''),
+    });
+
+    this.authService.isLoading.subscribe((status) => {
+      this.isLoading = status;
+    });
+
+    this.authService.errorMessage.subscribe((error) => {
+      this.errorMessage = error;
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 2000);
     });
   }
 

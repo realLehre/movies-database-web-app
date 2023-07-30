@@ -1,6 +1,15 @@
 <div class="sign-up-container">
   <div class="sign-up-main">
     <p class="sign-up-heading">Sign up</p>
+
+    <div class="error-message" [class.show]="errorMessage != ''">
+      {{ errorMessage }}
+    </div>
+
+    <div class="sign-up-loader" *ngIf="isLoading" [class.grow]="isLoading">
+      <span class="loader"></span>
+    </div>
+
     <form class="sign-up-form" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
       <div class="form-group email">
         <input

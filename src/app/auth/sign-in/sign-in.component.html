@@ -1,6 +1,15 @@
 <div class="sign-in-container">
   <div class="sign-in-main">
     <p class="sign-in-heading">Sign in</p>
+
+    <div class="error-message" [class.show]="errorMessage != ''">
+      {{ errorMessage }}
+    </div>
+
+    <div class="sign-in-loader" *ngIf="isLoading" [class.grow]="isLoading">
+      <span class="loader"></span>
+    </div>
+
     <form class="sign-in-form" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
       <div class="form-group">
         <input type="email" placeholder="Email" [formControlName]="'email'" />

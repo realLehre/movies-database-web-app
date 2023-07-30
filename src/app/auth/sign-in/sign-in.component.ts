@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,6 +12,8 @@ export class SignInComponent implements OnInit {
   signInForm!: FormGroup;
   show: boolean = false;
   returnUrl!: string;
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
@@ -31,7 +33,16 @@ export class SignInComponent implements OnInit {
       password: new FormControl('', Validators.compose([Validators.required])),
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.authService.isLoading.subscribe((status) => {
+      this.isLoading = status;
+    });
+
+    this.authService.errorMessage.subscribe((error) => {
+      this.errorMessage = error;
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 2000);
+    });
   }
 
   get email() {
@@ -43,11 +54,10 @@ export class SignInComponent implements OnInit {
   }
 
   onSignIn() {
-    this.authService
-      .signIn(this.email.value, this.password.value)
-      .then((res) => {
-        this.router.navigateByUrl(this.returnUrl);
-      });
+    this.authService.signIn(this.email.value, this.password.value);
+    // .then((res) => {
+    //   this.router.navigateByUrl(this.returnUrl);
+    // })
   }
 
   onSignInWithGoogle() {

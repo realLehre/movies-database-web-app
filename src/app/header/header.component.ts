@@ -6,10 +6,19 @@ import {
   ElementRef,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivationStart,
+  ChildActivationEnd,
+  NavigationEnd,
+  Route,
+  Router,
+  RoutesRecognized,
+} from '@angular/router';
 import { HttpService } from '../services/http.service';
 import { MoviesService } from '../services/movies.service';
 import { AuthService } from '../services/auth.service';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -25,9 +34,11 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   isShowInput: boolean = false;
 
   keyword: string;
+  activatedRoute: any;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private httpService: HttpService,
     private moviesService: MoviesService,
     private authService: AuthService
@@ -57,6 +68,9 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
   onSignOut() {
     this.authService.signOut();
+    this.route.url.subscribe((url) => {
+      console.log(url);
+    });
   }
 
   getKeyword() {

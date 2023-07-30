@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FirebaseError } from '@angular/fire/app';
 import {
   Auth,
   signInWithPopup,
@@ -15,6 +16,9 @@ import { Subject } from 'rxjs';
 export class AuthService {
   user = new Subject<{ displayName: string }>();
   isUser = new Subject<boolean>();
+  isLoading = new Subject<boolean>();
+  errorMessage = new Subject<string>();
+
   constructor(
     private auth: Auth,
     private router: Router,
@@ -22,9 +26,10 @@ export class AuthService {
   ) {}
 
   signUp(name: string, email: string, password: string) {
-    return createUserWithEmailAndPassword(this.auth, email, password).then(
-      (res) => {
-        this.isUser.next(true);
+    this.isLoading.next(true);
+    return createUserWithEmailAndPassword(this.auth, email, password)
+      .then((res) => {
+        this.isUser.next(false);
 
         const currentUser = this.auth.currentUser;
         updateProfile(currentUser, {
@@ -36,12 +41,18 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(res));
 
         this.router.navigate(['/', 'movies']);
-      }
-    );
+      })
+      .catch((err: FirebaseError) => {
+        this.isLoading.next(false);
+
+        this.errorMessage.next(this.getErrorMessage(err.code));
+      });
   }
 
   authWithGoogle() {
+    this.isLoading.next(true);
     return signInWithPopup(this.auth, new GoogleAuthProvider()).then((res) => {
+      this.isUser.next(false);
       const currentUser = res.user.displayName;
       this.user.next({ displayName: currentUser });
       localStorage.setItem('username', currentUser);
@@ -52,16 +63,22 @@ export class AuthService {
   }
 
   signIn(email: string, password: string) {
-    return signInWithEmailAndPassword(this.auth, email, password).then(
-      (res) => {
+    this.isLoading.next(true);
+    return signInWithEmailAndPassword(this.auth, email, password)
+      .then((res) => {
+        this.isUser.next(false);
         const currentUser = res.user.displayName;
         this.user.next({ displayName: currentUser });
         localStorage.setItem('username', currentUser);
         localStorage.setItem('user', JSON.stringify(res));
+        const url = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.router.navigateByUrl(url);
+      })
+      .catch((err: FirebaseError) => {
+        this.isLoading.next(false);
 
-        this.router.navigate(['/', 'movies']);
-      }
-    );
+        this.errorMessage.next(this.getErrorMessage(err.code));
+      });
   }
 
   signOut() {
@@ -69,12 +86,6 @@ export class AuthService {
       this.isUser.next(false);
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
-      this.route.url.subscribe((data) => {
-        // if (data[1].path == 'watchlist') {
-        //   this.router.navigate(['/']);
-        // }
-        console.log(data);
-      });
     });
   }
 
@@ -82,5 +93,22 @@ export class AuthService {
     const user = JSON.parse(localStorage.getItem('user'));
 
     return user != null ? true : false;
+  }
+
+  getErrorMessage(err: any) {
+    switch (err) {
+      case 'auth/email-already-in-use': {
+        return 'Email already in use';
+      }
+      case 'auth/wrong-password': {
+        return 'Password is incorrect';
+      }
+      case 'auth/user-not-found': {
+        return 'User not found';
+      }
+      default: {
+        return 'An error occured, try again later';
+      }
+    }
   }
 }
