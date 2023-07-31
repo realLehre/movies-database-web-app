@@ -55,7 +55,9 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       ? localStorage.getItem('username')
       : '';
 
-    this.isUser = this.authService.isLoggedIn;
+    this.authService.isAuthenticated.subscribe((status) => {
+      this.isUser = status;
+    });
 
     this.moviesService.clearSearch.subscribe({
       next: (value) => {
@@ -68,9 +70,6 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
   onSignOut() {
     this.authService.signOut();
-    this.route.url.subscribe((url) => {
-      console.log(url);
-    });
   }
 
   getKeyword() {

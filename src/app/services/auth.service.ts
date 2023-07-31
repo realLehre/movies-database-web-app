@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user = new Subject<{ displayName: string }>();
-  isUser = new Subject<boolean>();
+  isAuthenticated = new Subject<boolean>();
   isLoading = new Subject<boolean>();
   errorMessage = new Subject<string>();
 
@@ -29,8 +29,6 @@ export class AuthService {
     this.isLoading.next(true);
     return createUserWithEmailAndPassword(this.auth, email, password)
       .then((res) => {
-        this.isUser.next(false);
-
         const currentUser = this.auth.currentUser;
         updateProfile(currentUser, {
           displayName: name,
@@ -39,8 +37,11 @@ export class AuthService {
         this.user.next({ displayName: name });
         localStorage.setItem('username', name);
         localStorage.setItem('user', JSON.stringify(res));
+        this.isLoggedIn();
 
         this.router.navigate(['/', 'movies']);
+
+        this.autoLogout(3600000);
       })
       .catch((err: FirebaseError) => {
         this.isLoading.next(false);
@@ -52,13 +53,13 @@ export class AuthService {
   authWithGoogle() {
     this.isLoading.next(true);
     return signInWithPopup(this.auth, new GoogleAuthProvider()).then((res) => {
-      this.isUser.next(false);
       const currentUser = res.user.displayName;
-      this.user.next({ displayName: currentUser });
       localStorage.setItem('username', currentUser);
       localStorage.setItem('user', JSON.stringify(res));
+      this.isLoggedIn();
 
       this.router.navigate(['/', 'movies']);
+      this.autoLogout(3600000);
     });
   }
 
@@ -66,13 +67,15 @@ export class AuthService {
     this.isLoading.next(true);
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((res) => {
-        this.isUser.next(false);
         const currentUser = res.user.displayName;
-        this.user.next({ displayName: currentUser });
         localStorage.setItem('username', currentUser);
         localStorage.setItem('user', JSON.stringify(res));
+        this.isLoggedIn();
+
         const url = this.route.snapshot.queryParams['returnUrl'] || '/';
         this.router.navigateByUrl(url);
+
+        this.autoLogout(3600000);
       })
       .catch((err: FirebaseError) => {
         this.isLoading.next(false);
@@ -83,16 +86,25 @@ export class AuthService {
 
   signOut() {
     return signOut(this.auth).then((res) => {
-      this.isUser.next(false);
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
+      this.isLoggedIn();
     });
   }
 
-  get isLoggedIn() {
+  isLoggedIn() {
     const user = JSON.parse(localStorage.getItem('user'));
 
-    return user != null ? true : false;
+    this.isAuthenticated.next(user);
+  }
+
+  autoLogout(tokenExpirTime: number) {
+    setTimeout(() => {
+      localStorage.setItem('username', '');
+      localStorage.setItem('user', null);
+
+      this.isLoggedIn();
+    }, tokenExpirTime);
   }
 
   getErrorMessage(err: any) {
