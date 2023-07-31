@@ -23,12 +23,16 @@ export class AuthService {
     private auth: Auth,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.isLoggedIn();
+  }
 
   signUp(name: string, email: string, password: string) {
     this.isLoading.next(true);
     return createUserWithEmailAndPassword(this.auth, email, password)
       .then((res) => {
+        this.isLoading.next(false);
+
         const currentUser = this.auth.currentUser;
         updateProfile(currentUser, {
           displayName: name,
@@ -53,12 +57,15 @@ export class AuthService {
   authWithGoogle() {
     this.isLoading.next(true);
     return signInWithPopup(this.auth, new GoogleAuthProvider()).then((res) => {
+      this.isLoading.next(false);
+
       const currentUser = res.user.displayName;
       localStorage.setItem('username', currentUser);
       localStorage.setItem('user', JSON.stringify(res));
       this.isLoggedIn();
 
-      this.router.navigate(['/', 'movies']);
+      const url = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.router.navigateByUrl(url);
       this.autoLogout(3600000);
     });
   }
@@ -67,6 +74,7 @@ export class AuthService {
     this.isLoading.next(true);
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((res) => {
+        this.isLoading.next(false);
         const currentUser = res.user.displayName;
         localStorage.setItem('username', currentUser);
         localStorage.setItem('user', JSON.stringify(res));
@@ -95,7 +103,9 @@ export class AuthService {
   isLoggedIn() {
     const user = JSON.parse(localStorage.getItem('user'));
 
-    this.isAuthenticated.next(user);
+    const isUser = user != null ? true : false;
+
+    this.isAuthenticated.next(isUser);
   }
 
   autoLogout(tokenExpirTime: number) {

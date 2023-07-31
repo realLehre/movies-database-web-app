@@ -61,8 +61,6 @@ export class SignInComponent implements OnInit {
   }
 
   onSignInWithGoogle() {
-    this.authService.authWithGoogle().then((res) => {
-      this.router.navigateByUrl(this.returnUrl);
-    });
+    this.authService.authWithGoogle();
   }
 }

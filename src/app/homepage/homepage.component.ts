@@ -38,9 +38,9 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
 
     this.search = this.moviesService.searchState;
 
-    this.authService.isAuthenticated.subscribe((status) => {
-      this.isLoggedIn = status;
-    });
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    this.isLoggedIn = user != null ? true : false;
   }
 
   ngAfterViewChecked(): void {

@@ -55,9 +55,9 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       ? localStorage.getItem('username')
       : '';
 
-    this.authService.isAuthenticated.subscribe((status) => {
-      this.isUser = status;
-    });
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    this.isUser = user != null ? true : false;
 
     this.moviesService.clearSearch.subscribe({
       next: (value) => {

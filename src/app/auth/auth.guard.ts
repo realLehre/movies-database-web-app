@@ -20,7 +20,8 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    if (this.authService.isLoggedIn) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user != null) {
       return true;
     }
 
