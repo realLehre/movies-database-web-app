@@ -16,6 +16,9 @@ const routes: Routes = [
     path: 'movies/watchlist',
     component: FavoriteMoviesComponent,
     canActivate: [AuthGuard],
+    data: {
+      reqAuth: true,
+    },
   },
 
   { path: 'movies/search/:movie-name', component: HomepageComponent },

@@ -51,10 +51,16 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
+    this.authService.user.subscribe((name) => {
+      this.userName = name.displayName;
+    });
     this.userName = localStorage.getItem('username')
       ? localStorage.getItem('username')
       : '';
 
+    this.authService.isAuthenticated.subscribe((status) => {
+      this.isUser = status;
+    });
     const user = JSON.parse(localStorage.getItem('user'));
 
     this.isUser = user != null ? true : false;

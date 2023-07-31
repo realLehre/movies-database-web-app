@@ -9,8 +9,9 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from '@angular/fire/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Subject, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
   isAuthenticated = new Subject<boolean>();
   isLoading = new Subject<boolean>();
   errorMessage = new Subject<string>();
+  reqAuth: boolean = false;
 
   constructor(
     private auth: Auth,
@@ -25,6 +27,15 @@ export class AuthService {
     private route: ActivatedRoute
   ) {
     this.isLoggedIn();
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map((e) => this.route.firstChild),
+        switchMap((route) => route.data)
+      )
+      .subscribe((route) => {
+        this.reqAuth = route['reqAuth'];
+      });
   }
 
   signUp(name: string, email: string, password: string) {
@@ -32,6 +43,8 @@ export class AuthService {
     return createUserWithEmailAndPassword(this.auth, email, password)
       .then((res) => {
         this.isLoading.next(false);
+        this.isAuthenticated.next(true);
+        this.user.next({ displayName: name });
 
         const currentUser = this.auth.currentUser;
         updateProfile(currentUser, {
@@ -57,9 +70,11 @@ export class AuthService {
   authWithGoogle() {
     this.isLoading.next(true);
     return signInWithPopup(this.auth, new GoogleAuthProvider()).then((res) => {
-      this.isLoading.next(false);
-
       const currentUser = res.user.displayName;
+      this.isLoading.next(false);
+      this.isAuthenticated.next(true);
+      this.user.next({ displayName: currentUser });
+
       localStorage.setItem('username', currentUser);
       localStorage.setItem('user', JSON.stringify(res));
       this.isLoggedIn();
@@ -74,8 +89,11 @@ export class AuthService {
     this.isLoading.next(true);
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((res) => {
-        this.isLoading.next(false);
         const currentUser = res.user.displayName;
+        this.isLoading.next(false);
+        this.isAuthenticated.next(true);
+        this.user.next({ displayName: currentUser });
+
         localStorage.setItem('username', currentUser);
         localStorage.setItem('user', JSON.stringify(res));
         this.isLoggedIn();
@@ -97,6 +115,10 @@ export class AuthService {
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
       this.isLoggedIn();
+
+      if (this.reqAuth) {
+        this.router.navigate(['/']);
+      }
     });
   }
 
@@ -112,6 +134,10 @@ export class AuthService {
     setTimeout(() => {
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
+
+      if (this.reqAuth) {
+        this.router.navigate(['/']);
+      }
 
       this.isLoggedIn();
     }, tokenExpirTime);
