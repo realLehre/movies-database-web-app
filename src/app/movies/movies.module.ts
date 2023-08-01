@@ -15,6 +15,7 @@ import { ImagePreloader } from '../shared/image-preloader.directive';
 import { MaterialModule } from '../material.module';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { MoviesRoutingModule } from './movies-routing.module';
+import { CurrentlyPlayingComponent } from './currently-playing/currently-playing.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MoviesRoutingModule } from './movies-routing.module';
     RuntimePipe,
     LazyLoadImagesDirective,
     ImagePreloader,
+    CurrentlyPlayingComponent,
   ],
   imports: [
     CommonModule,

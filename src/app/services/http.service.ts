@@ -13,6 +13,42 @@ export class HttpService {
 
   constructor(private http: HttpClient, private moviesService: MoviesService) {}
 
+  getCurrentlyPlaying() {
+    return this.http
+      .get<{
+        dates: Object;
+        page: number;
+        results: [{ [key: string]: MovieObject }];
+        total_pages: number;
+        total_results: number;
+      }>(
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${this.api_key}`
+      )
+      .pipe(
+        map((data) => {
+          const posters = [];
+          const backdrops = [];
+
+          for (const key in data.results) {
+            posters.push(
+              `https://image.tmdb.org/t/p/original${data.results[key]['poster_path']}`
+            );
+          }
+
+          for (const key in data.results) {
+            backdrops.push(
+              `https://image.tmdb.org/t/p/original${data.results[key]['backdrop_path']}`
+            );
+          }
+
+          return {
+            posters,
+            backdrops,
+          };
+        })
+      );
+  }
+
   getTrending() {
     return this.http
       .get<Response>(

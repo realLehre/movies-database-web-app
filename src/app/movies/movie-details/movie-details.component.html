@@ -1,195 +1,199 @@
-<div class="error-container" *ngIf="error">An error occured!</div>
-<div
-  class="details-tab-container"
-  [ngClass]="{ blur: isFetching }"
-  *ngIf="!error"
->
-  <div class="details-tab" #detailsContainer>
-    <mat-tab-group mat-align-tabs="center">
-      <mat-tab label="Overview">
-        <div
-          class="overview-container"
-          [ngStyle]="{
-            backgroundImage:
-              'url(https://image.tmdb.org/t/p/original' + backdrop_path + ')'
-          }"
-        >
-          <div class="overview">
-            <div class="overview-poster">
+<div class="details-container">
+  <div class="error-container" *ngIf="error">An error occured!</div>
+  <div
+    class="details-tab-container"
+    [ngClass]="{ blur: isFetching }"
+    *ngIf="!error"
+  >
+    <div class="details-tab" #detailsContainer>
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Overview">
+          <div
+            class="overview-container"
+            [ngStyle]="{
+              backgroundImage:
+                'url(https://image.tmdb.org/t/p/original' + backdrop_path + ')'
+            }"
+          >
+            <div class="overview">
+              <div class="overview-poster">
+                <div class="fav-overlay"></div>
+                <div class="fav-container" #like>
+                  <i
+                    class="fa fa-heart"
+                    id="favorite"
+                    [ngClass]="{ liked: movieLiked }"
+                    (click)="addOrRemoveLiked($event, movieId, movie)"
+                  ></i>
+                </div>
+
+                <div class="liked-alert add">Added to favorites</div>
+                <div class="liked-alert remove">Removed from favorites</div>
+                <div class="poster">
+                  <img [src]="poster_path" alt="" />
+                </div>
+              </div>
+
+              <div class="overview-content-container">
+                <div class="overview-content">
+                  <div class="movie-name">
+                    {{ original_title }}
+                    <span class="website">
+                      <a [href]="homepage" target="_blank">
+                        Official site <i class="fa fa-angle-right"></i> </a
+                    ></span>
+                  </div>
+                  <div class="movie-date">
+                    {{ release_date | date }}
+                    <span class="movie-runtime">
+                      {{ runtime | runtime : runtime }}
+                    </span>
+                  </div>
+                  <div class="movie-genre">
+                    <ul>
+                      <li *ngFor="let genre of genres">{{ genre }}</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="movie-rating">
+                  <circle-progress
+                    backgroundColor="black"
+                    [percent]="vote_average"
+                    [radius]="40"
+                    [outerStrokeWidth]="10"
+                    [innerStrokeWidth]="2"
+                    [outerStrokeColor]="
+                      movieRatingColor | rating : vote_average
+                    "
+                    [innerStrokeColor]="'#C7E596'"
+                    [animation]="true"
+                    [animationDuration]="0"
+                    titleFontSize="30"
+                    titleFontWeight="900"
+                    unitsFontWeight="500"
+                    unitsFontSize="15"
+                    [backgroundPadding]="10"
+                  ></circle-progress>
+
+                  <div class="votes-popularity">
+                    <div class="count">
+                      Vote Count: <span>{{ vote_count }}</span>
+                    </div>
+                    <div class="popularity">
+                      Popularity: <span>{{ popularity }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="movie-overview-content">
+                  <div class="heading">Overview</div>
+                  <div class="content">
+                    {{ overview }}
+                  </div>
+                </div>
+
+                <div class="movie-cast">
+                  <div class="heading">Popular Cast</div>
+                  <div class="cast">
+                    <ul>
+                      <li *ngFor="let cast of casts; let i = index">
+                        <div class="name">{{ cast.name }}</div>
+                        <span class="character">{{ cast.character }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Watch Related Video">
+          <div
+            class="video-container"
+            *ngFor="let videoKey of videoId; let i = index"
+            #videoContainer
+          >
+            <div class="trailer-video">
+              <div class="video-index">{{ i + 1 }}</div>
+              <youtube-player
+                [videoId]="videoKey"
+                suggestedQuality="highres"
+                [height]="movieHeight"
+                [width]="movieWidth"
+                [startSeconds]="0"
+                [endSeconds]="600"
+              >
+              </youtube-player>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <div class="recommended-movies" *ngIf="recommendedMoviesLength > 0">
+      <div class="sort-container">
+        <div class="movies">
+          <div class="movies-type">Recommendations</div>
+
+          <div class="movies-class trending">
+            <div
+              class="movie"
+              *ngFor="let movie of recommendedMovies; let i = index"
+            >
               <div class="fav-overlay"></div>
               <div class="fav-container" #like>
                 <i
                   class="fa fa-heart"
                   id="favorite"
-                  [ngClass]="{ liked: movieLiked }"
-                  (click)="addOrRemoveLiked($event, movieId, movie)"
+                  [ngClass]="{ liked: recommendedMovies[i].liked }"
+                  (click)="
+                    addOrRemoveLiked(
+                      $event,
+                      recommendedMovies[i].id,
+                      recommendedMovies[i]
+                    )
+                  "
                 ></i>
               </div>
+              <div
+                class="movie-img"
+                [routerLink]="[
+                  '/movies',
+                  recommendedMoviesId[i],
+                  recommendedMoviesNames[i]
+                ]"
+              >
+                <div class="liked-alert add">Added to favorites</div>
+                <div class="liked-alert remove">Removed from favorites</div>
 
-              <div class="liked-alert add">Added to favorites</div>
-              <div class="liked-alert remove">Removed from favorites</div>
-              <div class="poster">
-                <img [src]="poster_path" alt="" />
-              </div>
-            </div>
-
-            <div class="overview-content-container">
-              <div class="overview-content">
-                <div class="movie-name">
-                  {{ original_title }}
-                  <span class="website">
-                    <a [href]="homepage" target="_blank">
-                      Official site <i class="fa fa-angle-right"></i> </a
-                  ></span>
+                <div class="movie-rating">
+                  <circle-progress
+                    backgroundColor="black"
+                    [percent]="recommendedMoviesRating[i]"
+                    [radius]="18"
+                    [outerStrokeWidth]="3"
+                    [innerStrokeWidth]="4"
+                    [outerStrokeColor]="
+                      movieRatingColor | rating : recommendedMoviesRating[i]
+                    "
+                    [innerStrokeColor]="'#C7E596'"
+                    [animation]="true"
+                    [animationDuration]="0"
+                    titleFontSize="13"
+                    titleFontWeight="900"
+                    unitsFontWeight="500"
+                    [backgroundPadding]="2"
+                  ></circle-progress>
                 </div>
-                <div class="movie-date">
-                  {{ release_date | date }}
-                  <span class="movie-runtime">
-                    {{ runtime | runtime: runtime }}
-                  </span>
-                </div>
-                <div class="movie-genre">
-                  <ul>
-                    <li *ngFor="let genre of genres">{{ genre }}</li>
-                  </ul>
-                </div>
+                <img [img-preloader]="recommendedMoviesPoster[i]" alt="" />
               </div>
+              <div class="movie-info">
+                <div class="movie-title-date">
+                  <div class="movie-name">{{ movie.title }}</div>
 
-              <div class="movie-rating">
-                <circle-progress
-                  backgroundColor="black"
-                  [percent]="vote_average"
-                  [radius]="40"
-                  [outerStrokeWidth]="10"
-                  [innerStrokeWidth]="2"
-                  [outerStrokeColor]="movieRatingColor | rating: vote_average"
-                  [innerStrokeColor]="'#C7E596'"
-                  [animation]="true"
-                  [animationDuration]="0"
-                  titleFontSize="30"
-                  titleFontWeight="900"
-                  unitsFontWeight="500"
-                  unitsFontSize="15"
-                  [backgroundPadding]="10"
-                ></circle-progress>
-
-                <div class="votes-popularity">
-                  <div class="count">
-                    Vote Count: <span>{{ vote_count }}</span>
-                  </div>
-                  <div class="popularity">
-                    Popularity: <span>{{ popularity }}</span>
-                  </div>
+                  <div class="movie-date">{{ movie.release_date | date }}</div>
                 </div>
-              </div>
-
-              <div class="movie-overview-content">
-                <div class="heading">Overview</div>
-                <div class="content">
-                  {{ overview }}
-                </div>
-              </div>
-
-              <div class="movie-cast">
-                <div class="heading">Popular Cast</div>
-                <div class="cast">
-                  <ul>
-                    <li *ngFor="let cast of casts; let i = index">
-                      <div class="name">{{ cast.name }}</div>
-                      <span class="character">{{ cast.character }}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="Watch Related Video">
-        <div
-          class="video-container"
-          *ngFor="let videoKey of videoId; let i = index"
-          #videoContainer
-        >
-          <div class="trailer-video">
-            <div class="video-index">{{ i + 1 }}</div>
-            <youtube-player
-              [videoId]="videoKey"
-              suggestedQuality="highres"
-              [height]="movieHeight"
-              [width]="movieWidth"
-              [startSeconds]="0"
-              [endSeconds]="600"
-            >
-            </youtube-player>
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-
-  <div class="recommended-movies" *ngIf="recommendedMoviesLength > 0">
-    <div class="sort-container">
-      <div class="movies">
-        <div class="movies-type">Recommendations</div>
-
-        <div class="movies-class trending">
-          <div
-            class="movie"
-            *ngFor="let movie of recommendedMovies; let i = index"
-          >
-            <div class="fav-overlay"></div>
-            <div class="fav-container" #like>
-              <i
-                class="fa fa-heart"
-                id="favorite"
-                [ngClass]="{ liked: recommendedMovies[i].liked }"
-                (click)="
-                  addOrRemoveLiked(
-                    $event,
-                    recommendedMovies[i].id,
-                    recommendedMovies[i]
-                  )
-                "
-              ></i>
-            </div>
-            <div
-              class="movie-img"
-              [routerLink]="[
-                '/movies',
-                recommendedMoviesId[i],
-                recommendedMoviesNames[i]
-              ]"
-            >
-              <div class="liked-alert add">Added to favorites</div>
-              <div class="liked-alert remove">Removed from favorites</div>
-
-              <div class="movie-rating">
-                <circle-progress
-                  backgroundColor="black"
-                  [percent]="recommendedMoviesRating[i]"
-                  [radius]="18"
-                  [outerStrokeWidth]="3"
-                  [innerStrokeWidth]="4"
-                  [outerStrokeColor]="
-                    movieRatingColor | rating: recommendedMoviesRating[i]
-                  "
-                  [innerStrokeColor]="'#C7E596'"
-                  [animation]="true"
-                  [animationDuration]="0"
-                  titleFontSize="13"
-                  titleFontWeight="900"
-                  unitsFontWeight="500"
-                  [backgroundPadding]="2"
-                ></circle-progress>
-              </div>
-              <img [img-preloader]="recommendedMoviesPoster[i]" alt="" />
-            </div>
-            <div class="movie-info">
-              <div class="movie-title-date">
-                <div class="movie-name">{{ movie.title }}</div>
-
-                <div class="movie-date">{{ movie.release_date | date }}</div>
               </div>
             </div>
           </div>

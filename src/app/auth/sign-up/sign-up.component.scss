@@ -2,9 +2,12 @@
 
 .sign-up-container {
   font-family: "Nunito", sans-serif;
-  width: 90%;
+  width: 100%;
+  height: 100vh;
   margin-inline: auto;
   text-align: center;
+  display: flex;
+  align-items: center;
 }
 
 .sign-up-main {
@@ -42,15 +45,21 @@
 
 .sign-up-form {
   & .form-group {
+    position: relative;
+
     &:not(:last-child) {
-      margin-bottom: 10px;
+      margin-bottom: 25px;
     }
+
     & input {
       width: 100%;
-      padding: 15px 10px;
+      height: 50px;
+      padding-left: 70px;
       border-radius: 2px;
       border: none;
       font-size: 1rem;
+      font-weight: 600;
+      color: #808080;
 
       &:focus {
         outline: none;
@@ -58,12 +67,40 @@
 
       &::placeholder {
         font-size: 1rem;
+        color: #808080;
       }
 
       &.input-error {
         border: 2px solid $main-color;
 
         &::placeholder {
+          color: $main-color;
+        }
+      }
+    }
+
+    & .input-icon {
+      position: absolute;
+      height: 100%;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-right: 2px solid rgba(#808080, 0.5);
+      padding-right: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      & i {
+        width: 16px;
+        font-size: 1rem;
+        color: #808080;
+      }
+
+      &.input-error {
+        border-right: 2px solid $main-color;
+
+        & i {
           color: $main-color;
         }
       }
@@ -85,6 +122,12 @@
 
     &:hover {
       background: rgba($main-color, 0.8);
+    }
+
+    & i {
+      position: absolute;
+      right: 10px;
+      font-size: 1.2rem;
     }
   }
 }
@@ -109,10 +152,11 @@
 
 .error {
   text-align: left;
-  font-weight: 0.8rem;
-  line-height: 1.1;
-  margin-top: -6px;
-  color: $main-color;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: -20px;
+  color: rgba($main-color, 0.9);
 }
 
 .or {
@@ -126,8 +170,8 @@
     position: relative;
     padding: 15px 0;
     border-radius: 2px;
-    border: none;
-    background: #4285f4;
+    border: 1px solid white;
+    background: transparent;
     color: white;
     font-size: 1rem;
     font-weight: 600;
@@ -136,16 +180,17 @@
     transition: all 100ms ease-in-out;
 
     &:hover {
-      background: rgba(#4285f4, 0.8);
+      background: white;
+      color: #808080;
     }
 
-    & img {
+    & i {
       position: absolute;
       width: 50px;
-      left: 0;
+      left: 5px;
       top: 50%;
       transform: translateY(-50%);
-      background: white;
+      font-size: 1.5rem;
     }
   }
 }
@@ -204,7 +249,65 @@
   }
 }
 
+.sign-up-image {
+  // position: fixed;
+  width: 50%;
+  height: 100%;
+  background-size: cover;
+}
+
+@media (max-width: 880px) {
+  .overlay {
+    position: fixed;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(3px);
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      right: 0;
+      background: rgba(black, 0.9);
+    }
+  }
+
+  .sign-up-main {
+    position: relative;
+    z-index: 100;
+    margin-inline: auto;
+  }
+
+  .sign-up-image {
+    width: 0%;
+    height: 100vh;
+    background-image: none;
+  }
+}
+
 @media (max-width: 530px) {
+  .sign-up-container {
+    // margin-top: 100px;
+    height: 100%;
+  }
+
+  .sign-up-main {
+    width: 90%;
+  }
+}
+
+@media (max-width: 375px) {
+  .sign-up-container {
+    margin-top: 100px;
+    height: 100%;
+  }
+
   .sign-up-main {
     width: 90%;
   }

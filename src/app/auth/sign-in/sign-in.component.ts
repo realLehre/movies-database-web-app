@@ -2,6 +2,7 @@ import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,14 +12,15 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SignInComponent implements OnInit {
   signInForm!: FormGroup;
   show: boolean = false;
+  massError: boolean = false;
   returnUrl!: string;
   isLoading: boolean = false;
   errorMessage: string = '';
+  posterUrl: string = '';
 
   constructor(
     private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router
+    private httpService: HttpService
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +43,12 @@ export class SignInComponent implements OnInit {
       this.errorMessage = error;
       setTimeout(() => {
         this.errorMessage = '';
-      }, 2000);
+      }, 3000);
+    });
+
+    this.httpService.getCurrentlyPlaying().subscribe((data) => {
+      const random = Math.floor(Math.random() * 20);
+      this.posterUrl = data.posters[random];
     });
   }
 
@@ -54,10 +61,14 @@ export class SignInComponent implements OnInit {
   }
 
   onSignIn() {
-    this.authService.signIn(this.email.value, this.password.value);
-    // .then((res) => {
-    //   this.router.navigateByUrl(this.returnUrl);
-    // })
+    if (this.signInForm.valid) {
+      this.authService.signIn(this.email.value, this.password.value);
+    } else {
+      this.massError = true;
+      setTimeout(() => {
+        this.massError = false;
+      }, 3000);
+    }
   }
 
   onSignInWithGoogle() {

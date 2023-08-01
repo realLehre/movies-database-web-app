@@ -16,6 +16,7 @@ import {
 import { Subscription } from 'rxjs';
 
 import { MoviesService } from './services/movies.service';
+import { HttpService } from './services/http.service';
 
 @Component({
   selector: 'app-root',

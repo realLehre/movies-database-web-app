@@ -62,6 +62,7 @@ export class AuthService {
       })
       .catch((err: FirebaseError) => {
         this.isLoading.next(false);
+        console.log(err);
 
         this.errorMessage.next(this.getErrorMessage(err.code));
       });
@@ -69,20 +70,24 @@ export class AuthService {
 
   authWithGoogle() {
     this.isLoading.next(true);
-    return signInWithPopup(this.auth, new GoogleAuthProvider()).then((res) => {
-      const currentUser = res.user.displayName;
-      this.isLoading.next(false);
-      this.isAuthenticated.next(true);
-      this.user.next({ displayName: currentUser });
+    return signInWithPopup(this.auth, new GoogleAuthProvider())
+      .then((res) => {
+        const currentUser = res.user.displayName;
+        this.isLoading.next(false);
+        this.isAuthenticated.next(true);
+        this.user.next({ displayName: currentUser });
 
-      localStorage.setItem('username', currentUser);
-      localStorage.setItem('user', JSON.stringify(res));
-      this.isLoggedIn();
+        localStorage.setItem('username', currentUser);
+        localStorage.setItem('user', JSON.stringify(res));
+        this.isLoggedIn();
 
-      const url = this.route.snapshot.queryParams['returnUrl'] || '/';
-      this.router.navigateByUrl(url);
-      this.autoLogout(3600000);
-    });
+        const url = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.router.navigateByUrl(url);
+        this.autoLogout(3600000);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   signIn(email: string, password: string) {
@@ -105,6 +110,7 @@ export class AuthService {
       })
       .catch((err: FirebaseError) => {
         this.isLoading.next(false);
+        console.log(err);
 
         this.errorMessage.next(this.getErrorMessage(err.code));
       });
