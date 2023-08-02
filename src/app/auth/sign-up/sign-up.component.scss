@@ -28,11 +28,9 @@
 .sign-up-main {
   height: 100%;
   margin-inline: auto;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow-y: auto;
 }
 
 .sign-up-image {
@@ -229,9 +227,12 @@
 .have-account {
   margin-top: 20px;
   text-align: left;
+  font-size: 1.2rem;
+  font-weight: 400;
+
   & a {
+    font-weight: 600;
     color: white;
-    font-size: 1rem;
     text-decoration: underline;
   }
 }
