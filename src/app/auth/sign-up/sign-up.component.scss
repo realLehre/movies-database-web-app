@@ -1,24 +1,55 @@
 @import "config";
 
+.sign-up {
+  margin-top: 79px;
+  width: 100%;
+  min-height: 100vh;
+}
+
 .sign-up-container {
   font-family: "Nunito", sans-serif;
   width: 100%;
   height: 100vh;
-  margin-inline: auto;
   text-align: center;
   display: flex;
   align-items: center;
 }
 
+.underlay {
+  display: none;
+}
+
+.sign-up-main,
+.sign-up-image {
+  width: 50%;
+  height: 100%;
+}
+
 .sign-up-main {
-  width: 420px;
+  height: 100%;
   margin-inline: auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.sign-up-image {
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .sign-up-loader {
   &.grow {
     height: 20px;
   }
+}
+
+.sign-up-main-content {
+  width: 80%;
+  margin-inline: auto;
 }
 
 .sign-up-heading {
@@ -249,23 +280,16 @@
   }
 }
 
-.sign-up-image {
-  // position: fixed;
-  width: 50%;
-  height: 100%;
-  background-size: cover;
-}
-
 @media (max-width: 880px) {
-  .overlay {
+  .underlay {
+    display: block;
     position: fixed;
     background-size: cover;
-    position: absolute;
     top: 0;
     right: 0;
     width: 100%;
     height: 100%;
-    filter: blur(3px);
+    filter: blur(2px);
 
     &:after {
       content: "";
@@ -274,11 +298,12 @@
       height: 100%;
       top: 0;
       right: 0;
-      background: rgba(black, 0.9);
+      background: rgba(black, 0.6);
     }
   }
 
   .sign-up-main {
+    width: 100%;
     position: relative;
     z-index: 100;
     margin-inline: auto;
@@ -289,26 +314,28 @@
     height: 100vh;
     background-image: none;
   }
+
+  .sign-up-main-content {
+    width: 70%;
+  }
 }
 
 @media (max-width: 530px) {
   .sign-up-container {
-    // margin-top: 100px;
     height: 100%;
   }
 
   .sign-up-main {
     width: 90%;
+  }
+
+  .sign-up-main-content {
+    width: 100%;
   }
 }
 
 @media (max-width: 375px) {
-  .sign-up-container {
-    margin-top: 100px;
-    height: 100%;
-  }
-
-  .sign-up-main {
-    width: 90%;
-  }
+  // .sign-up-container {
+  //   height: 100%;
+  // }
 }

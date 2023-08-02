@@ -1,14 +1,30 @@
 @import "config";
 
+.sign-in {
+  margin-top: 79px;
+  width: 100%;
+  min-height: 100vh;
+}
+
 .sign-in-container {
   position: relative;
   font-family: "Nunito", sans-serif;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   margin-inline: auto;
   text-align: center;
   display: flex;
   align-items: center;
+}
+
+.underlay {
+  display: none;
+}
+
+.sign-in-main,
+.sign-in-image {
+  width: 50%;
+  height: 100%;
 }
 
 .sign-in-loader {
@@ -18,7 +34,23 @@
 }
 
 .sign-in-main {
-  width: 420px;
+  height: 100%;
+  margin-inline: auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.sign-in-image {
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sign-in-main-content {
+  width: 80%;
   margin-inline: auto;
 }
 
@@ -222,12 +254,6 @@
   animation: split 0.5s ease-out infinite alternate;
 }
 
-.sign-in-image {
-  width: 50%;
-  height: 100vh;
-  background-size: cover;
-}
-
 @keyframes split {
   0% {
     box-shadow: 8px -20px, -8px -20px;
@@ -252,14 +278,15 @@
     background-image: none;
   }
 
-  .overlay {
+  .underlay {
+    display: block;
     background-size: cover;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     width: 100%;
     height: 100%;
-    filter: blur(3px);
+    filter: blur(2px);
 
     &:after {
       content: "";
@@ -268,18 +295,38 @@
       height: 100%;
       top: 0;
       right: 0;
-      background: rgba(black, 0.9);
+      background: rgba(black, 0.6);
     }
   }
 
   .sign-in-main {
+    width: 100%;
     position: relative;
     z-index: 100;
+    margin-inline: auto;
+  }
+
+  .sign-in-image {
+    width: 0%;
+    height: 100vh;
+    background-image: none;
+  }
+
+  .sign-in-main-content {
+    width: 70%;
   }
 }
 
 @media (max-width: 530px) {
+  .sign-in-container {
+    height: 100%;
+  }
+
   .sign-in-main {
     width: 90%;
+  }
+
+  .sign-in-main-content {
+    width: 100%;
   }
 }
