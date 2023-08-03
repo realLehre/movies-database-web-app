@@ -56,7 +56,8 @@ export class FavoriteMoviesComponent implements OnInit {
   clearLikedMovies() {
     if (confirm('Are you sure?!')) {
       this.likedMovies = [];
-      localStorage.setItem('liked', JSON.stringify([]));
+
+      this.moviesService.clearWatchList();
     }
   }
 }

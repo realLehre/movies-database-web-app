@@ -8,24 +8,40 @@ import {
   signOut,
   signInWithEmailAndPassword,
   updateProfile,
+  UserCredential,
 } from '@angular/fire/auth';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { User } from '../shared/user.model';
+import { MovieObject } from '../shared/movie.model';
+import { MoviesService } from './movies.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user = new Subject<{ displayName: string }>();
+  userId = new Subject<string>();
   isAuthenticated = new Subject<boolean>();
   isLoading = new Subject<boolean>();
+  logOutTimeout!: any;
   errorMessage = new Subject<string>();
   reqAuth: boolean = false;
+  usersDatabase: AngularFirestoreCollection<User>;
+  userWatchList = new Subject<MovieObject[]>();
+  clearWatchList = new Subject<boolean>();
+  uids: string[] = [];
 
   constructor(
     private auth: Auth,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private db: AngularFirestore
   ) {
+    this.usersDatabase = this.db.collection('users');
     this.isLoggedIn();
     this.router.events
       .pipe(
@@ -35,6 +51,41 @@ export class AuthService {
       )
       .subscribe((route) => {
         this.reqAuth = route['reqAuth'];
+      });
+
+    this.getUsersUid();
+  }
+
+  getUsersUid() {
+    this.usersDatabase.get().subscribe((data) => {
+      data.docs.forEach((doc) => {
+        this.uids.push(doc.id);
+      });
+    });
+  }
+
+  initStorage(res: UserCredential) {
+    if (this.uids.some((uid) => uid == res.user.uid)) {
+      this.getUserWatchList(res.user.uid);
+      return;
+    }
+
+    this.usersDatabase.doc(res.user.uid).set({
+      displayName: res.user.displayName,
+      email: res.user.email,
+      emailVerified: res.user.emailVerified,
+      watchList: [],
+    });
+    this.getUserWatchList(res.user.uid);
+  }
+
+  getUserWatchList(uid) {
+    this.usersDatabase
+      .doc(uid)
+      .get()
+      .subscribe((data) => {
+        localStorage.setItem('liked', JSON.stringify(data.data().watchList));
+        this.userWatchList.next(data.data().watchList);
       });
   }
 
@@ -57,6 +108,7 @@ export class AuthService {
         this.isLoggedIn();
 
         this.router.navigate(['/', 'movies']);
+        this.initStorage(res);
 
         this.autoLogout(3600000);
       })
@@ -76,6 +128,7 @@ export class AuthService {
         this.isLoading.next(false);
         this.isAuthenticated.next(true);
         this.user.next({ displayName: currentUser });
+        this.userId.next(res.user.uid);
 
         localStorage.setItem('username', currentUser);
         localStorage.setItem('user', JSON.stringify(res));
@@ -83,6 +136,7 @@ export class AuthService {
 
         const url = this.route.snapshot.queryParams['returnUrl'] || '/';
         this.router.navigateByUrl(url);
+        this.initStorage(res);
         this.autoLogout(3600000);
       })
       .catch((err) => {
@@ -98,6 +152,7 @@ export class AuthService {
         this.isLoading.next(false);
         this.isAuthenticated.next(true);
         this.user.next({ displayName: currentUser });
+        this.initStorage(res);
 
         localStorage.setItem('username', currentUser);
         localStorage.setItem('user', JSON.stringify(res));
@@ -120,7 +175,15 @@ export class AuthService {
     return signOut(this.auth).then((res) => {
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
+      localStorage.setItem('liked', null);
+      // this.movieService.emitUserWatchList(null);
+      this.userWatchList.next(null);
+      this.clearWatchList.next(true);
+
       this.isLoggedIn();
+      if (this.logOutTimeout) {
+        this.logOutTimeout.clearTimeOut();
+      }
 
       if (this.reqAuth) {
         this.router.navigate(['/']);
@@ -137,9 +200,13 @@ export class AuthService {
   }
 
   autoLogout(tokenExpirTime: number) {
-    setTimeout(() => {
+    this.logOutTimeout = setTimeout(() => {
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
+      localStorage.setItem('liked', null);
+      // this.movieService.emitUserWatchList(null);
+      this.userWatchList.next(null);
+      this.clearWatchList.next(true);
 
       if (this.reqAuth) {
         this.router.navigate(['/']);

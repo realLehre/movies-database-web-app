@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpService } from 'src/app/services/http.service';
 import { MoviesService } from 'src/app/services/movies.service';
@@ -10,7 +12,7 @@ import { MovieObject, RefinedResponse } from 'src/app/shared/movie.model';
   templateUrl: './movie-type.component.html',
   styleUrls: ['./movie-type.component.scss'],
 })
-export class MovieTypeComponent implements OnInit {
+export class MovieTypeComponent implements OnInit, AfterViewChecked {
   @Input() movieType: string;
 
   movies: Array<MovieObject>;
@@ -19,6 +21,7 @@ export class MovieTypeComponent implements OnInit {
   moviesId: number[];
   moviesNames: string[];
   moviesStored: RefinedResponse;
+  watchList: MovieObject[] = [];
 
   error: boolean;
   isFetching: boolean = true;
@@ -37,238 +40,26 @@ export class MovieTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.moviesService.isFetching.next(this.isFetching);
+    // this.moviesService.userWatchList.subscribe((watchList) => {
+    //   this.watchList = watchList;
+    // });
+    // this.watchList = this.moviesService.getLikedMovies();
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (JSON.parse(localStorage.getItem('user')) != null) {
+      this.moviesService.getForComponent().subscribe((userData) => {
+        this.watchList = userData.data().watchList;
+        this.getMovies();
+      });
+    } else {
+      this.watchList = this.moviesService.getLikedMovies();
 
-    const likedMoviesTest = this.moviesService.getLikedMovies();
-
-    switch (this.movieType) {
-      case 'trending':
-        this.httpService.getTrending().subscribe({
-          next: (movieData) => {
-            this.movies = movieData.movies;
-            this.moviesRating = movieData.movieRatings;
-            this.moviesPoster = movieData.moviePosterPaths;
-            this.moviesId = movieData.movieIds;
-            this.moviesNames = movieData.movieNames;
-
-            this.isFetching = false;
-            this.moviesService.isFetching.next(this.isFetching);
-
-            this.movies.forEach((movie) => {
-              if (likedMoviesTest.some((item) => item.id == movie.id)) {
-                movie['liked'] = true;
-              }
-            });
-
-            localStorage.setItem('trending', JSON.stringify(movieData));
-
-            this.moviesStored = JSON.parse(localStorage.getItem('trending'));
-          },
-          error: (err) => {
-            if (err) {
-              this.error = true;
-              this.moviesService.errorOcurred.next(this.error);
-              this.isFetching = false;
-              this.moviesService.isFetching.next(this.isFetching);
-            }
-          },
-        });
-        break;
-
-      case 'popular':
-        this.httpService.getPopular().subscribe({
-          next: (movieData) => {
-            this.movies = movieData.movies;
-            this.moviesRating = movieData.movieRatings;
-            this.moviesPoster = movieData.moviePosterPaths;
-            this.moviesId = movieData.movieIds;
-            this.moviesNames = movieData.movieNames;
-
-            this.isFetching = false;
-            this.moviesService.isFetching.next(this.isFetching);
-
-            this.movies.forEach((movie) => {
-              if (likedMoviesTest.some((item) => item.id == movie.id)) {
-                movie['liked'] = true;
-              }
-            });
-
-            localStorage.setItem('popular', JSON.stringify(movieData));
-
-            this.moviesStored = JSON.parse(localStorage.getItem('popular'));
-          },
-          error: (err) => {
-            if (err) {
-              this.error = true;
-              this.moviesService.errorOcurred.next(this.error);
-              this.isFetching = false;
-              this.moviesService.isFetching.next(this.isFetching);
-            }
-          },
-        });
-        break;
-
-      case 'popular_2':
-        this.httpService.getPopular_2().subscribe({
-          next: (movieData) => {
-            this.movies = movieData.movies;
-            this.moviesRating = movieData.movieRatings;
-            this.moviesPoster = movieData.moviePosterPaths;
-            this.moviesId = movieData.movieIds;
-            this.moviesNames = movieData.movieNames;
-
-            this.isFetching = false;
-            this.moviesService.isFetching.next(this.isFetching);
-
-            this.movies.forEach((movie) => {
-              if (likedMoviesTest.some((item) => item.id == movie.id)) {
-                movie['liked'] = true;
-              }
-            });
-
-            localStorage.setItem('popular_2', JSON.stringify(movieData));
-
-            this.moviesStored = JSON.parse(localStorage.getItem('popular_2'));
-          },
-          error: (err) => {
-            if (err) {
-              this.error = true;
-              this.moviesService.errorOcurred.next(this.error);
-              this.isFetching = false;
-              this.moviesService.isFetching.next(this.isFetching);
-            }
-          },
-        });
-        break;
-
-      case 'top-rated':
-        this.httpService.getTopRated().subscribe({
-          next: (movieData) => {
-            this.movies = movieData.movies;
-            this.moviesRating = movieData.movieRatings;
-            this.moviesPoster = movieData.moviePosterPaths;
-            this.moviesId = movieData.movieIds;
-            this.moviesNames = movieData.movieNames;
-
-            this.isFetching = false;
-            this.moviesService.isFetching.next(this.isFetching);
-
-            this.movies.forEach((movie) => {
-              if (likedMoviesTest.some((item) => item.id == movie.id)) {
-                movie['liked'] = true;
-              }
-            });
-
-            localStorage.setItem('top-rated', JSON.stringify(movieData));
-
-            this.moviesStored = JSON.parse(localStorage.getItem('top-rated'));
-          },
-          error: (err) => {
-            if (err) {
-              this.error = true;
-              this.moviesService.errorOcurred.next(this.error);
-              this.isFetching = false;
-              this.moviesService.isFetching.next(this.isFetching);
-            }
-          },
-        });
-        break;
-
-      case 'top-rated_2':
-        this.httpService.getTopRated_2().subscribe({
-          next: (movieData) => {
-            this.movies = movieData.movies;
-            this.moviesRating = movieData.movieRatings;
-            this.moviesPoster = movieData.moviePosterPaths;
-            this.moviesId = movieData.movieIds;
-            this.moviesNames = movieData.movieNames;
-
-            this.isFetching = false;
-            this.moviesService.isFetching.next(this.isFetching);
-
-            this.movies.forEach((movie) => {
-              if (likedMoviesTest.some((item) => item.id == movie.id)) {
-                movie['liked'] = true;
-              }
-            });
-
-            localStorage.setItem('top-rated_2', JSON.stringify(movieData));
-
-            this.moviesStored = JSON.parse(localStorage.getItem('top-rated_2'));
-          },
-          error: (err) => {
-            if (err) {
-              this.error = true;
-              this.moviesService.errorOcurred.next(this.error);
-              this.isFetching = false;
-              this.moviesService.isFetching.next(this.isFetching);
-            }
-          },
-        });
-        break;
-
-      case 'searchedMovies':
-        if (localStorage.getItem('searchedMovies')) {
-          const movies = JSON.parse(localStorage.getItem('searchedMovies'));
-
-          this.movies = movies.movies;
-          this.moviesPoster = movies.moviePosterPaths;
-          this.moviesRating = movies.movieRatings;
-          this.moviesId = movies.movieIds;
-          this.moviesNames = movies.movieNames;
-
-          this.isFetching = false;
-          this.moviesService.isFetching.next(this.isFetching);
-
-          this.movies.forEach((movie) => {
-            if (likedMoviesTest.some((item) => item.id == movie.id)) {
-              movie['liked'] = true;
-            }
-          });
-        }
-
-        if (localStorage.getItem('searchName')) {
-          const name = JSON.parse(localStorage.getItem('searchName'));
-          this.moviesService.searchName.next(name);
-        }
-
-        this.moviesService.moviesSearch.subscribe({
-          next: (movies) => {
-            localStorage.setItem('searchedMovies', JSON.stringify(movies));
-
-            this.movies = movies.movies;
-            this.moviesPoster = movies.moviePosterPaths;
-            this.moviesRating = movies.movieRatings;
-            this.moviesId = movies.movieIds;
-            this.moviesNames = movies.movieNames;
-
-            this.isFetching = false;
-            this.moviesService.isFetching.next(this.isFetching);
-
-            this.moviesService.searchName.subscribe((name) => {
-              localStorage.setItem('searchName', JSON.stringify(name));
-            });
-
-            // localStorage.setItem('Movies', JSON.stringify(movies));
-
-            if (JSON.parse(localStorage.getItem('searchedMovies')) != null) {
-              this.moviesStored = JSON.parse(
-                localStorage.getItem('searchedMovies')
-              );
-            } else {
-              this.moviesStored = {
-                movieIds: [],
-                movieNames: [],
-                moviePosterPaths: [],
-                movieRatings: [],
-                movies: [],
-              };
-            }
-          },
-        });
-
-        this.searchState = this.moviesService.searchState;
-        break;
+      this.getMovies();
     }
+
+    this.authService.clearWatchList.subscribe((status) => {
+      this.watchList = [];
+      this.getMovies();
+    });
 
     this.moviesService.sortValue.subscribe({
       next: (value) => {
@@ -429,6 +220,253 @@ export class MovieTypeComponent implements OnInit {
         // }
       },
     });
+  }
+
+  ngAfterViewChecked(): void {}
+
+  // getWatchList() {
+  //   this.moviesService
+  //     .getForComponent()
+  //     .pipe(take(1))
+  //     .subscribe((userData) => {
+  //       this.watchList = userData.data().watchList;
+  //       this.ngOnInit();
+  //     });
+  // }
+
+  getMovies() {
+    switch (this.movieType) {
+      case 'trending':
+        this.httpService
+          .getTrending()
+          .pipe(distinctUntilChanged())
+          .subscribe({
+            next: (movieData) => {
+              this.movies = movieData.movies;
+              this.moviesRating = movieData.movieRatings;
+              this.moviesPoster = movieData.moviePosterPaths;
+              this.moviesId = movieData.movieIds;
+              this.moviesNames = movieData.movieNames;
+
+              this.isFetching = false;
+              this.moviesService.isFetching.next(this.isFetching);
+
+              this.movies.forEach((movie) => {
+                if (this.watchList.some((item) => item.id == movie.id)) {
+                  movie['liked'] = true;
+                }
+              });
+
+              localStorage.setItem('trending', JSON.stringify(movieData));
+
+              this.moviesStored = JSON.parse(localStorage.getItem('trending'));
+            },
+            error: (err) => {
+              if (err) {
+                this.error = true;
+                this.moviesService.errorOcurred.next(this.error);
+                this.isFetching = false;
+                this.moviesService.isFetching.next(this.isFetching);
+              }
+            },
+          });
+        break;
+
+      case 'popular':
+        this.httpService.getPopular().subscribe({
+          next: (movieData) => {
+            this.movies = movieData.movies;
+            this.moviesRating = movieData.movieRatings;
+            this.moviesPoster = movieData.moviePosterPaths;
+            this.moviesId = movieData.movieIds;
+            this.moviesNames = movieData.movieNames;
+
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
+
+            this.movies.forEach((movie) => {
+              if (this.watchList.some((item) => item.id == movie.id)) {
+                movie['liked'] = true;
+              }
+            });
+
+            localStorage.setItem('popular', JSON.stringify(movieData));
+
+            this.moviesStored = JSON.parse(localStorage.getItem('popular'));
+          },
+          error: (err) => {
+            if (err) {
+              this.error = true;
+              this.moviesService.errorOcurred.next(this.error);
+              this.isFetching = false;
+              this.moviesService.isFetching.next(this.isFetching);
+            }
+          },
+        });
+        break;
+
+      case 'popular_2':
+        this.httpService.getPopular_2().subscribe({
+          next: (movieData) => {
+            this.movies = movieData.movies;
+            this.moviesRating = movieData.movieRatings;
+            this.moviesPoster = movieData.moviePosterPaths;
+            this.moviesId = movieData.movieIds;
+            this.moviesNames = movieData.movieNames;
+
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
+
+            this.movies.forEach((movie) => {
+              if (this.watchList.some((item) => item.id == movie.id)) {
+                movie['liked'] = true;
+              }
+            });
+
+            localStorage.setItem('popular_2', JSON.stringify(movieData));
+
+            this.moviesStored = JSON.parse(localStorage.getItem('popular_2'));
+          },
+          error: (err) => {
+            if (err) {
+              this.error = true;
+              this.moviesService.errorOcurred.next(this.error);
+              this.isFetching = false;
+              this.moviesService.isFetching.next(this.isFetching);
+            }
+          },
+        });
+        break;
+
+      case 'top-rated':
+        this.httpService.getTopRated().subscribe({
+          next: (movieData) => {
+            this.movies = movieData.movies;
+            this.moviesRating = movieData.movieRatings;
+            this.moviesPoster = movieData.moviePosterPaths;
+            this.moviesId = movieData.movieIds;
+            this.moviesNames = movieData.movieNames;
+
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
+
+            this.movies.forEach((movie) => {
+              if (this.watchList.some((item) => item.id == movie.id)) {
+                movie['liked'] = true;
+              }
+            });
+
+            localStorage.setItem('top-rated', JSON.stringify(movieData));
+
+            this.moviesStored = JSON.parse(localStorage.getItem('top-rated'));
+          },
+          error: (err) => {
+            if (err) {
+              this.error = true;
+              this.moviesService.errorOcurred.next(this.error);
+              this.isFetching = false;
+              this.moviesService.isFetching.next(this.isFetching);
+            }
+          },
+        });
+        break;
+
+      case 'top-rated_2':
+        this.httpService.getTopRated_2().subscribe({
+          next: (movieData) => {
+            this.movies = movieData.movies;
+            this.moviesRating = movieData.movieRatings;
+            this.moviesPoster = movieData.moviePosterPaths;
+            this.moviesId = movieData.movieIds;
+            this.moviesNames = movieData.movieNames;
+
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
+
+            this.movies.forEach((movie) => {
+              if (this.watchList.some((item) => item.id == movie.id)) {
+                movie['liked'] = true;
+              }
+            });
+
+            localStorage.setItem('top-rated_2', JSON.stringify(movieData));
+
+            this.moviesStored = JSON.parse(localStorage.getItem('top-rated_2'));
+          },
+          error: (err) => {
+            if (err) {
+              this.error = true;
+              this.moviesService.errorOcurred.next(this.error);
+              this.isFetching = false;
+              this.moviesService.isFetching.next(this.isFetching);
+            }
+          },
+        });
+        break;
+
+      case 'searchedMovies':
+        if (localStorage.getItem('searchedMovies')) {
+          const movies = JSON.parse(localStorage.getItem('searchedMovies'));
+
+          this.movies = movies.movies;
+          this.moviesPoster = movies.moviePosterPaths;
+          this.moviesRating = movies.movieRatings;
+          this.moviesId = movies.movieIds;
+          this.moviesNames = movies.movieNames;
+
+          this.isFetching = false;
+          this.moviesService.isFetching.next(this.isFetching);
+
+          this.movies.forEach((movie) => {
+            if (this.watchList.some((item) => item.id == movie.id)) {
+              movie['liked'] = true;
+            }
+          });
+        }
+
+        if (localStorage.getItem('searchName')) {
+          const name = JSON.parse(localStorage.getItem('searchName'));
+          this.moviesService.searchName.next(name);
+        }
+
+        this.moviesService.moviesSearch.subscribe({
+          next: (movies) => {
+            localStorage.setItem('searchedMovies', JSON.stringify(movies));
+
+            this.movies = movies.movies;
+            this.moviesPoster = movies.moviePosterPaths;
+            this.moviesRating = movies.movieRatings;
+            this.moviesId = movies.movieIds;
+            this.moviesNames = movies.movieNames;
+
+            this.isFetching = false;
+            this.moviesService.isFetching.next(this.isFetching);
+
+            this.moviesService.searchName.subscribe((name) => {
+              localStorage.setItem('searchName', JSON.stringify(name));
+            });
+
+            // localStorage.setItem('Movies', JSON.stringify(movies));
+
+            if (JSON.parse(localStorage.getItem('searchedMovies')) != null) {
+              this.moviesStored = JSON.parse(
+                localStorage.getItem('searchedMovies')
+              );
+            } else {
+              this.moviesStored = {
+                movieIds: [],
+                movieNames: [],
+                moviePosterPaths: [],
+                movieRatings: [],
+                movies: [],
+              };
+            }
+          },
+        });
+
+        this.searchState = this.moviesService.searchState;
+        break;
+    }
   }
 
   addOrRemoveLiked(e, id, movie) {

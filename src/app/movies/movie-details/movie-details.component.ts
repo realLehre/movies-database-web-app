@@ -36,6 +36,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   genres: Array<Object>;
   videoId: string[];
   movieLiked: boolean;
+  watchList: MovieObject[] = [];
 
   isFetching: boolean = false;
   isFetchingVid: boolean = false;
@@ -69,7 +70,10 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       this.movieId = +param['id'];
     });
 
-    const likedMoviesTest = this.moviesService.getLikedMovies();
+    this.moviesService.userWatchList.subscribe((watchList) => {
+      this.watchList = watchList;
+    });
+    this.watchList = this.moviesService.currentWatchList;
 
     this.isFetching = true;
     this.moviesService.isFetching.next(this.isFetching);
@@ -95,7 +99,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.genres = movieData.genres;
         this.movieLiked = movieData.liked;
 
-        if (likedMoviesTest.some((item) => item.id == this.movie.id)) {
+        if (this.watchList.some((item) => item.id == this.movie.id)) {
           this.movie['liked'] = true;
           this.movieLiked = this.movie['liked'];
         }
@@ -123,7 +127,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.recommendedMoviesLength = this.recommendedMovies.length;
 
         this.recommendedMovies.forEach((movie) => {
-          if (likedMoviesTest.some((item) => item.id == movie.id)) {
+          if (this.watchList.some((item) => item.id == movie.id)) {
             movie['liked'] = true;
           }
         });

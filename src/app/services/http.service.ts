@@ -5,13 +5,16 @@ import { catchError, map, Subject, throwError } from 'rxjs';
 import { environment as env } from 'src/environments/environment.prod';
 import { MovieObject, RefinedResponse, Response } from '../shared/movie.model';
 import { MoviesService } from './movies.service';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
   api_key = env.API_Key;
   isLoading = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private moviesService: MoviesService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  trySingleCall() {}
 
   getCurrentlyPlaying() {
     return this.http

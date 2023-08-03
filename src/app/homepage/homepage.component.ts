@@ -18,7 +18,7 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
   sort: string;
   search: boolean;
   searchState: boolean;
-  likedMoviesCount: number;
+  watchListCount: number;
   isLoggedIn: boolean = false;
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +37,7 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.likedMoviesCount = this.moviesService.likedMovies.length;
+    this.watchListCount = this.moviesService.getLikedMovies().length;
   }
 
   onSort(sort) {

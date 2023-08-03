@@ -19,8 +19,8 @@
 
     <div class="favorites">
       <button [routerLink]="['/movies', 'watchlist']">Watchlist</button>
-      <div class="fav-count" *ngIf="likedMoviesCount > 0">
-        {{ likedMoviesCount }}
+      <div class="fav-count" *ngIf="watchListCount > 0">
+        {{ watchListCount }}
       </div>
     </div>
   </div>

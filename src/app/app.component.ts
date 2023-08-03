@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 
 import { MoviesService } from './services/movies.service';
 import { HttpService } from './services/http.service';
+import { WatchListService } from './services/wacthlist.service';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,11 @@ export class AppComponent implements OnInit, AfterViewChecked {
   @ViewChild('width', { static: false })
   width: ElementRef;
 
-  constructor(private router: Router, private moviesService: MoviesService) {}
+  constructor(
+    private router: Router,
+    private watchList: WatchListService,
+    private moviesService: MoviesService
+  ) {}
 
   ngOnInit() {
     this.router.events.subscribe((event: Event) => {
