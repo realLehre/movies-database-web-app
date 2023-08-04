@@ -53,8 +53,17 @@ export class AuthService {
       });
 
     this.getUsersUid();
+
+    const expirationTimeStored = localStorage.getItem('expirationTime');
+    if (expirationTimeStored != null) {
+      const expirationTime = new Date(+expirationTimeStored).getTime();
+      const currentTime = new Date().getTime();
+      const expirationDuration = expirationTime - currentTime;
+      this.autoLogout(expirationDuration);
+    }
   }
 
+  // fetch users uids (document id in firestore collection)
   getUsersUid() {
     this.usersDatabase.get().subscribe((data) => {
       data.docs.forEach((doc) => {
@@ -63,7 +72,8 @@ export class AuthService {
     });
   }
 
-  initStorage(res: UserCredential) {
+  // initialize users database on sign in
+  initStorage(res: UserCredential, name?: string) {
     if (this.uids.some((uid) => uid == res.user.uid)) {
       this.getUserWatchList(res.user.uid);
       this.usersDatabase.doc(res.user.uid).update({ email: res.user.email });
@@ -71,7 +81,7 @@ export class AuthService {
     }
 
     this.usersDatabase.doc(res.user.uid).set({
-      displayName: res.user.displayName,
+      displayName: name,
       email: res.user.email,
       emailVerified: res.user.emailVerified,
       watchList: [],
@@ -79,11 +89,13 @@ export class AuthService {
     this.getUserWatchList(res.user.uid);
   }
 
+  // fetch user watchList
   getUserWatchList(uid) {
     this.usersDatabase
       .doc(uid)
       .get()
       .subscribe((data) => {
+        // if user had watchList movies before authentication feature was added
         const oldWatchList = JSON.parse(localStorage.getItem('liked'));
 
         if (oldWatchList != null) {
@@ -106,19 +118,21 @@ export class AuthService {
         this.isLoading.next(false);
         this.isAuthenticated.next(true);
         this.user.next({ displayName: name });
-
+        const expirationTime = res.user['stsTokenManager'].expirationTime;
         const currentUser = this.auth.currentUser;
         updateProfile(currentUser, {
           displayName: name,
         });
 
-        this.user.next({ displayName: name });
+        localStorage.setItem('expirationTime', expirationTime);
         localStorage.setItem('username', name);
         localStorage.setItem('user', JSON.stringify(res));
         this.isLoggedIn();
 
         this.router.navigate(['/', 'movies']);
-        this.initStorage(res);
+        console.log(res);
+
+        this.initStorage(res, name);
 
         this.autoLogout(3600000);
       })
@@ -134,20 +148,7 @@ export class AuthService {
     this.isLoading.next(true);
     return signInWithPopup(this.auth, new GoogleAuthProvider())
       .then((res) => {
-        const currentUser = res.user.displayName;
-        this.isLoading.next(false);
-        this.isAuthenticated.next(true);
-        this.user.next({ displayName: currentUser });
-        this.userId.next(res.user.uid);
-
-        localStorage.setItem('username', currentUser);
-        localStorage.setItem('user', JSON.stringify(res));
-        this.isLoggedIn();
-
-        const url = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(url);
-        this.initStorage(res);
-        this.autoLogout(3600000);
+        this.handleAuthentication(res);
       })
       .catch((err) => {
         console.log(err);
@@ -158,20 +159,7 @@ export class AuthService {
     this.isLoading.next(true);
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((res) => {
-        const currentUser = res.user.displayName;
-        this.isLoading.next(false);
-        this.isAuthenticated.next(true);
-        this.user.next({ displayName: currentUser });
-
-        localStorage.setItem('username', currentUser);
-        localStorage.setItem('user', JSON.stringify(res));
-        this.isLoggedIn();
-
-        const url = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(url);
-
-        this.initStorage(res);
-        this.autoLogout(3600000);
+        this.handleAuthentication(res);
       })
       .catch((err: FirebaseError) => {
         this.isLoading.next(false);
@@ -181,20 +169,44 @@ export class AuthService {
       });
   }
 
+  handleAuthentication(res: UserCredential, name?, isSignUp?) {
+    const expirationTime = res.user['stsTokenManager'].expirationTime;
+
+    const currentUser = res.user.displayName;
+    this.user.next({ displayName: currentUser });
+    localStorage.setItem('username', currentUser);
+    this.initStorage(res);
+
+    this.isLoading.next(false);
+    this.isAuthenticated.next(true);
+
+    localStorage.setItem('expirationTime', expirationTime);
+    localStorage.setItem('user', JSON.stringify(res));
+    this.isLoggedIn();
+
+    const url = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(url);
+
+    this.autoLogout(3600000);
+  }
+
   signOut() {
     return signOut(this.auth).then((res) => {
-      localStorage.setItem('username', '');
-      localStorage.setItem('user', null);
-      localStorage.setItem('liked', null);
-      this.userWatchList.next(null);
-      this.clearWatchList.next(true);
+      // localStorage.setItem('expirationTime', null);
 
-      this.isLoggedIn();
-      clearTimeout(this.logOutTimeout);
+      // localStorage.setItem('username', '');
+      // localStorage.setItem('user', null);
+      // localStorage.setItem('liked', null);
+      // this.userWatchList.next(null);
+      // this.clearWatchList.next(true);
 
-      if (this.reqAuth) {
-        this.router.navigate(['/']);
-      }
+      // this.isLoggedIn();
+      // clearTimeout(this.logOutTimeout);
+
+      // if (this.reqAuth) {
+      //   this.router.navigate(['/']);
+      // }
+      this.handleSignOut();
     });
   }
 
@@ -208,18 +220,40 @@ export class AuthService {
 
   autoLogout(tokenExpirTime: number) {
     this.logOutTimeout = setTimeout(() => {
-      localStorage.setItem('username', '');
-      localStorage.setItem('user', null);
-      localStorage.setItem('liked', null);
-      this.userWatchList.next(null);
-      this.clearWatchList.next(true);
+      // localStorage.setItem('expirationTime', null);
 
-      if (this.reqAuth) {
-        this.router.navigate(['/']);
-      }
+      // localStorage.setItem('username', '');
+      // localStorage.setItem('user', null);
+      // localStorage.setItem('liked', null);
+      // this.userWatchList.next(null);
+      // this.clearWatchList.next(true);
 
-      this.isLoggedIn();
+      // if (this.reqAuth) {
+      //   this.router.navigate(['/']);
+      // }
+
+      // this.isLoggedIn();
+      this.handleSignOut();
     }, tokenExpirTime);
+  }
+
+  handleSignOut() {
+    localStorage.setItem('expirationTime', null);
+
+    localStorage.setItem('username', '');
+    localStorage.setItem('user', null);
+    localStorage.setItem('liked', null);
+    this.userWatchList.next(null);
+    this.clearWatchList.next(true);
+
+    this.isLoggedIn();
+    if (this.logOutTimeout) {
+      clearTimeout(this.logOutTimeout);
+    }
+
+    if (this.reqAuth) {
+      this.router.navigate(['/']);
+    }
   }
 
   getErrorMessage(err: any) {

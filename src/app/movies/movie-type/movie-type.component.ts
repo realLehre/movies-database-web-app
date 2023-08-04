@@ -221,6 +221,17 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked(): void {}
 
   getMovies() {
+    const pendingWatchListMovie = JSON.parse(
+      localStorage.getItem('pendingWatchlist')
+    );
+    if (pendingWatchListMovie != null) {
+      // this.addOrRemoveLiked(
+      //   pendingWatchListMovie.e,
+      //   pendingWatchListMovie.id,
+      //   pendingWatchListMovie.movie
+      // );
+    }
+
     switch (this.movieType) {
       case 'trending':
         this.httpService
@@ -456,7 +467,9 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
   }
 
   addOrRemoveLiked(e, id, movie) {
-    if (this.authService.isLoggedIn) {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user != null) {
       movie['liked'] = !movie['liked'];
 
       const movieContainer = e.target.parentElement.parentElement;
@@ -478,6 +491,10 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
         }, 650);
       }
     } else {
+      localStorage.setItem(
+        'pendingWatchlist',
+        JSON.stringify({ element: e, movieId: id, movie: movie })
+      );
       this.router.navigate(['/', 'sign-in']);
     }
   }
