@@ -40,19 +40,15 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.moviesService.isFetching.next(this.isFetching);
-    // this.moviesService.userWatchList.subscribe((watchList) => {
-    //   this.watchList = watchList;
-    // });
-    // this.watchList = this.moviesService.getLikedMovies();
+
     const user = JSON.parse(localStorage.getItem('user'));
-    if (JSON.parse(localStorage.getItem('user')) != null) {
+    if (user != null) {
       this.moviesService.getForComponent().subscribe((userData) => {
         this.watchList = userData.data().watchList;
         this.getMovies();
       });
     } else {
       this.watchList = this.moviesService.getLikedMovies();
-
       this.getMovies();
     }
 
@@ -223,16 +219,6 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {}
-
-  // getWatchList() {
-  //   this.moviesService
-  //     .getForComponent()
-  //     .pipe(take(1))
-  //     .subscribe((userData) => {
-  //       this.watchList = userData.data().watchList;
-  //       this.ngOnInit();
-  //     });
-  // }
 
   getMovies() {
     switch (this.movieType) {

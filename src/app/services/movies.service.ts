@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { MovieObject, RefinedResponse } from '../shared/movie.model';
 import {
   AngularFirestore,
@@ -9,7 +9,6 @@ import {
 
 import { User } from '../shared/user.model';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
@@ -41,24 +40,19 @@ export class MoviesService {
   currentWatchList: MovieObject[] = [];
   userWatchList = new Subject<MovieObject[]>();
 
-  constructor(
-    private db: AngularFirestore,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor(private db: AngularFirestore, private authService: AuthService) {
     this.usersDatabase = this.db.collection('users');
 
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user.user.uid);
+
     if (JSON.parse(localStorage.getItem('user')) != null) {
       this.uid = JSON.parse(localStorage.getItem('user')).user.uid;
       this.getUserWatchList();
-    } else {
-      // this.authService.userId.subscribe((data) => {
-      //   this.uid = data;
-      //   this.getUserWatchList();
-      // });
     }
+    this.authService.userId.subscribe((data) => {
+      this.uid = data;
+      this.getUserWatchList();
+    });
 
     if (JSON.parse(localStorage.getItem('searchNames')) != null) {
       this.searchNames = JSON.parse(localStorage.getItem('searchNames'));
@@ -93,100 +87,39 @@ export class MoviesService {
   }
 
   onLike(movie: MovieObject, id: number) {
-    let prevWatchList = [];
-    console.log(this.uid);
+    const uid = JSON.parse(localStorage.getItem('user')).user.uid;
 
-    if (this.uid == null) {
-      this.authService.userId
-        .pipe(switchMap((uid) => this.usersDatabase.doc(uid).get()))
-        .subscribe((data) => {
-          prevWatchList = data.data().watchList;
-          console.log('null uid', prevWatchList);
+    const prevWatchListInStorage = JSON.parse(localStorage.getItem('liked'));
 
-          if (prevWatchList.length == 0) {
-            this.usersDatabase.doc(this.uid).update({ watchList: [movie] });
-          }
-
-          if (prevWatchList.some((movie) => movie.id == id)) {
-            return;
-          }
-
-          this.usersDatabase
-            .doc(this.uid)
-            .update({ watchList: [...prevWatchList, movie] });
-
-          localStorage.setItem(
-            'liked',
-            JSON.stringify([...prevWatchList, movie])
-          );
-          this.emitUserWatchList([...prevWatchList, movie]);
-
-          this.getUserWatchList();
-        });
-    } else {
-      this.usersDatabase
-        .doc(this.uid)
-        .get()
-        .subscribe((data) => {
-          prevWatchList = data.data().watchList;
-          console.log('uid', prevWatchList);
-
-          if (prevWatchList.length == 0) {
-            this.usersDatabase.doc(this.uid).update({ watchList: [movie] });
-          }
-
-          if (prevWatchList.some((movie) => movie.id == id)) {
-            return;
-          }
-
-          this.usersDatabase
-            .doc(this.uid)
-            .update({ watchList: [...prevWatchList, movie] });
-
-          localStorage.setItem(
-            'liked',
-            JSON.stringify([...prevWatchList, movie])
-          );
-          this.emitUserWatchList([...prevWatchList, movie]);
-
-          this.getUserWatchList();
-        });
+    if (prevWatchListInStorage.some((movie) => movie.id == id)) {
+      return;
     }
 
-    // if (this.likedMovies != null) {
-    //   if (this.likedMovies.some((item) => item.id == id)) {
-    //     return;
-    //   }
-    // }
+    prevWatchListInStorage.push(movie);
 
-    // this.likedMovies.push(movie);
+    localStorage.setItem('liked', JSON.stringify(prevWatchListInStorage));
+    this.emitUserWatchList(prevWatchListInStorage);
+    this.getUserWatchList();
+    this.usersDatabase.doc(uid).update({ watchList: prevWatchListInStorage });
   }
 
   onDisLike(id: number) {
-    let prevWatchList = [];
+    const prevWatchListInStorage = JSON.parse(localStorage.getItem('liked'));
 
+    if (prevWatchListInStorage.length != 0) {
+      prevWatchListInStorage.filter((movie, index) => {
+        if (id == movie.id) {
+          prevWatchListInStorage.splice(index, 1);
+        }
+      });
+    }
+
+    localStorage.setItem('liked', JSON.stringify(prevWatchListInStorage));
+    this.emitUserWatchList(prevWatchListInStorage);
+    this.getUserWatchList();
     this.usersDatabase
       .doc(this.uid)
-      .get()
-      .subscribe((userData) => {
-        prevWatchList = userData.data().watchList;
-
-        prevWatchList.filter((movie, index) => {
-          if (id == movie.id) {
-            prevWatchList.splice(index, 1);
-          }
-        });
-
-        this.usersDatabase
-          .doc(this.uid)
-          .update({ watchList: [...prevWatchList] });
-
-        this.emitUserWatchList([...prevWatchList]);
-
-        localStorage.setItem('liked', JSON.stringify([...prevWatchList]));
-
-        this.getUserWatchList();
-      });
+      .update({ watchList: [...prevWatchListInStorage] });
   }
 
   clearWatchList() {
@@ -204,7 +137,9 @@ export class MoviesService {
   }
 
   getForComponent() {
-    return this.usersDatabase.doc(this.uid).get();
+    const uid = JSON.parse(localStorage.getItem('user')).user.uid;
+
+    return this.usersDatabase.doc(uid).get();
   }
 
   emitUserWatchList(watchList: MovieObject[]) {
@@ -219,7 +154,7 @@ export class MoviesService {
     }
   }
 
-  getLiked(): RefinedResponse {
+  getWatchList(): RefinedResponse {
     const likedMoviesS = JSON.parse(localStorage.getItem('liked'));
 
     let refinedData: RefinedResponse;
@@ -259,5 +194,53 @@ export class MoviesService {
     };
 
     return refinedData;
+
+    // return this.usersDatabase
+    //   .doc(this.uid)
+    //   .get()
+    //   .pipe(
+    //     map((userData) => {
+    //       const likedMoviesS = userData.data().watchList;
+
+    //       let refinedData: RefinedResponse;
+
+    //       const paths = [];
+    //       for (const key in likedMoviesS) {
+    //         paths.push(
+    //           'https://image.tmdb.org/t/p/original' +
+    //             likedMoviesS[key].poster_path
+    //         );
+    //       }
+
+    //       const ratings = [];
+    //       for (const key in likedMoviesS) {
+    //         if (Number.isInteger(likedMoviesS[key].vote_average)) {
+    //           ratings.push(likedMoviesS[key].vote_average);
+    //         } else {
+    //           ratings.push(Math.floor(likedMoviesS[key].vote_average * 10));
+    //         }
+    //       }
+
+    //       const ids = [];
+    //       for (const key in likedMoviesS) {
+    //         ids.push(likedMoviesS[key].id);
+    //       }
+
+    //       const names = [];
+    //       for (const key in likedMoviesS) {
+    //         names.push(likedMoviesS[key].original_title.replace(/\s+/g, ''));
+    //       }
+
+    //       refinedData = {
+    //         movies: likedMoviesS,
+    //         moviePosterPaths: paths,
+    //         movieRatings: ratings,
+    //         movieIds: ids,
+    //         movieNames: names,
+    //       };
+
+    //       return refinedData;
+    //     })
+    //   );
   }
 }

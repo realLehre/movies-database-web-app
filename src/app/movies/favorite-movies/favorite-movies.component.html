@@ -1,4 +1,4 @@
-<div class="fav-message" *ngIf="likedMovies.length == 0">
+<div class="fav-message" *ngIf="watchList.length == 0">
   <i class="fa fa-exclamation-circle" id="bang" aria-hidden="true"></i> No
   movies added to your favorite list. Visit
   <span id="homepage" [routerLink]="['/movies']">
@@ -6,7 +6,7 @@
   >or Search Movies
 </div>
 
-<div class="movies-container" *ngIf="likedMovies.length > 0">
+<div class="movies-container" *ngIf="watchList.length > 0">
   <div class="movies movies-search">
     <div class="movies-type">
       Your favorite movies
@@ -16,29 +16,33 @@
     </div>
 
     <div class="movies-class trending">
-      <div class="movie" *ngFor="let movie of likedMovies; let i = index">
+      <div class="movie" *ngFor="let movie of watchList; let i = index">
         <div class="fav-overlay"></div>
         <div class="fav-container" #like>
           <i
             class="fa fa-heart"
             id="favorite"
-            [ngClass]="{ liked: likedMovies[i].liked }"
-            (click)="removeFromLiked(likedMovies[i].id)"
+            [ngClass]="{ liked: watchList[i].liked }"
+            (click)="removeFromLiked(watchList[i].id)"
           ></i>
         </div>
         <div
           class="movie-img"
-          [routerLink]="['/movies', likedMoviesId[i], likedMoviesName[i]]"
+          [routerLink]="[
+            '/movies',
+            watchListMoviesId[i],
+            watchListMoviesNames[i]
+          ]"
         >
           <div class="movie-rating">
             <circle-progress
               backgroundColor="black"
-              [percent]="likedMoviesRating[i]"
+              [percent]="watchListMoviesRating[i]"
               [radius]="18"
               [outerStrokeWidth]="3"
               [innerStrokeWidth]="4"
               [outerStrokeColor]="
-                movieRatingColor | rating: likedMoviesRating[i]
+                movieRatingColor | rating : watchListMoviesRating[i]
               "
               [innerStrokeColor]="'#C7E596'"
               [animation]="true"
@@ -49,7 +53,7 @@
               [backgroundPadding]="2"
             ></circle-progress>
           </div>
-          <img [img-preloader]="likedMoviesPoster[i]" alt="" />
+          <img [img-preloader]="watchListMoviesPoster[i]" alt="" />
         </div>
         <div class="movie-info">
           <div class="movie-title-date">

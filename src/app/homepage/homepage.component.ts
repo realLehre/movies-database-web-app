@@ -34,10 +34,24 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
     });
 
     this.search = this.moviesService.searchState;
+
+    // if (JSON.parse(localStorage.getItem('user')) != null) {
+    //   this.moviesService.getForComponent().subscribe((userData) => {
+    //     this.watchListCount = userData.data().watchList.length;
+    //     this.getCount();
+    //   });
+    // } else {
+    //   this.watchListCount = this.moviesService.getLikedMovies().length;
+    //   this.getCount();
+    // }
   }
 
   ngAfterViewChecked(): void {
     this.watchListCount = this.moviesService.getLikedMovies().length;
+  }
+
+  getCount() {
+    this.watchListCount = this.watchListCount;
   }
 
   onSort(sort) {

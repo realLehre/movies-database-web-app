@@ -18,15 +18,15 @@ export class WatchListService {
   constructor(private db: AngularFirestore, private auth: AuthService) {
     this.usersDatabase = this.db.collection('users');
 
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user == null) {
-      this.auth.userId.subscribe((uid) => {
-        this.getUserWatchList(uid);
-      });
-    } else {
-      this.uid = user.user.uid;
-      this.getUserWatchList(this.uid);
-    }
+    // const user = JSON.parse(localStorage.getItem('user'));
+    // if (user == null) {
+    //   this.auth.userId.subscribe((uid) => {
+    //     this.getUserWatchList(uid);
+    //   });
+    // } else {
+    //   this.uid = user.user.uid;
+    //   this.getUserWatchList(this.uid);
+    // }
   }
 
   //   initStorage(res: UserCredential) {

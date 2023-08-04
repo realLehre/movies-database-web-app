@@ -19,7 +19,6 @@ import { Subject, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { User } from '../shared/user.model';
 import { MovieObject } from '../shared/movie.model';
-import { MoviesService } from './movies.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -67,6 +66,7 @@ export class AuthService {
   initStorage(res: UserCredential) {
     if (this.uids.some((uid) => uid == res.user.uid)) {
       this.getUserWatchList(res.user.uid);
+      this.usersDatabase.doc(res.user.uid).update({ email: res.user.email });
       return;
     }
 
@@ -84,6 +84,16 @@ export class AuthService {
       .doc(uid)
       .get()
       .subscribe((data) => {
+        const oldWatchList = JSON.parse(localStorage.getItem('liked'));
+
+        if (oldWatchList != null) {
+          localStorage.setItem(
+            'liked',
+            JSON.stringify([...data.data().watchList, ...oldWatchList])
+          );
+          this.userWatchList.next([...data.data().watchList, ...oldWatchList]);
+        }
+
         localStorage.setItem('liked', JSON.stringify(data.data().watchList));
         this.userWatchList.next(data.data().watchList);
       });
@@ -152,7 +162,6 @@ export class AuthService {
         this.isLoading.next(false);
         this.isAuthenticated.next(true);
         this.user.next({ displayName: currentUser });
-        this.initStorage(res);
 
         localStorage.setItem('username', currentUser);
         localStorage.setItem('user', JSON.stringify(res));
@@ -161,6 +170,7 @@ export class AuthService {
         const url = this.route.snapshot.queryParams['returnUrl'] || '/';
         this.router.navigateByUrl(url);
 
+        this.initStorage(res);
         this.autoLogout(3600000);
       })
       .catch((err: FirebaseError) => {

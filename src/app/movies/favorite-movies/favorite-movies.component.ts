@@ -9,12 +9,12 @@ import { MovieObject } from 'src/app/shared/movie.model';
 })
 export class FavoriteMoviesComponent implements OnInit {
   likedState: boolean;
-  likedName: string;
-  likedMovies: Array<MovieObject>;
-  likedMoviesRating: Array<number>;
-  likedMoviesPoster: string[];
-  likedMoviesId: number[];
-  likedMoviesName: string[];
+  watchListMovieName: string;
+  watchList: Array<MovieObject> = [];
+  watchListMoviesRating: Array<number>;
+  watchListMoviesPoster: string[];
+  watchListMoviesId: number[];
+  watchListMoviesNames: string[];
 
   movieRatingColor;
 
@@ -22,21 +22,16 @@ export class FavoriteMoviesComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.moviesService.getLikedMovies().length == 0) {
-      this.likedMovies = [];
+      this.watchList = [];
     } else {
-      this.likedMovies = this.moviesService.getLiked().movies;
+      this.getMovieInfo();
     }
 
-    this.likedMoviesPoster = this.moviesService.getLiked().moviePosterPaths;
-    this.likedMoviesRating = this.moviesService.getLiked().movieRatings;
-    this.likedMoviesId = this.moviesService.getLiked().movieIds;
-    this.likedMoviesName = this.moviesService.getLiked().movieNames;
+    const watchList = this.moviesService.getLikedMovies();
 
-    const likedMoviesTest = this.moviesService.getLikedMovies();
-
-    if (this.moviesService.getLikedMovies().length > 0) {
-      this.likedMovies.forEach((movie) => {
-        if (likedMoviesTest.some((item) => item.id == movie.id)) {
+    if (watchList.length > 0) {
+      this.watchList.forEach((movie) => {
+        if (watchList.some((item) => item.id == movie.id)) {
           movie['liked'] = true;
         }
       });
@@ -46,16 +41,21 @@ export class FavoriteMoviesComponent implements OnInit {
   removeFromLiked(id) {
     this.moviesService.onDisLike(id);
 
-    this.likedMovies = this.moviesService.getLiked().movies;
-    this.likedMoviesPoster = this.moviesService.getLiked().moviePosterPaths;
-    this.likedMoviesRating = this.moviesService.getLiked().movieRatings;
-    this.likedMoviesId = this.moviesService.getLiked().movieIds;
-    this.likedMoviesName = this.moviesService.getLiked().movieNames;
+    this.getMovieInfo();
+  }
+
+  getMovieInfo() {
+    this.watchList = this.moviesService.getWatchList().movies;
+    this.watchListMoviesPoster =
+      this.moviesService.getWatchList().moviePosterPaths;
+    this.watchListMoviesRating = this.moviesService.getWatchList().movieRatings;
+    this.watchListMoviesId = this.moviesService.getWatchList().movieIds;
+    this.watchListMoviesNames = this.moviesService.getWatchList().movieNames;
   }
 
   clearLikedMovies() {
     if (confirm('Are you sure?!')) {
-      this.likedMovies = [];
+      this.watchList = [];
 
       this.moviesService.clearWatchList();
     }
