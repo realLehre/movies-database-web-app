@@ -133,9 +133,14 @@ export class MoviesService {
       .doc(this.uid)
       .get()
       .subscribe((userData) => {
-        this.currentWatchList = userData.data().watchList;
-        localStorage.setItem('liked', JSON.stringify(this.currentWatchList));
-        this.userWatchList.next(this.currentWatchList);
+        if (
+          userData.data().watchList != null ||
+          userData.data().watchList != undefined
+        ) {
+          this.currentWatchList = userData.data().watchList;
+          localStorage.setItem('liked', JSON.stringify(this.currentWatchList));
+          this.userWatchList.next(this.currentWatchList);
+        }
       });
   }
 
