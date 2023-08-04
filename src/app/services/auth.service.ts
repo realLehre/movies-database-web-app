@@ -186,14 +186,11 @@ export class AuthService {
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
       localStorage.setItem('liked', null);
-      // this.movieService.emitUserWatchList(null);
       this.userWatchList.next(null);
       this.clearWatchList.next(true);
 
       this.isLoggedIn();
-      if (this.logOutTimeout) {
-        this.logOutTimeout.clearTimeOut();
-      }
+      clearTimeout(this.logOutTimeout);
 
       if (this.reqAuth) {
         this.router.navigate(['/']);
@@ -214,7 +211,6 @@ export class AuthService {
       localStorage.setItem('username', '');
       localStorage.setItem('user', null);
       localStorage.setItem('liked', null);
-      // this.movieService.emitUserWatchList(null);
       this.userWatchList.next(null);
       this.clearWatchList.next(true);
 

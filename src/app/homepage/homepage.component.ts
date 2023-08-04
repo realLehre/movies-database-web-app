@@ -7,6 +7,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 
 import { MoviesService } from '../services/movies.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-homepage',
@@ -22,7 +23,8 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
   isLoggedIn: boolean = false;
   constructor(
     private route: ActivatedRoute,
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -34,20 +36,16 @@ export class HomepageComponent implements OnInit, AfterViewChecked {
     });
 
     this.search = this.moviesService.searchState;
-
-    // if (JSON.parse(localStorage.getItem('user')) != null) {
-    //   this.moviesService.getForComponent().subscribe((userData) => {
-    //     this.watchListCount = userData.data().watchList.length;
-    //     this.getCount();
-    //   });
-    // } else {
-    //   this.watchListCount = this.moviesService.getLikedMovies().length;
-    //   this.getCount();
-    // }
   }
 
   ngAfterViewChecked(): void {
-    this.watchListCount = this.moviesService.getLikedMovies().length;
+    const watchListStorage = JSON.parse(localStorage.getItem('liked'));
+    if (watchListStorage != null) {
+      this.watchListCount = JSON.parse(localStorage.getItem('liked')).length;
+    }
+    this.authService.userWatchList.subscribe((data) => {
+      this.watchListCount = 0;
+    });
   }
 
   getCount() {

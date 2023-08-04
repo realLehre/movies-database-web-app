@@ -30,7 +30,6 @@ export class MoviesService {
 
   errorOcurred = new Subject<boolean>();
 
-  // likedMovies: MovieObject[] = [];
   likedMoviesObs = new Subject<MovieObject[]>();
 
   pageWidth = new Subject<number>();
@@ -98,7 +97,7 @@ export class MoviesService {
     prevWatchListInStorage.push(movie);
 
     localStorage.setItem('liked', JSON.stringify(prevWatchListInStorage));
-    this.emitUserWatchList(prevWatchListInStorage);
+    this.userWatchList.next(prevWatchListInStorage);
     this.getUserWatchList();
     this.usersDatabase.doc(uid).update({ watchList: prevWatchListInStorage });
   }
@@ -115,7 +114,8 @@ export class MoviesService {
     }
 
     localStorage.setItem('liked', JSON.stringify(prevWatchListInStorage));
-    this.emitUserWatchList(prevWatchListInStorage);
+    this.userWatchList.next(prevWatchListInStorage);
+
     this.getUserWatchList();
     this.usersDatabase
       .doc(this.uid)
@@ -125,6 +125,7 @@ export class MoviesService {
   clearWatchList() {
     localStorage.setItem('liked', null);
     this.usersDatabase.doc(this.uid).update({ watchList: [] });
+    this.userWatchList.next(null);
   }
 
   getUserWatchList() {
@@ -133,6 +134,8 @@ export class MoviesService {
       .get()
       .subscribe((userData) => {
         this.currentWatchList = userData.data().watchList;
+        localStorage.setItem('liked', JSON.stringify(this.currentWatchList));
+        this.userWatchList.next(this.currentWatchList);
       });
   }
 
@@ -142,16 +145,27 @@ export class MoviesService {
     return this.usersDatabase.doc(uid).get();
   }
 
-  emitUserWatchList(watchList: MovieObject[]) {
-    this.userWatchList.next(watchList);
-  }
-
   getLikedMovies() {
     if (JSON.parse(localStorage.getItem('liked')) != null) {
       return JSON.parse(localStorage.getItem('liked'));
+      // return this.usersDatabase
+      //   .doc(this.uid)
+      //   .get()
+      //   .subscribe((userData) => {
+      //     this.currentWatchList = userData.data().watchList;
+      //     return this.clearWatchList;
+      //   });
     } else {
       return [];
     }
+
+    // this.usersDatabase
+    //   .doc(this.uid)
+    //   .get()
+    //   .subscribe((userData) => {
+    //     this.currentWatchList = userData.data().watchList;
+    //     return this.clearWatchList
+    //   });
   }
 
   getWatchList(): RefinedResponse {
