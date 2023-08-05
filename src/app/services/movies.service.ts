@@ -103,6 +103,8 @@ export class MoviesService {
   }
 
   onDisLike(id: number) {
+    const uid = JSON.parse(localStorage.getItem('user')).user.uid;
+
     const prevWatchListInStorage = JSON.parse(localStorage.getItem('liked'));
 
     if (prevWatchListInStorage.length != 0) {
@@ -118,7 +120,7 @@ export class MoviesService {
 
     this.getUserWatchList();
     this.usersDatabase
-      .doc(this.uid)
+      .doc(uid)
       .update({ watchList: [...prevWatchListInStorage] });
   }
 
@@ -129,10 +131,13 @@ export class MoviesService {
   }
 
   getUserWatchList() {
+    const uid = JSON.parse(localStorage.getItem('user')).user.uid;
     this.usersDatabase
-      .doc(this.uid)
+      .doc(uid)
       .get()
       .subscribe((userData) => {
+        console.log(userData.data());
+
         if (
           userData.data().watchList != null ||
           userData.data().watchList != undefined
