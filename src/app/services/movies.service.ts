@@ -136,8 +136,6 @@ export class MoviesService {
       .doc(uid)
       .get()
       .subscribe((userData) => {
-        console.log(userData.data());
-
         if (
           userData.data().watchList != null ||
           userData.data().watchList != undefined
