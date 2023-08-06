@@ -43,17 +43,17 @@
     filter: blur(5px);
   }
 
-  &::after {
-    position: absolute;
-    content: "";
-    width: 70px;
-    height: 100%;
-    background: black;
-    filter: blur(50px);
-    top: 0;
-    right: 0;
-    z-index: 10;
-  }
+  // &::after {
+  //   position: absolute;
+  //   content: "";
+  //   width: 70px;
+  //   height: 100%;
+  //   background: black;
+  //   filter: blur(50px);
+  //   top: 0;
+  //   right: 0;
+  //   z-index: 10;
+  // }
 }
 
 .movies {
@@ -81,10 +81,6 @@
     z-index: 5;
   }
 
-  & .searchName {
-    text-transform: uppercase;
-  }
-
   &::after {
     position: absolute;
     content: "";
@@ -99,6 +95,20 @@
   &.popular {
     &::after {
       bottom: -8px;
+    }
+  }
+
+  &.search-heading {
+    position: relative;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: white;
+    display: inline-block;
+    z-index: 5;
+    margin-bottom: 20px;
+
+    &:after {
+      display: none;
     }
   }
 }

@@ -149,38 +149,44 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   addOrRemoveLiked(e, id, movie) {
-    movie['liked'] = !movie['liked'];
+    const user = JSON.parse(localStorage.getItem('user'));
 
-    const movieContainer = e.target.parentElement.parentElement;
-    const posterInDetails = e.target.parentElement.parentElement;
+    if (user != null) {
+      movie['liked'] = !movie['liked'];
 
-    if (movie['liked'] == true) {
-      this.moviesService.onLike(movie, id);
-      if (movie.id == this.movieId) {
-        this.movieLiked = movie['liked'];
+      const movieContainer = e.target.parentElement.parentElement;
+      const posterInDetails = e.target.parentElement.parentElement;
+
+      if (movie['liked'] == true) {
+        this.moviesService.onLike(movie, id);
+        if (movie.id == this.movieId) {
+          this.movieLiked = movie['liked'];
+        }
+
+        movieContainer.classList.add('showAdd');
+        posterInDetails.classList.add('showAdd');
+
+        setTimeout(() => {
+          movieContainer.classList.remove('showAdd');
+          posterInDetails.classList.remove('showAdd');
+        }, 650);
+      } else {
+        this.moviesService.onDisLike(id);
+
+        if (movie.id == this.movieId) {
+          this.movieLiked = movie['liked'];
+        }
+
+        movieContainer.classList.add('showRemove');
+        posterInDetails.classList.add('showRemove');
+
+        setTimeout(() => {
+          movieContainer.classList.remove('showRemove');
+          posterInDetails.classList.remove('showRemove');
+        }, 650);
       }
-
-      movieContainer.classList.add('showAdd');
-      posterInDetails.classList.add('showAdd');
-
-      setTimeout(() => {
-        movieContainer.classList.remove('showAdd');
-        posterInDetails.classList.remove('showAdd');
-      }, 650);
     } else {
-      this.moviesService.onDisLike(id);
-
-      if (movie.id == this.movieId) {
-        this.movieLiked = movie['liked'];
-      }
-
-      movieContainer.classList.add('showRemove');
-      posterInDetails.classList.add('showRemove');
-
-      setTimeout(() => {
-        movieContainer.classList.remove('showRemove');
-        posterInDetails.classList.remove('showRemove');
-      }, 650);
+      this.router.navigate(['/', 'sign-in']);
     }
   }
 }

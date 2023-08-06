@@ -252,9 +252,13 @@ export class HttpService {
     const ratings = [];
     const names = [];
     for (const key in movies) {
-      paths.push(
-        'https://image.tmdb.org/t/p/original' + movies[key].poster_path
-      );
+      if (movies[key].poster_path == null) {
+        paths.push(null);
+      } else {
+        paths.push(
+          'https://image.tmdb.org/t/p/original' + movies[key].poster_path
+        );
+      }
       ids.push(movies[key].id);
       ratings.push(Math.floor(movies[key].vote_average * 10));
       names.push(movies[key].original_title.replace(/\s+/g, ''));

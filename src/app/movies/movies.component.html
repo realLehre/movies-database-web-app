@@ -11,14 +11,15 @@
       (searchState && sortValue == 'crime')
     "
   >
-    <div class="movies-type">
-      Search results and similar movies for
+    <div class="movies-type search-heading">
+      Search results for
       <span class="searchName">'{{ searchName }}'</span>
     </div>
 
-    <div class="movies-class trending">
+    <!-- <div class="movies-class trending">
       <app-movie-type [movieType]="'searchedMovies'"></app-movie-type>
-    </div>
+    </div> -->
+    <app-searched></app-searched>
   </div>
 
   <div

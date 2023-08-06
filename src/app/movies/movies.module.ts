@@ -17,6 +17,7 @@ import { ImagePreloader } from '../shared/image-preloader.directive';
 import { MaterialModule } from '../material.module';
 import { MoviesRoutingModule } from './movies-routing.module';
 import { CurrentlyPlayingComponent } from './currently-playing/currently-playing.component';
+import { SearchedComponent } from './searched/searched.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CurrentlyPlayingComponent } from './currently-playing/currently-playing
     LazyLoadImagesDirective,
     ImagePreloader,
     CurrentlyPlayingComponent,
+    SearchedComponent,
   ],
   imports: [
     CommonModule,
