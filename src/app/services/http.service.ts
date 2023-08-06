@@ -21,7 +21,7 @@ export class HttpService {
       .get<{
         dates: Object;
         page: number;
-        results: [{ [key: string]: MovieObject }];
+        results: { [key: string]: MovieObject };
         total_pages: number;
         total_results: number;
       }>(
@@ -29,24 +29,33 @@ export class HttpService {
       )
       .pipe(
         map((data) => {
-          const posters = [];
-          const backdrops = [];
-
-          for (const key in data.results) {
-            posters.push(
-              `https://image.tmdb.org/t/p/original${data.results[key]['poster_path']}`
-            );
-          }
+          const posters: string[] = [];
+          const backdrops: string[] = [];
+          const releaseDates: string[] = [];
+          const titles: string[] = [];
+          const movieIds: number[] = [];
 
           for (const key in data.results) {
             backdrops.push(
               `https://image.tmdb.org/t/p/original${data.results[key]['backdrop_path']}`
             );
+            posters.push(
+              `https://image.tmdb.org/t/p/original${data.results[key]['poster_path']}`
+            );
+
+            releaseDates.push(data.results[key]['release_date']);
+
+            titles.push(data.results[key]['title']);
+
+            movieIds.push(data.results[key]['id']);
           }
 
           return {
             posters,
             backdrops,
+            releaseDates,
+            titles,
+            movieIds,
           };
         })
       );
@@ -239,24 +248,15 @@ export class HttpService {
     let refinedData: RefinedResponse;
 
     const paths = [];
+    const ids = [];
+    const ratings = [];
+    const names = [];
     for (const key in movies) {
       paths.push(
         'https://image.tmdb.org/t/p/original' + movies[key].poster_path
       );
-    }
-
-    const ratings = [];
-    for (const key in movies) {
-      ratings.push(Math.floor(movies[key].vote_average * 10));
-    }
-
-    const ids = [];
-    for (const key in movies) {
       ids.push(movies[key].id);
-    }
-
-    const names = [];
-    for (const key in movies) {
+      ratings.push(Math.floor(movies[key].vote_average * 10));
       names.push(movies[key].original_title.replace(/\s+/g, ''));
     }
 

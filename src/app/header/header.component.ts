@@ -38,7 +38,6 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private httpService: HttpService,
     private moviesService: MoviesService,
     private authService: AuthService

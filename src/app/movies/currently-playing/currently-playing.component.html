@@ -1,1 +1,52 @@
-<p>currently-playing works!</p>
+<div class="currently-playing-container">
+  <div class="playing-heading-container">
+    <div class="playing-heading">Currently playing</div>
+  </div>
+  <swiper
+    [config]="config"
+    class="playing-swiper"
+    *ngIf="backDrops.length > 1 && sliderWidth > 500"
+  >
+    <ng-template swiperSlide *ngFor="let backDrop of backDrops; let i = index">
+      <div
+        class="playing swiper-lazy"
+        data-background="'url(' + backDrop + ')'"
+        [ngStyle]="{ backgroundImage: 'url(' + backDrop + ')' }"
+        [routerLink]="['/movies', movieIds[i], titles[i]]"
+        #playing
+      >
+        <div class="playing-extras">
+          <div class="playing-poster">
+            <img [src]="posters[i]" alt="" />
+          </div>
+          <div class="playing-info">
+            <div class="title">{{ titles[i] }}</div>
+            <div class="release-date">{{ releaseDates[i] | date }}</div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </swiper>
+
+  <swiper
+    [config]="configMobile"
+    class="playing-swiper"
+    *ngIf="posters.length > 1 && sliderWidth < 500"
+  >
+    <ng-template swiperSlide *ngFor="let poster of posters; let i = index">
+      <div
+        class="playing swiper-lazy mobile"
+        data-background="'url(' + backDrop + ')'"
+        [ngStyle]="{ backgroundImage: 'url(' + poster + ')' }"
+        [routerLink]="['/movies', movieIds[i], titles[i]]"
+      >
+        <div class="playing-extras">
+          <div class="playing-info">
+            <div class="title">{{ titles[i] }}</div>
+            <div class="release-date">{{ releaseDates[i] | date }}</div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </swiper>
+</div>

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { SwiperModule } from 'swiper/angular';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { MoviesComponent } from './movies.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
@@ -13,7 +15,6 @@ import { RuntimePipe } from '../shared/runtime.pipe';
 import { LazyLoadImagesDirective } from '../shared/lazy-loading.directive';
 import { ImagePreloader } from '../shared/image-preloader.directive';
 import { MaterialModule } from '../material.module';
-import { YouTubePlayerModule } from '@angular/youtube-player';
 import { MoviesRoutingModule } from './movies-routing.module';
 import { CurrentlyPlayingComponent } from './currently-playing/currently-playing.component';
 
@@ -51,6 +52,7 @@ import { CurrentlyPlayingComponent } from './currently-playing/currently-playing
       showInnerStroke: false,
       startFromZero: false,
     }),
+    SwiperModule,
   ],
   exports: [
     MoviesComponent,
@@ -62,6 +64,7 @@ import { CurrentlyPlayingComponent } from './currently-playing/currently-playing
     RuntimePipe,
     LazyLoadImagesDirective,
     ImagePreloader,
+    CurrentlyPlayingComponent,
   ],
 })
 export class MoviesModule {}

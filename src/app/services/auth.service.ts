@@ -60,6 +60,7 @@ export class AuthService {
       const currentTime = new Date().getTime();
       const expirationDuration = expirationTime - currentTime;
       this.autoLogout(expirationDuration);
+      console.log(expirationDuration);
     }
   }
 

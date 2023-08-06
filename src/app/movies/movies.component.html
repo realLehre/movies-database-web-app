@@ -34,7 +34,9 @@
     "
   >
     <div class="movies" *ngIf="!searchState">
-      <div class="movies-type">Trending</div>
+      <div class="movies-type">
+        <div>Trending</div>
+      </div>
 
       <div class="movies-class trending">
         <app-movie-type [movieType]="'trending'"></app-movie-type>
@@ -55,7 +57,9 @@
     "
   >
     <div class="movies" *ngIf="!searchState">
-      <div class="movies-type popular">Currently Popular</div>
+      <div class="movies-type popular">
+        <div>Currently Popular</div>
+      </div>
 
       <div class="movies-class popular">
         <app-movie-type [movieType]="'popular'"></app-movie-type>
@@ -80,7 +84,9 @@
     "
   >
     <div class="movies top-rated top-rated-test" *ngIf="!searchState">
-      <div class="movies-type">Top Rated</div>
+      <div class="movies-type">
+        <div>Top Rated</div>
+      </div>
 
       <div class="movies-class top-rated">
         <app-movie-type [movieType]="'top-rated'"></app-movie-type>

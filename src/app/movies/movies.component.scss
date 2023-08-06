@@ -68,11 +68,18 @@
 }
 
 .movies-type {
-  display: inline-block;
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 20px;
   position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+
+  & div {
+    position: relative;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: white;
+    display: inline-block;
+    z-index: 5;
+  }
 
   & .searchName {
     text-transform: uppercase;
@@ -81,12 +88,12 @@
   &::after {
     position: absolute;
     content: "";
+    background: red;
     width: 50%;
-    height: 3px;
-    background: $main-color;
-    bottom: -5px;
-    left: 0;
-    border-radius: 20px;
+    height: 100%;
+    right: 0;
+    top: 0;
+    z-index: 3;
   }
 
   &.popular {
@@ -119,6 +126,12 @@
     &::after {
       width: 20px;
       filter: blur(30px);
+    }
+  }
+
+  .movies-type {
+    & div {
+      font-size: 1.3rem;
     }
   }
 }
