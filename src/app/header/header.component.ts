@@ -47,6 +47,12 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     this.searchForm = new FormGroup({
       searchResult: new FormControl('', Validators.required),
     });
+
+    this.moviesService.searching.subscribe((status) => {
+      if (status == false) {
+        this.isShowInput = false;
+      }
+    });
   }
 
   ngAfterViewChecked(): void {
@@ -78,16 +84,18 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   }
 
   getKeyword() {
-    const keyword = this.searchForm.value.searchResult.toLowerCase();
+    if (this.searchForm.value.searchResult != null) {
+      const keyword = this.searchForm.value.searchResult.toLowerCase();
 
-    if (keyword) {
-      this.moviesService.searchKeyword.next(true);
+      if (keyword) {
+        this.moviesService.searchKeyword.next(true);
 
-      this.httpService.searchMovies(keyword).subscribe((data) => {
-        this.moviesService.searchResults.next(data);
-      });
-    } else {
-      this.moviesService.searchKeyword.next(false);
+        this.httpService.searchMovies(keyword).subscribe((data) => {
+          this.moviesService.searchResults.next(data);
+        });
+      } else {
+        this.moviesService.searchKeyword.next(false);
+      }
     }
   }
 
@@ -99,13 +107,22 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     if (this.searchForm.invalid) {
       return null;
     } else {
-      this.router.navigate(['movies', 'search', search]);
+      this.moviesService.isFetching.next(true);
+      this.moviesService.searching.next(false);
 
       this.httpService.searchMovies(search).subscribe({
         next: (data) => {
           this.moviesService.searchedMovies(data);
+          this.moviesService.searchKeyword.next(false);
+          this.moviesService.isFetching.next(false);
 
           this.moviesService.searchName.next(search);
+
+          this.router.navigate(['movies', 'search', search]);
+
+          this.isShowInput = false;
+
+          this.searchForm.reset();
         },
         error: (err) => {
           if (err) {
@@ -113,34 +130,27 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
           }
         },
       });
-
-      this.router.navigate(['movies', 'search', search]);
-
-      this.moviesService.searching.next(false);
-
-      this.moviesService.searchKeyword.next(false);
     }
-
-    this.isShowInput = false;
-
-    this.searchForm.reset();
   }
 
   check() {
-    if (JSON.parse(localStorage.getItem('searchNames')).length == 0) {
-      this.moviesService.searching.next(false);
-    } else {
-      this.moviesService.searching.next(true);
-    }
+    const searchNames = JSON.parse(localStorage.getItem('searchNames'));
+    if (searchNames) {
+      if (JSON.parse(localStorage.getItem('searchNames')).length == 0) {
+        this.moviesService.searching.next(false);
+      } else {
+        this.moviesService.searching.next(true);
+      }
 
-    this.moviesService.searchKeyword.subscribe({
-      next: (value) => {
-        if (value) {
-          this.moviesService.clearSearch.next(false);
-        }
-      },
-    });
-    this.moviesService.searchKeyword.next(false);
+      this.moviesService.searchKeyword.subscribe({
+        next: (value) => {
+          if (value) {
+            this.moviesService.clearSearch.next(false);
+          }
+        },
+      });
+      this.moviesService.searchKeyword.next(false);
+    }
   }
 
   closeRecents() {

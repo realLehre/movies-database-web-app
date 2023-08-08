@@ -26,7 +26,6 @@ export class SearchedComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const test = JSON.parse(localStorage.getItem('searchedMovies'));
     const user = JSON.parse(localStorage.getItem('user'));
     if (user != null) {
       this.moviesService.getForComponent().subscribe((userData) => {
@@ -34,8 +33,8 @@ export class SearchedComponent implements OnInit {
         this.getMovies();
       });
     } else {
-      this.watchList = this.moviesService.getLikedMovies();
       this.getMovies();
+      this.watchList = this.moviesService.getLikedMovies();
     }
 
     this.authService.clearWatchList.subscribe((status) => {
@@ -45,15 +44,13 @@ export class SearchedComponent implements OnInit {
   }
 
   getMovies() {
-    if (localStorage.getItem('searchedMovies')) {
-      const movies = JSON.parse(localStorage.getItem('searchedMovies'));
-
-      this.movies = movies.movies;
-      this.moviesPoster = movies.moviePosterPaths;
-      this.moviesRating = movies.movieRatings;
-      this.moviesId = movies.movieIds;
-      this.moviesNames = movies.movieNames;
-      console.log(this.movies);
+    const searchedMovies = JSON.parse(localStorage.getItem('searchedMovies'));
+    if (searchedMovies.length != 0) {
+      this.movies = searchedMovies.movies;
+      this.moviesPoster = searchedMovies.moviePosterPaths;
+      this.moviesRating = searchedMovies.movieRatings;
+      this.moviesId = searchedMovies.movieIds;
+      this.moviesNames = searchedMovies.movieNames;
 
       this.isFetching = false;
       this.moviesService.isFetching.next(this.isFetching);
@@ -63,46 +60,66 @@ export class SearchedComponent implements OnInit {
           movie['liked'] = true;
         }
       });
+    } else {
+      this.moviesService.moviesSearch.subscribe((data) => {
+        this.movies = data.movies;
+        this.moviesPoster = data.moviePosterPaths;
+        this.moviesRating = data.movieRatings;
+        this.moviesId = data.movieIds;
+        this.moviesNames = data.movieNames;
+        console.log(this.movies);
+
+        this.isFetching = false;
+        this.moviesService.isFetching.next(this.isFetching);
+
+        this.movies.forEach((movie) => {
+          if (this.watchList.some((item) => item.id == movie.id)) {
+            movie['liked'] = true;
+          }
+        });
+      });
+
+      // this.moviesService.moviesSearch.subscribe({
+      //   next: (movies) => {
+      //     console.log(movies);
+
+      //     localStorage.setItem('searchedMovies', JSON.stringify(movies));
+
+      //     this.movies = movies.movies;
+      //     this.moviesPoster = movies.moviePosterPaths;
+      //     this.moviesRating = movies.movieRatings;
+      //     this.moviesId = movies.movieIds;
+      //     this.moviesNames = movies.movieNames;
+
+      //     this.isFetching = false;
+      //     this.moviesService.isFetching.next(this.isFetching);
+
+      //     this.moviesService.searchName.subscribe((name) => {
+      //       localStorage.setItem('searchName', JSON.stringify(name));
+      //     });
+
+      //     // localStorage.setItem('Movies', JSON.stringify(movies));
+
+      //     if (JSON.parse(localStorage.getItem('searchedMovies')) != null) {
+      //       this.moviesStored = JSON.parse(
+      //         localStorage.getItem('searchedMovies')
+      //       );
+      //     } else {
+      //       this.moviesStored = {
+      //         movieIds: [],
+      //         movieNames: [],
+      //         moviePosterPaths: [],
+      //         movieRatings: [],
+      //         movies: [],
+      //       };
+      //     }
+      //   },
+      // });
     }
 
     if (localStorage.getItem('searchName')) {
       const name = JSON.parse(localStorage.getItem('searchName'));
       this.moviesService.searchName.next(name);
     }
-
-    this.moviesService.moviesSearch.subscribe({
-      next: (movies) => {
-        localStorage.setItem('searchedMovies', JSON.stringify(movies));
-
-        this.movies = movies.movies;
-        this.moviesPoster = movies.moviePosterPaths;
-        this.moviesRating = movies.movieRatings;
-        this.moviesId = movies.movieIds;
-        this.moviesNames = movies.movieNames;
-
-        this.isFetching = false;
-        this.moviesService.isFetching.next(this.isFetching);
-
-        this.moviesService.searchName.subscribe((name) => {
-          localStorage.setItem('searchName', JSON.stringify(name));
-        });
-
-        // localStorage.setItem('Movies', JSON.stringify(movies));
-
-        if (JSON.parse(localStorage.getItem('searchedMovies')) != null) {
-          this.moviesStored = JSON.parse(
-            localStorage.getItem('searchedMovies')
-          );
-        } else {
-          this.moviesStored = {
-            movieIds: [],
-            movieNames: [],
-            moviePosterPaths: [],
-            movieRatings: [],
-            movies: [],
-          };
-        }
-      },
-    });
   }
 }

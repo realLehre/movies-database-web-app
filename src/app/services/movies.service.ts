@@ -59,6 +59,9 @@ export class MoviesService {
       this.searchNames = [];
       localStorage.setItem('searchNames', JSON.stringify(this.searchNames));
     }
+    if (!JSON.parse(localStorage.getItem('searchedMovies'))) {
+      localStorage.setItem('searchedMovies', JSON.stringify([]));
+    }
   }
 
   searchResult(state: boolean) {
@@ -66,7 +69,7 @@ export class MoviesService {
   }
 
   searchedMovies(movies: RefinedResponse) {
-    return this.moviesSearch.next(movies);
+    this.moviesSearch.next(movies);
   }
 
   getSearchNames() {
