@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
+import { MoviesService } from 'src/app/services/movies.service';
 
 import SwiperCore, {
   Navigation,
@@ -66,10 +67,15 @@ export class CurrentlyPlayingComponent implements OnInit, AfterViewChecked {
   titles: string[] = [];
   releaseDates: string[] = [];
   movieIds: number[] = [];
+  isFetching: boolean = false;
+  error: boolean = false;
 
   playingContainerWidth!: number;
   @ViewChild('playing', { static: false }) playing: ElementRef<HTMLDivElement>;
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private moviesService: MoviesService
+  ) {}
 
   ngOnInit(): void {
     this.httpService.getCurrentlyPlaying().subscribe((data) => {
@@ -78,6 +84,14 @@ export class CurrentlyPlayingComponent implements OnInit, AfterViewChecked {
       this.titles = data.titles;
       this.releaseDates = data.releaseDates;
       this.movieIds = data.movieIds;
+    });
+
+    this.moviesService.isFetching.subscribe((state) => {
+      this.isFetching = state;
+    });
+
+    this.moviesService.errorOcurred.subscribe((error) => {
+      this.error = error;
     });
   }
 

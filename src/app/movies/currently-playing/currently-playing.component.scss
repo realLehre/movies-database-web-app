@@ -3,6 +3,10 @@
 .currently-playing-container {
   font-family: "Nunito", sans-serif;
   height: 580px;
+
+  &.blur {
+    filter: blur(5px);
+  }
 }
 
 .playing-heading-container {

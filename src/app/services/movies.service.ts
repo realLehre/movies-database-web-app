@@ -18,6 +18,7 @@ export class MoviesService {
   searchState: boolean;
   searchName = new Subject<string>();
   searchNames: string[] = [];
+  searchedMoviesStored: MovieObject[] = [];
   moviesSearch = new Subject<RefinedResponse>();
   searching = new Subject<boolean>();
 
@@ -59,8 +60,13 @@ export class MoviesService {
       this.searchNames = [];
       localStorage.setItem('searchNames', JSON.stringify(this.searchNames));
     }
-    if (!JSON.parse(localStorage.getItem('searchedMovies'))) {
-      localStorage.setItem('searchedMovies', JSON.stringify([]));
+
+    if (JSON.parse(localStorage.getItem('searchedMovies')) != null) {
+      this.searchedMoviesStored = JSON.parse(
+        localStorage.getItem('searchedMovies')
+      );
+    } else {
+      localStorage.setItem('searchedMovies', null);
     }
   }
 
@@ -70,6 +76,8 @@ export class MoviesService {
 
   searchedMovies(movies: RefinedResponse) {
     this.moviesSearch.next(movies);
+
+    localStorage.setItem('searchedMovies', JSON.stringify(movies));
   }
 
   getSearchNames() {
@@ -98,6 +106,7 @@ export class MoviesService {
     }
 
     prevWatchListInStorage.push(movie);
+    console.log(movie);
 
     localStorage.setItem('liked', JSON.stringify(prevWatchListInStorage));
     this.userWatchList.next(prevWatchListInStorage);

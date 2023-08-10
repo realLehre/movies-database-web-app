@@ -113,11 +113,12 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       this.httpService.searchMovies(search).subscribe({
         next: (data) => {
           this.moviesService.searchedMovies(data);
+          this.moviesService.moviesSearch.next(data);
           this.moviesService.searchKeyword.next(false);
           this.moviesService.isFetching.next(false);
 
           this.moviesService.searchName.next(search);
-
+          localStorage.setItem('currentSearch', search);
           this.router.navigate(['movies', 'search', search]);
 
           this.isShowInput = false;

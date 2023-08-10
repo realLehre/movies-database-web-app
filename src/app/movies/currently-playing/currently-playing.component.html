@@ -1,4 +1,8 @@
-<div class="currently-playing-container">
+<div
+  class="currently-playing-container"
+  [ngClass]="{ blur: isFetching }"
+  *ngIf="!error"
+>
   <div class="playing-heading-container">
     <div class="playing-heading">Currently playing</div>
   </div>
