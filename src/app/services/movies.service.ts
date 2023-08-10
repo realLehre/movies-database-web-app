@@ -106,7 +106,6 @@ export class MoviesService {
     }
 
     prevWatchListInStorage.push(movie);
-    console.log(movie);
 
     localStorage.setItem('liked', JSON.stringify(prevWatchListInStorage));
     this.userWatchList.next(prevWatchListInStorage);

@@ -27,6 +27,7 @@
 }
 
 .details-container {
+  font-family: "Nunito", sans-serif;
   margin-top: 100px;
 }
 
@@ -67,6 +68,8 @@
 }
 
 .overview-container {
+  font-family: "Nunito", sans-serif;
+
   position: relative;
   width: 100%;
   background-size: cover;
@@ -285,7 +288,6 @@
         }
 
         & .content {
-          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
           font-size: 18px;
           font-weight: 400;
           line-height: 1.2;
@@ -368,27 +370,28 @@
 }
 
 .movies-type {
-  display: inline-block;
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 20px;
   position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+
+  & div {
+    position: relative;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: white;
+    display: inline-block;
+    z-index: 5;
+  }
 
   &::after {
     position: absolute;
     content: "";
+    background: red;
     width: 50%;
-    height: 3px;
-    background: $main-color;
-    bottom: -5px;
-    left: 0;
-    border-radius: 20px;
-  }
-
-  &.popular {
-    &::after {
-      bottom: -8px;
-    }
+    height: 100%;
+    right: 0;
+    top: 0;
+    z-index: 3;
   }
 }
 
