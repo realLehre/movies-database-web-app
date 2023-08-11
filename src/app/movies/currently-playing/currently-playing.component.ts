@@ -51,6 +51,7 @@ export class CurrentlyPlayingComponent implements OnInit, AfterViewChecked {
     preloadImages: false,
     lazy: true,
   };
+
   configMobile: SwiperOptions = {
     loop: true,
     speed: 1000,

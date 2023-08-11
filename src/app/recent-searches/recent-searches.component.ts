@@ -43,7 +43,7 @@ export class RecentSearchesComponent implements OnInit, AfterViewChecked {
     this.httpService.searchMovies(name).subscribe({
       next: (data) => {
         this.moviesService.searchedMovies(data);
-
+        localStorage.setItem('currentSearch', name);
         this.moviesService.searchName.next(name);
       },
       error: (err) => {

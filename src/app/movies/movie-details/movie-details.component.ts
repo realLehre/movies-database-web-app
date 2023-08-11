@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { HttpService } from 'src/app/services/http.service';
 import { MoviesService } from 'src/app/services/movies.service';
 import { MovieObject } from 'src/app/shared/movie.model';
@@ -62,7 +63,8 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     private route: ActivatedRoute,
     private httpService: HttpService,
     private moviesService: MoviesService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -70,14 +72,34 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
       this.movieId = +param['id'];
     });
 
-    this.moviesService.userWatchList.subscribe((watchList) => {
-      this.watchList = watchList;
-    });
-    this.watchList = this.moviesService.currentWatchList;
+    // this.moviesService.userWatchList.subscribe((watchList) => {
+    //   this.watchList = watchList;
+    // });
+    // this.watchList = this.moviesService.currentWatchList;
 
     this.isFetching = true;
     this.moviesService.isFetching.next(this.isFetching);
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user != null) {
+      this.moviesService.getForComponent().subscribe((userData) => {
+        this.watchList = userData.data().watchList;
+        this.getMovies();
+      });
+    } else {
+      this.watchList = this.moviesService.getLikedMovies();
+      this.getMovies();
+    }
+
+    this.authService.clearWatchList.subscribe((status) => {
+      this.watchList = [];
+      this.getMovies();
+    });
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
+
+  getMovies() {
     this.httpService.getMovieDetails(this.movieId).subscribe({
       next: (movieData) => {
         this.isFetching = false;
@@ -133,8 +155,6 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         });
       },
     });
-
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngAfterViewChecked(): void {

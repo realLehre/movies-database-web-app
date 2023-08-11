@@ -1,13 +1,17 @@
 <div class="movies-container">
   <div class="movie" *ngFor="let movie of movies; let i = index">
-    <div class="fav-overlay"></div>
-    <div class="fav-container" #like>
+    <div
+      class="fav-container"
+      #like
+      (click)="addOrRemoveLiked($event, movies[i].id, movies[i])"
+    >
       <i
-        class="fa fa-heart"
+        class="fa fa-bookmark"
         id="favorite"
         [ngClass]="{ liked: movies[i].liked }"
-        (click)="addOrRemoveLiked($event, movies[i].id, movies[i])"
       ></i>
+      <i class="fa fa-plus" [ngClass]="{ liked: movies[i].liked }"></i>
+      <i class="fa-solid fa-check" [ngClass]="{ liked: movies[i].liked }"></i>
     </div>
 
     <div
@@ -15,8 +19,8 @@
       [routerLink]="['/movies', moviesId[i], moviesNames[i]]"
       (click)="closeRecents()"
     >
-      <div class="liked-alert add">Added to favorites</div>
-      <div class="liked-alert remove">Removed from favorites</div>
+      <div class="liked-alert add">Added to watchlist</div>
+      <div class="liked-alert remove">Removed from watchlist</div>
 
       <div class="movie-rating">
         <circle-progress
@@ -46,3 +50,9 @@
     </div>
   </div>
 </div>
+
+<!-- <swiper [config]="config" class="movie-type-swiper" *ngIf="movies.length > 1">
+  <ng-template swiperSlide>1</ng-template>
+  <ng-template swiperSlide>2</ng-template>
+  <ng-template swiperSlide>3</ng-template>
+</swiper> -->

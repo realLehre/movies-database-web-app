@@ -1,7 +1,29 @@
 import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { distinctUntilChanged, take } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  A11y,
+  Virtual,
+  Zoom,
+  Autoplay,
+  Thumbs,
+  Controller,
+  Keyboard,
+  SwiperOptions,
+} from 'swiper';
+
+SwiperCore.use([
+  Keyboard,
+  Pagination,
+  Navigation,
+  Virtual,
+  Autoplay,
+  Thumbs,
+  Controller,
+]);
+
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpService } from 'src/app/services/http.service';
 import { MoviesService } from 'src/app/services/movies.service';
@@ -15,7 +37,7 @@ import { MovieObject, RefinedResponse } from 'src/app/shared/movie.model';
 export class MovieTypeComponent implements OnInit, AfterViewChecked {
   @Input() movieType: string;
 
-  movies: Array<MovieObject>;
+  movies: Array<MovieObject> = [];
   moviesRating: Array<number>;
   moviesPoster: string[];
   moviesId: number[];
@@ -30,6 +52,21 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
   searchState: boolean;
 
   movieRatingColor: string;
+
+  config: SwiperOptions = {
+    loop: true,
+    navigation: true,
+    keyboard: {
+      enabled: true,
+    },
+    speed: 1000,
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
+    },
+    preloadImages: false,
+    lazy: true,
+  };
 
   constructor(
     private moviesService: MoviesService,

@@ -17,13 +17,20 @@
           >
             <div class="overview">
               <div class="overview-poster">
-                <div class="fav-overlay"></div>
-                <div class="fav-container" #like>
+                <div
+                  class="fav-container"
+                  #like
+                  (click)="addOrRemoveLiked($event, movieId, movie)"
+                >
                   <i
-                    class="fa fa-heart"
+                    class="fa fa-bookmark"
                     id="favorite"
                     [ngClass]="{ liked: movieLiked }"
-                    (click)="addOrRemoveLiked($event, movieId, movie)"
+                  ></i>
+                  <i class="fa fa-plus" [ngClass]="{ liked: movieLiked }"></i>
+                  <i
+                    class="fa-solid fa-check"
+                    [ngClass]="{ liked: movieLiked }"
                   ></i>
                 </div>
 
@@ -143,19 +150,29 @@
               class="movie"
               *ngFor="let movie of recommendedMovies; let i = index"
             >
-              <div class="fav-overlay"></div>
-              <div class="fav-container" #like>
+              <div
+                class="fav-container"
+                #like
+                (click)="
+                  addOrRemoveLiked(
+                    $event,
+                    recommendedMovies[i].id,
+                    recommendedMovies[i]
+                  )
+                "
+              >
                 <i
-                  class="fa fa-heart"
+                  class="fa fa-bookmark"
                   id="favorite"
                   [ngClass]="{ liked: recommendedMovies[i].liked }"
-                  (click)="
-                    addOrRemoveLiked(
-                      $event,
-                      recommendedMovies[i].id,
-                      recommendedMovies[i]
-                    )
-                  "
+                ></i>
+                <i
+                  class="fa fa-plus"
+                  [ngClass]="{ liked: recommendedMovies[i].liked }"
+                ></i>
+                <i
+                  class="fa-solid fa-check"
+                  [ngClass]="{ liked: recommendedMovies[i].liked }"
                 ></i>
               </div>
               <div

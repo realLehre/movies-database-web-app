@@ -6,24 +6,31 @@
   >or Search Movies
 </div>
 
-<div class="movies-container" *ngIf="watchList.length > 0">
-  <div class="movies movies-search">
-    <div class="movies-type">
+<div class="fav-movies-container" *ngIf="watchList.length > 0">
+  <div class="fav-movies movies-search">
+    <div class="fav-movies-type">
       Watchlist
-      <span class="clear-fav" (click)="clearLikedMovies()">
-        <button>Remove all movies</button>
-      </span>
+      <button class="clear-fav" (click)="clearLikedMovies()">
+        Remove all movies
+      </button>
     </div>
 
     <div class="movies-class trending">
       <div class="movie" *ngFor="let movie of watchList; let i = index">
-        <div class="fav-overlay"></div>
-        <div class="fav-container" #like>
+        <div
+          class="fav-container"
+          #like
+          (click)="removeFromLiked(watchList[i].id)"
+        >
           <i
-            class="fa fa-heart"
+            class="fa fa-bookmark"
             id="favorite"
             [ngClass]="{ liked: watchList[i].liked }"
-            (click)="removeFromLiked(watchList[i].id)"
+          ></i>
+          <i class="fa fa-plus" [ngClass]="{ liked: watchList[i].liked }"></i>
+          <i
+            class="fa-solid fa-check"
+            [ngClass]="{ liked: watchList[i].liked }"
           ></i>
         </div>
         <div

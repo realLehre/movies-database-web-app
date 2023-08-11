@@ -1,14 +1,27 @@
 @import "config";
 
+@import "swiper/scss";
+@import "swiper/scss/navigation";
+@import "swiper/scss/pagination";
+
+.movie-type-swiper {
+  width: 100%;
+  // height: 400px;
+  display: inline;
+}
+
 .movies-container {
   display: flex;
   padding-bottom: 5px;
+  overflow: hidden;
+  width: 100%;
 }
 
 .movie {
   position: relative;
   cursor: pointer;
   width: 200px;
+  transition: all 300ms ease-in-out;
 
   &.showAdd {
     & .liked-alert.add {
@@ -27,46 +40,52 @@
   }
 
   &:hover {
-    & .movie-img {
-      position: relative;
+    transform: translateY(12px);
+  }
 
-      &::after {
-        position: absolute;
-        content: "";
-        width: 100%;
-        height: 275px;
-        background: $main-color;
-        opacity: 0.4;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        border-radius: 8px;
+  .fav-container {
+    position: relative;
+
+    & .fa-bookmark {
+      font-size: 2rem;
+      position: absolute;
+      right: 0px;
+      top: -2px;
+      cursor: pointer;
+      z-index: 12;
+      color: rgba(0, 0, 0, 0.7);
+      filter: drop-shadow(1px 1px 1px rgba(252, 252, 252, 0.2));
+
+      &.liked {
+        color: red;
       }
     }
-  }
 
-  & .fav-overlay {
-    position: absolute;
-    width: 35px;
-    height: 38px;
-    background: rgba(0, 0, 0, 0.3);
-    top: 0;
-    right: 0;
-    z-index: 10;
-    border-bottom-left-radius: 10px;
-  }
+    & .fa-plus {
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      color: white;
+      z-index: 13;
+      cursor: pointer;
 
-  & #favorite {
-    position: absolute;
-    right: -13px;
-    top: -10px;
-    cursor: pointer;
-    z-index: 12;
-    font-size: 20px;
-    padding: 20px;
+      &.liked {
+        display: none;
+      }
+    }
 
-    &.liked {
-      color: red;
+    & .fa-check {
+      display: none;
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      color: white;
+      z-index: 13;
+      cursor: pointer;
+
+      &.liked {
+        display: block;
+      }
     }
   }
 
@@ -111,7 +130,7 @@
     & img {
       width: 200px;
       height: 275px;
-      border-radius: 8px;
+      border-radius: 4px;
     }
   }
 

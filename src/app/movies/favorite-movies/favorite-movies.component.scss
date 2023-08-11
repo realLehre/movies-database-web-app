@@ -53,27 +53,16 @@
   }
 }
 
-.movies-container {
+.fav-movies-container {
   margin-top: 100px;
   position: relative;
   width: 90%;
   max-width: 1400px;
-
   margin-inline: auto;
-  // &::after {
-  //   position: absolute;
-  //   content: "";
-  //   width: 70px;
-  //   height: 100%;
-  //   background: black;
-  //   filter: blur(50px);
-  //   top: 0;
-  //   right: 0;
-  //   z-index: 10;
-  // }
+  overflow: hidden;
 }
 
-.movies {
+.fav-movies {
   margin-bottom: 100px;
 
   &.top-rated {
@@ -81,7 +70,7 @@
   }
 }
 
-.movies-type {
+.fav-movies-type {
   @include flex;
   font-size: 22px;
   font-weight: 500;
@@ -115,56 +104,60 @@
   position: relative;
   cursor: pointer;
   width: 200px;
-
-  &.popular_2 {
-    display: inline;
-  }
+  transition: all 300ms ease-in-out;
+  padding-bottom: 5px;
 
   &:not(:last-child) {
     margin-right: 20px;
   }
 
   &:hover {
-    & .movie-img {
-      position: relative;
+    transform: translateY(5px);
+  }
 
-      &::after {
-        position: absolute;
-        content: "";
-        width: 100%;
-        height: 275px;
-        background: $main-color;
-        opacity: 0.5;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        border-radius: 8px 8px 0 0;
+  .fav-container {
+    position: relative;
+
+    & .fa-bookmark {
+      font-size: 2rem;
+      position: absolute;
+      right: 0px;
+      top: -2px;
+      cursor: pointer;
+      z-index: 12;
+      color: rgba(0, 0, 0, 0.7);
+      filter: drop-shadow(1px 1px 1px rgba(252, 252, 252, 0.2));
+
+      &.liked {
+        color: red;
       }
     }
-  }
 
-  & .fav-overlay {
-    position: absolute;
-    width: 35px;
-    height: 38px;
-    background: rgba(0, 0, 0, 0.3);
-    top: 0;
-    right: 0;
-    z-index: 10;
-    border-bottom-left-radius: 10px;
-  }
+    & .fa-plus {
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      color: white;
+      z-index: 13;
+      cursor: pointer;
 
-  & #favorite {
-    position: absolute;
-    right: -13px;
-    top: -10px;
-    cursor: pointer;
-    z-index: 12;
-    font-size: 20px;
-    padding: 20px;
+      &.liked {
+        display: none;
+      }
+    }
 
-    &.liked {
-      color: $main-color;
+    & .fa-check {
+      display: none;
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      color: white;
+      z-index: 13;
+      cursor: pointer;
+
+      &.liked {
+        display: block;
+      }
     }
   }
 
