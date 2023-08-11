@@ -121,7 +121,7 @@
             *ngFor="let videoKey of videoId; let i = index"
             #videoContainer
           >
-            <div class="trailer-video">
+            <div class="trailer-video" *ngIf="videoId.length > 0">
               <div class="video-index">{{ i + 1 }}</div>
               <youtube-player
                 [videoId]="videoKey"
@@ -133,6 +133,10 @@
               >
               </youtube-player>
             </div>
+          </div>
+
+          <div class="no-video" *ngIf="videoId.length == 0">
+            No clips found. Check again later
           </div>
         </mat-tab>
       </mat-tab-group>

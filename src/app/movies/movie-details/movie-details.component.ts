@@ -35,7 +35,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   runtime: any;
   vote_count: number;
   genres: Array<Object>;
-  videoId: string[];
+  videoId: string[] = [];
   movieLiked: boolean;
   watchList: MovieObject[] = [];
 
@@ -71,11 +71,6 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     this.route.params.subscribe((param) => {
       this.movieId = +param['id'];
     });
-
-    // this.moviesService.userWatchList.subscribe((watchList) => {
-    //   this.watchList = watchList;
-    // });
-    // this.watchList = this.moviesService.currentWatchList;
 
     this.isFetching = true;
     this.moviesService.isFetching.next(this.isFetching);
@@ -137,6 +132,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
 
     this.httpService.getVideo(this.movieId).subscribe((movieKey) => {
       this.videoId = movieKey;
+      console.log(this.videoId);
     });
 
     this.httpService.getSimilar(this.movieId).subscribe({

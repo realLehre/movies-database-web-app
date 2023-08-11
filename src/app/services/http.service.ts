@@ -14,7 +14,13 @@ export class HttpService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  trySingleCall() {}
+  trySingleCall(movieType) {
+    switch (movieType) {
+      case 'top-rated': {
+        this.getTrending();
+      }
+    }
+  }
 
   getCurrentlyPlaying() {
     return this.http
