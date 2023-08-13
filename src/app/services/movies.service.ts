@@ -39,7 +39,7 @@ export class MoviesService {
   userWatchList = new Subject<MovieObject[]>();
 
   recentlyViewed: MovieObject[] = [];
-  recents = new Subject<MovieObject[]>();
+  recents = new Subject<RefinedResponse>();
 
   constructor(private db: AngularFirestore, private authService: AuthService) {
     this.usersDatabase = this.db.collection('users');
@@ -68,6 +68,14 @@ export class MoviesService {
       );
     } else {
       localStorage.setItem('searchedMovies', null);
+    }
+
+    if (JSON.parse(localStorage.getItem('recents')) != null) {
+      this.recentlyViewed = JSON.parse(localStorage.getItem('recents'));
+      this.getData(this.recentlyViewed);
+    } else {
+      this.recentlyViewed = [];
+      localStorage.setItem('recents', null);
     }
   }
 
@@ -186,28 +194,23 @@ export class MoviesService {
     let refinedData: RefinedResponse;
 
     const paths = [];
+    const ratings = [];
+    const ids = [];
+    const names = [];
+
     for (const key in likedMoviesS) {
       paths.push(
         'https://image.tmdb.org/t/p/original' + likedMoviesS[key].poster_path
       );
-    }
 
-    const ratings = [];
-    for (const key in likedMoviesS) {
       if (Number.isInteger(likedMoviesS[key].vote_average)) {
         ratings.push(likedMoviesS[key].vote_average);
       } else {
         ratings.push(Math.floor(likedMoviesS[key].vote_average * 10));
       }
-    }
 
-    const ids = [];
-    for (const key in likedMoviesS) {
       ids.push(likedMoviesS[key].id);
-    }
 
-    const names = [];
-    for (const key in likedMoviesS) {
       names.push(likedMoviesS[key].original_title.replace(/\s+/g, ''));
     }
 
@@ -224,8 +227,56 @@ export class MoviesService {
 
   // get recently viewed movies
   getRecent(movie: MovieObject) {
-    this.recentlyViewed.push(movie);
-    this.recents.next(this.recentlyViewed);
-    console.log(this.recentlyViewed);
+    if (this.recentlyViewed.some((recent) => recent.id == movie.id)) {
+      return;
+    }
+
+    this.recentlyViewed.unshift(movie);
+
+    if (this.recentlyViewed.length > 10) {
+      this.recentlyViewed = this.recentlyViewed.splice(0, 10);
+    }
+
+    localStorage.setItem('recents', JSON.stringify(this.recentlyViewed));
+
+    this.getData(this.recentlyViewed);
+  }
+
+  // return movie data from movie array
+  getData(movieArray) {
+    let refinedData: RefinedResponse;
+
+    const paths = [];
+    const ratings = [];
+    const ids = [];
+    const names = [];
+
+    for (const key in movieArray) {
+      paths.push(
+        'https://image.tmdb.org/t/p/original' + movieArray[key].poster_path
+      );
+
+      if (Number.isInteger(movieArray[key].vote_average)) {
+        ratings.push(movieArray[key].vote_average);
+      } else {
+        ratings.push(Math.floor(movieArray[key].vote_average * 10));
+      }
+
+      ids.push(movieArray[key].id);
+
+      names.push(movieArray[key].original_title.replace(/\s+/g, ''));
+    }
+
+    refinedData = {
+      movies: movieArray,
+      moviePosterPaths: paths,
+      movieRatings: ratings,
+      movieIds: ids,
+      movieNames: names,
+    };
+
+    this.recents.next(refinedData);
+
+    localStorage.setItem('recentData', JSON.stringify(refinedData));
   }
 }

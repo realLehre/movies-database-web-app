@@ -111,6 +111,10 @@
       display: none;
     }
   }
+
+  &.recents {
+    display: flex;
+  }
 }
 
 .movies-class {

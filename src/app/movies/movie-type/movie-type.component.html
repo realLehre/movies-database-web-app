@@ -43,16 +43,10 @@
     </div>
     <div class="movie-info">
       <div class="movie-title-date">
-        <div class="movie-name">{{ movie.title }}</div>
+        <div class="movie-name">{{ movie.original_title }}</div>
 
         <div class="movie-date">{{ movie.release_date | date }}</div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <swiper [config]="config" class="movie-type-swiper" *ngIf="movies.length > 1">
-  <ng-template swiperSlide>1</ng-template>
-  <ng-template swiperSlide>2</ng-template>
-  <ng-template swiperSlide>3</ng-template>
-</swiper> -->

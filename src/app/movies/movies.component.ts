@@ -15,6 +15,7 @@ export class MoviesComponent implements OnInit, AfterViewChecked, DoCheck {
   movieObj!: RefinedResponse;
   searchState: boolean;
   searchName!: string;
+  isRecentAvailable: boolean = false;
 
   isFetching: boolean = false;
 
@@ -47,5 +48,9 @@ export class MoviesComponent implements OnInit, AfterViewChecked, DoCheck {
     this.moviesService.isFetching.subscribe((state) => {
       this.isFetching = state;
     });
+
+    if (JSON.parse(localStorage.getItem('recents')) != null) {
+      this.isRecentAvailable = true;
+    }
   }
 }

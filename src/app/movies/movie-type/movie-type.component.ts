@@ -44,6 +44,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
   moviesNames: string[];
   moviesStored: RefinedResponse;
   watchList: MovieObject[] = [];
+  recentMovies: RefinedResponse;
 
   error: boolean;
   isFetching: boolean = true;
@@ -253,9 +254,29 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
         // }
       },
     });
+
+    this.recentMovies = JSON.parse(localStorage.getItem('recentData'));
+    this.moviesService.recents.subscribe((data) => console.log(data));
   }
 
-  ngAfterViewChecked(): void {}
+  ngAfterViewChecked(): void {
+    // if (this.movieType == 'recents') {
+    //   if (this.recentMovies.movies.length > 0) {
+    //     this.movies = this.recentMovies.movies;
+    //     this.moviesRating = this.recentMovies.movieRatings;
+    //     this.moviesPoster = this.recentMovies.moviePosterPaths;
+    //     this.moviesId = this.recentMovies.movieIds;
+    //     this.moviesNames = this.recentMovies.movieNames;
+    //     this.isFetching = false;
+    //     this.moviesService.isFetching.next(this.isFetching);
+    //     this.movies.forEach((movie) => {
+    //       if (this.watchList.some((item) => item.id == movie.id)) {
+    //         movie['liked'] = true;
+    //       }
+    //     });
+    //   }
+    // }
+  }
 
   getMovies() {
     const pendingWatchListMovie = JSON.parse(
@@ -267,6 +288,23 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
       //   pendingWatchListMovie.id,
       //   pendingWatchListMovie.movie
       // );
+    }
+
+    if (this.movieType == 'recents') {
+      this.moviesService.recents.subscribe((data) => {
+        this.movies = data.movies;
+        this.moviesRating = data.movieRatings;
+        this.moviesPoster = data.moviePosterPaths;
+        this.moviesId = data.movieIds;
+        this.moviesNames = data.movieNames;
+        this.isFetching = false;
+        this.moviesService.isFetching.next(this.isFetching);
+        this.movies.forEach((movie) => {
+          if (this.watchList.some((item) => item.id == movie.id)) {
+            movie['liked'] = true;
+          }
+        });
+      });
     }
 
     switch (this.movieType) {
