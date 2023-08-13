@@ -40,8 +40,11 @@ export class RecentSearchesComponent implements OnInit, AfterViewChecked {
   }
 
   searchRecent(name: string) {
+    this.moviesService.isFetching.next(true);
     this.httpService.searchMovies(name).subscribe({
       next: (data) => {
+        this.moviesService.isFetching.next(false);
+
         this.moviesService.searchedMovies(data);
         localStorage.setItem('currentSearch', name);
         this.moviesService.searchName.next(name);

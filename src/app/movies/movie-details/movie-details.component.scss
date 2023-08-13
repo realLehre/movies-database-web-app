@@ -135,7 +135,7 @@
           cursor: pointer;
           z-index: 12;
           color: rgba(0, 0, 0, 0.7);
-          filter: drop-shadow(1px 1px 1px rgba(252, 252, 252, 0.2));
+          filter: drop-shadow(1px 1px 1px rgba(252, 252, 252, 0.4));
 
           &.liked {
             color: red;
@@ -604,7 +604,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 750px) {
   .movies-container {
     &::after {
       width: 20px;
@@ -661,7 +661,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 750px) {
   .overview-container {
     & .overview {
       @include flex;

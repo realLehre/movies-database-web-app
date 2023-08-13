@@ -120,6 +120,8 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
           this.movie['liked'] = true;
           this.movieLiked = this.movie['liked'];
         }
+
+        this.moviesService.getRecent(movieData);
       },
       error: (error) => {
         if (error) {
@@ -132,7 +134,6 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
 
     this.httpService.getVideo(this.movieId).subscribe((movieKey) => {
       this.videoId = movieKey;
-      console.log(this.videoId);
     });
 
     this.httpService.getSimilar(this.movieId).subscribe({

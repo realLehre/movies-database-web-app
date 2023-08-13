@@ -19,6 +19,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { MoviesModule } from './movies/movies.module';
 import { AuthModule } from './auth/auth.module';
 import { environment } from 'src/environments/environment.prod';
+import { RecentlyViewedComponent } from './movies/recently-viewed/recently-viewed.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { environment } from 'src/environments/environment.prod';
     PageNotFoundComponent,
     RecentSearchesComponent,
     SearchResultComponent,
+    RecentlyViewedComponent,
   ],
   imports: [
     BrowserModule,
