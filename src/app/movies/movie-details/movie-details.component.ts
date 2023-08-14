@@ -24,7 +24,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   movie: MovieObject;
   movieId: number;
   vote_average: number;
-  poster_path: string = 'assets/placeholder-gif.gif';
+  poster_path: string;
   backdrop_path: string;
   original_title: string;
   release_date: string;

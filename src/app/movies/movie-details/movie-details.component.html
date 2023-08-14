@@ -21,6 +21,7 @@
                   class="fav-container"
                   #like
                   (click)="addOrRemoveLiked($event, movieId, movie)"
+                  *ngIf="poster_path"
                 >
                   <i
                     class="fa fa-bookmark"
