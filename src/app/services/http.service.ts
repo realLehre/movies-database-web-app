@@ -223,6 +223,8 @@ export class HttpService {
           };
         }),
         catchError((error) => {
+          console.log(error);
+
           return this.handleError(error);
         })
       );

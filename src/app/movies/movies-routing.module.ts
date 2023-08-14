@@ -11,6 +11,7 @@ const routes: Routes = [
   {
     path: 'movies',
     component: HomepageComponent,
+    data: { animation: 'home' },
   },
   {
     path: 'movies/watchlist',
@@ -23,7 +24,11 @@ const routes: Routes = [
 
   { path: 'movies/search/:movie-name', component: HomepageComponent },
 
-  { path: 'movies/:id/:details', component: MovieDetailsComponent },
+  {
+    path: 'movies/:id/:details',
+    component: MovieDetailsComponent,
+    data: { animation: 'details' },
+  },
   { path: 'page-not-found', component: PageNotFoundComponent },
   { path: '**', redirectTo: 'page-not-found' },
 ];

@@ -24,7 +24,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   movie: MovieObject;
   movieId: number;
   vote_average: number;
-  poster_path: string;
+  poster_path: string = 'assets/placeholder-gif.gif';
   backdrop_path: string;
   original_title: string;
   release_date: string;
@@ -68,10 +68,6 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((param) => {
-      this.movieId = +param['id'];
-    });
-
     this.isFetching = true;
     this.moviesService.isFetching.next(this.isFetching);
 
@@ -95,6 +91,9 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   getMovies() {
+    this.route.params.subscribe((param) => {
+      this.movieId = +param['id'];
+    });
     this.httpService.getMovieDetails(this.movieId).subscribe({
       next: (movieData) => {
         this.isFetching = false;

@@ -18,11 +18,13 @@ import { Subscription } from 'rxjs';
 import { MoviesService } from './services/movies.service';
 import { HttpService } from './services/http.service';
 import { WatchListService } from './services/wacthlist.service';
+import { slideInAnimation } from './shared/route-animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  animations: [slideInAnimation],
 })
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'movies-database-app';
