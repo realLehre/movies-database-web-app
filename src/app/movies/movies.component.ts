@@ -51,6 +51,14 @@ export class MoviesComponent implements OnInit, AfterViewChecked, DoCheck {
 
     if (JSON.parse(localStorage.getItem('recents')) != null) {
       this.isRecentAvailable = true;
+    } else {
+      this.isRecentAvailable = false;
+    }
+  }
+
+  clearRecent() {
+    if (confirm('Are you sure you want to clear all recently viewed movies?')) {
+      this.moviesService.clearRecent();
     }
   }
 }

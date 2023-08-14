@@ -39,7 +39,7 @@ export class MoviesService {
   userWatchList = new Subject<MovieObject[]>();
 
   recentlyViewed: MovieObject[] = [];
-  recents = new Subject<RefinedResponse>();
+  recent = new Subject<RefinedResponse>();
 
   constructor(private db: AngularFirestore, private authService: AuthService) {
     this.usersDatabase = this.db.collection('users');
@@ -72,7 +72,7 @@ export class MoviesService {
 
     if (JSON.parse(localStorage.getItem('recents')) != null) {
       this.recentlyViewed = JSON.parse(localStorage.getItem('recents'));
-      this.getData(this.recentlyViewed);
+      this.getData();
     } else {
       this.recentlyViewed = [];
       localStorage.setItem('recents', null);
@@ -239,12 +239,19 @@ export class MoviesService {
 
     localStorage.setItem('recents', JSON.stringify(this.recentlyViewed));
 
-    this.getData(this.recentlyViewed);
+    this.getData();
+  }
+
+  // delete all recent movies
+  clearRecent() {
+    localStorage.setItem('recents', null);
   }
 
   // return movie data from movie array
-  getData(movieArray) {
+  getData() {
     let refinedData: RefinedResponse;
+
+    const movieArray = JSON.parse(localStorage.getItem('recents'));
 
     const paths = [];
     const ratings = [];
@@ -275,8 +282,10 @@ export class MoviesService {
       movieNames: names,
     };
 
-    this.recents.next(refinedData);
+    this.recent.next(refinedData);
 
     localStorage.setItem('recentData', JSON.stringify(refinedData));
+
+    return refinedData;
   }
 }

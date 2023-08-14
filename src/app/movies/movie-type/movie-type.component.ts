@@ -254,14 +254,11 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
         // }
       },
     });
-
-    this.recentMovies = JSON.parse(localStorage.getItem('recentData'));
-    this.moviesService.recents.subscribe((data) => console.log(data));
   }
 
   ngAfterViewChecked(): void {
     // if (this.movieType == 'recents') {
-    //   if (this.recentMovies.movies.length > 0) {
+    //   if (this.recentMovies != undefined) {
     //     this.movies = this.recentMovies.movies;
     //     this.moviesRating = this.recentMovies.movieRatings;
     //     this.moviesPoster = this.recentMovies.moviePosterPaths;
@@ -279,35 +276,25 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
   }
 
   getMovies() {
-    const pendingWatchListMovie = JSON.parse(
-      localStorage.getItem('pendingWatchlist')
-    );
-    if (pendingWatchListMovie != null) {
-      // this.addOrRemoveLiked(
-      //   pendingWatchListMovie.e,
-      //   pendingWatchListMovie.id,
-      //   pendingWatchListMovie.movie
-      // );
-    }
-
-    if (this.movieType == 'recents') {
-      this.moviesService.recents.subscribe((data) => {
-        this.movies = data.movies;
-        this.moviesRating = data.movieRatings;
-        this.moviesPoster = data.moviePosterPaths;
-        this.moviesId = data.movieIds;
-        this.moviesNames = data.movieNames;
-        this.isFetching = false;
-        this.moviesService.isFetching.next(this.isFetching);
-        this.movies.forEach((movie) => {
-          if (this.watchList.some((item) => item.id == movie.id)) {
-            movie['liked'] = true;
-          }
-        });
-      });
-    }
+    this.recentMovies = this.moviesService.getData();
 
     switch (this.movieType) {
+      case 'recents':
+        if (this.recentMovies != null) {
+          this.movies = this.recentMovies.movies;
+          this.moviesRating = this.recentMovies.movieRatings;
+          this.moviesPoster = this.recentMovies.moviePosterPaths;
+          this.moviesId = this.recentMovies.movieIds;
+          this.moviesNames = this.recentMovies.movieNames;
+          this.moviesService.isFetching.next(this.isFetching);
+          this.movies.forEach((movie) => {
+            if (this.watchList.some((item) => item.id == movie.id)) {
+              movie['liked'] = true;
+            }
+          });
+        }
+        break;
+
       case 'trending':
         this.httpService
           .getTrending()
