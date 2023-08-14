@@ -256,24 +256,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  ngAfterViewChecked(): void {
-    // if (this.movieType == 'recents') {
-    //   if (this.recentMovies != undefined) {
-    //     this.movies = this.recentMovies.movies;
-    //     this.moviesRating = this.recentMovies.movieRatings;
-    //     this.moviesPoster = this.recentMovies.moviePosterPaths;
-    //     this.moviesId = this.recentMovies.movieIds;
-    //     this.moviesNames = this.recentMovies.movieNames;
-    //     this.isFetching = false;
-    //     this.moviesService.isFetching.next(this.isFetching);
-    //     this.movies.forEach((movie) => {
-    //       if (this.watchList.some((item) => item.id == movie.id)) {
-    //         movie['liked'] = true;
-    //       }
-    //     });
-    //   }
-    // }
-  }
+  ngAfterViewChecked(): void {}
 
   getMovies() {
     this.recentMovies = this.moviesService.getData();
