@@ -58,10 +58,12 @@ export class RecentSearchesComponent implements OnInit, AfterViewChecked {
     this.router.navigate(['movies', 'search', name]);
 
     this.moviesService.searching.next(false);
+    this.moviesService.showInput.next(false);
   }
 
   closeRecents() {
     this.moviesService.searching.next(false);
+    this.moviesService.showInput.next(false);
   }
 
   removeSearch(index) {
@@ -77,6 +79,7 @@ export class RecentSearchesComponent implements OnInit, AfterViewChecked {
       this.searchNames = [];
       localStorage.setItem('searchNames', JSON.stringify([]));
       this.moviesService.searching.next(false);
+      this.moviesService.showInput.next(false);
     }
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Subject, throwError } from 'rxjs';
+import { catchError, debounceTime, map, Subject, throwError } from 'rxjs';
 
 import { environment as env } from 'src/environments/environment.prod';
 import { MovieObject, RefinedResponse, Response } from '../shared/movie.model';
@@ -168,6 +168,7 @@ export class HttpService {
         map((data) => {
           return this.transformMovieResponse(data.results);
         }),
+        debounceTime(2000),
         catchError((error) => {
           return this.handleError(error);
         })

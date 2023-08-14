@@ -4,6 +4,7 @@ import {
   AfterViewChecked,
   ViewChild,
   ElementRef,
+  AfterViewInit,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
@@ -18,23 +19,34 @@ import {
 import { HttpService } from '../services/http.service';
 import { MoviesService } from '../services/movies.service';
 import { AuthService } from '../services/auth.service';
-import { filter, map } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  fromEvent,
+  map,
+} from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, AfterViewChecked {
+export class HeaderComponent
+  implements OnInit, AfterViewInit, AfterViewChecked
+{
   searchForm: FormGroup;
   error: boolean = false;
   searching: boolean = false;
   userName!: string;
   isUser: boolean = false;
-  isShowInput: boolean = false;
+  isShowInput: boolean;
 
   keyword: string;
   activatedRoute: any;
+
+  @ViewChild('search', { static: true }) searchInput: ElementRef;
+  @ViewChild('searchDesktop', { static: true }) searchInputDesktop: ElementRef;
 
   constructor(
     private router: Router,
@@ -48,11 +60,15 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       searchResult: new FormControl('', Validators.required),
     });
 
-    this.moviesService.searching.subscribe((status) => {
+    this.moviesService.showInput.subscribe((status) => {
       if (status == false) {
         this.isShowInput = false;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.getSearch();
   }
 
   ngAfterViewChecked(): void {
@@ -83,20 +99,34 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     this.authService.signOut();
   }
 
-  getKeyword() {
-    if (this.searchForm.value.searchResult != null) {
-      const keyword = this.searchForm.value.searchResult.toLowerCase();
-
-      if (keyword) {
+  getSearch() {
+    fromEvent(this.searchInput.nativeElement, 'keyup')
+      .pipe(
+        filter(Boolean),
+        debounceTime(300),
+        distinctUntilChanged(),
+        map((data) => this.searchInput.nativeElement.value.toLowerCase())
+      )
+      .subscribe((searchValue) => {
         this.moviesService.searchKeyword.next(true);
-
-        this.httpService.searchMovies(keyword).subscribe((data) => {
+        this.httpService.searchMovies(searchValue).subscribe((data) => {
           this.moviesService.searchResults.next(data);
         });
-      } else {
-        this.moviesService.searchKeyword.next(false);
-      }
-    }
+      });
+
+    fromEvent(this.searchInputDesktop.nativeElement, 'keyup')
+      .pipe(
+        filter(Boolean),
+        debounceTime(300),
+        distinctUntilChanged(),
+        map((data) => this.searchInputDesktop.nativeElement.value.toLowerCase())
+      )
+      .subscribe((searchValue) => {
+        this.moviesService.searchKeyword.next(true);
+        this.httpService.searchMovies(searchValue).subscribe((data) => {
+          this.moviesService.searchResults.next(data);
+        });
+      });
   }
 
   onSubmit() {

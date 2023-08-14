@@ -21,6 +21,7 @@ export class MoviesService {
   searchedMoviesStored: MovieObject[] = [];
   moviesSearch = new Subject<RefinedResponse>();
   searching = new Subject<boolean>();
+  showInput = new Subject<boolean>();
 
   searchResults = new Subject<RefinedResponse>();
   searchKeyword = new Subject<boolean>();

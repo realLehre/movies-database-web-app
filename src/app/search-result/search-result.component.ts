@@ -49,5 +49,6 @@ export class SearchResultComponent implements OnInit, AfterViewChecked {
 
   closeSearchResult() {
     this.moviesService.clearSearch.next(true);
+    this.moviesService.showInput.next(false);
   }
 }

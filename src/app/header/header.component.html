@@ -6,7 +6,7 @@
         placeholder="Search movies"
         [formControlName]="'searchResult'"
         (click)="check()"
-        (keyup)="getKeyword()"
+        #search
       />
     </form>
     <div class="close" (click)="isShowInput = false">
@@ -29,9 +29,9 @@
           placeholder="Search movies"
           [formControlName]="'searchResult'"
           (click)="check()"
-          (keyup)="getKeyword()"
+          #searchDesktop
         />
-        <button type="submit" (click)="showInput()">
+        <button type="button" (click)="isShowInput = true">
           <mat-icon>search</mat-icon>
         </button>
       </form>
