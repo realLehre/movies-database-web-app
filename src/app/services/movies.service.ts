@@ -246,6 +246,7 @@ export class MoviesService {
   // delete all recent movies
   clearRecent() {
     localStorage.setItem('recents', null);
+    localStorage.setItem('recentData', null);
   }
 
   // return movie data from movie array
@@ -283,10 +284,11 @@ export class MoviesService {
       movieNames: names,
     };
 
-    this.recent.next(refinedData);
+    if (movieArray != null) {
+      this.recent.next(refinedData);
 
-    localStorage.setItem('recentData', JSON.stringify(refinedData));
-
+      localStorage.setItem('recentData', JSON.stringify(refinedData));
+    }
     return refinedData;
   }
 }
