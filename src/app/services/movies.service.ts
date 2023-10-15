@@ -48,7 +48,7 @@ export class MoviesService {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (JSON.parse(localStorage.getItem('user')) != null) {
-      this.uid = JSON.parse(localStorage.getItem('user')).user.uid;
+      this.uid = JSON.parse(localStorage.getItem('user')!).user?.uid;
       this.getUserWatchList();
     }
     this.authService.userId.subscribe((data) => {
@@ -157,14 +157,14 @@ export class MoviesService {
 
   // returning a user's watchList
   getUserWatchList() {
-    const uid = JSON.parse(localStorage.getItem('user')).user.uid;
+    const uid = JSON.parse(localStorage.getItem('user')).user?.uid;
     this.usersDatabase
       .doc(uid)
       .get()
       .subscribe((userData) => {
         if (
-          userData.data().watchList != null ||
-          userData.data().watchList != undefined
+          userData.data()?.watchList != null ||
+          userData.data()?.watchList != undefined
         ) {
           this.currentWatchList = userData.data().watchList;
           localStorage.setItem('liked', JSON.stringify(this.currentWatchList));
@@ -175,7 +175,7 @@ export class MoviesService {
 
   // return watchList for interested components
   getForComponent() {
-    const uid = JSON.parse(localStorage.getItem('user')).user.uid;
+    const uid = JSON.parse(localStorage.getItem('user')).user?.uid;
 
     return this.usersDatabase.doc(uid).get();
   }

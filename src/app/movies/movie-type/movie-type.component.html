@@ -1,5 +1,8 @@
 <div class="movies-container">
-  <div class="movie" *ngFor="let movie of movies; let i = index">
+  <div
+    class="movie"
+    *ngFor="let movie of movies; let i = index; trackBy: trackByFn"
+  >
     <div
       class="fav-container"
       #like

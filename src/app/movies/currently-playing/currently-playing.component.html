@@ -11,7 +11,10 @@
     class="playing-swiper"
     *ngIf="backDrops.length > 1 && sliderWidth > 500"
   >
-    <ng-template swiperSlide *ngFor="let backDrop of backDrops; let i = index">
+    <ng-template
+      swiperSlide
+      *ngFor="let backDrop of backDrops; let i = index; trackBy: trackByFn"
+    >
       <div
         class="playing swiper-lazy"
         data-background="'url(' + backDrop + ')'"

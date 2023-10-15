@@ -74,7 +74,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user != null) {
       this.moviesService.getForComponent().subscribe((userData) => {
-        this.watchList = userData.data().watchList;
+        this.watchList = userData.data()?.watchList;
         this.getMovies();
       });
     } else {
@@ -115,7 +115,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.genres = movieData.genres;
         this.movieLiked = movieData.liked;
 
-        if (this.watchList.some((item) => item.id == this.movie.id)) {
+        if (this.watchList?.some((item) => item.id == this.movie.id)) {
           this.movie['liked'] = true;
           this.movieLiked = this.movie['liked'];
         }
@@ -145,7 +145,7 @@ export class MovieDetailsComponent implements OnInit, AfterViewChecked {
         this.recommendedMoviesLength = this.recommendedMovies.length;
 
         this.recommendedMovies.forEach((movie) => {
-          if (this.watchList.some((item) => item.id == movie.id)) {
+          if (this.watchList?.some((item) => item.id == movie.id)) {
             movie['liked'] = true;
           }
         });

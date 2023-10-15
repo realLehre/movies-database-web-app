@@ -103,6 +103,10 @@ export class CurrentlyPlayingComponent implements OnInit, AfterViewChecked {
     this.sliderWidth = window.innerWidth;
   }
 
+  trackByFn(index, item) {
+    return item.id;
+  }
+
   ngAfterViewChecked(): void {
     // this.playingContainerWidth = this.playing.nativeElement.offsetWidth;
     this.get();

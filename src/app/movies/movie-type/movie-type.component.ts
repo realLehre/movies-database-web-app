@@ -82,7 +82,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user != null) {
       this.moviesService.getForComponent().subscribe((userData) => {
-        this.watchList = userData.data().watchList;
+        this.watchList = userData.data()?.watchList;
         this.getMovies();
       });
     } else {
@@ -257,6 +257,9 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {}
+  trackByFn(index, item) {
+    return item.id;
+  }
 
   getMovies() {
     this.recentMovies = this.moviesService.getData();
@@ -271,7 +274,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
           this.moviesNames = this.recentMovies.movieNames;
           this.moviesService.isFetching.next(this.isFetching);
           this.movies.forEach((movie) => {
-            if (this.watchList.some((item) => item.id == movie.id)) {
+            if (this.watchList?.some((item) => item.id == movie.id)) {
               movie['liked'] = true;
             }
           });
@@ -294,7 +297,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
               this.moviesService.isFetching.next(this.isFetching);
 
               this.movies.forEach((movie) => {
-                if (this.watchList.some((item) => item.id == movie.id)) {
+                if (this.watchList?.some((item) => item.id == movie.id)) {
                   movie['liked'] = true;
                 }
               });
@@ -327,7 +330,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
             this.moviesService.isFetching.next(this.isFetching);
 
             this.movies.forEach((movie) => {
-              if (this.watchList.some((item) => item.id == movie.id)) {
+              if (this.watchList?.some((item) => item.id == movie.id)) {
                 movie['liked'] = true;
               }
             });
@@ -360,7 +363,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
             this.moviesService.isFetching.next(this.isFetching);
 
             this.movies.forEach((movie) => {
-              if (this.watchList.some((item) => item.id == movie.id)) {
+              if (this.watchList?.some((item) => item.id == movie.id)) {
                 movie['liked'] = true;
               }
             });
@@ -393,7 +396,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
             this.moviesService.isFetching.next(this.isFetching);
 
             this.movies.forEach((movie) => {
-              if (this.watchList.some((item) => item.id == movie.id)) {
+              if (this.watchList?.some((item) => item.id == movie.id)) {
                 movie['liked'] = true;
               }
             });
@@ -426,7 +429,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
             this.moviesService.isFetching.next(this.isFetching);
 
             this.movies.forEach((movie) => {
-              if (this.watchList.some((item) => item.id == movie.id)) {
+              if (this.watchList?.some((item) => item.id == movie.id)) {
                 movie['liked'] = true;
               }
             });
@@ -460,7 +463,7 @@ export class MovieTypeComponent implements OnInit, AfterViewChecked {
           this.moviesService.isFetching.next(this.isFetching);
 
           this.movies.forEach((movie) => {
-            if (this.watchList.some((item) => item.id == movie.id)) {
+            if (this.watchList?.some((item) => item.id == movie.id)) {
               movie['liked'] = true;
             }
           });

@@ -20,6 +20,7 @@ import { MoviesModule } from './movies/movies.module';
 import { AuthModule } from './auth/auth.module';
 import { environment } from 'src/environments/environment.prod';
 import { RecentlyViewedComponent } from './movies/recently-viewed/recently-viewed.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,12 @@ import { RecentlyViewedComponent } from './movies/recently-viewed/recently-viewe
     provideAuth(() => getAuth()),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
